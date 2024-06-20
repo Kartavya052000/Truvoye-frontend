@@ -16,6 +16,9 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import IconButton from "@mui/material/IconButton";
 import FormHelperText from "@mui/material/FormHelperText";
 import { useNavigate } from "react-router-dom";
+import { post } from "../api/api";
+import config from "../config/config";
+import AlertMessage from "../components/AlertMessage";
 
 const validationSchema = yup.object({
   email: yup
@@ -36,6 +39,7 @@ const validationSchema = yup.object({
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = React.useState(false);
+  const [alertMessage, setAlertMessage] = React.useState([]);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -45,13 +49,49 @@ const SignUp = () => {
 
   const navigate = useNavigate();
 
+  const onLoginClick = () => {
+    navigate("/login");
+  };
+
   const formik = useFormik({
     initialValues: {},
     validationSchema: validationSchema,
     onSubmit: (values) => {
       console.log(values);
-      alert(JSON.stringify(values, null, 2));
-    //   TODO : navigate to dashboard 
+      //   alert(JSON.stringify(values, null, 2));
+      console.log(config.BASE_SERVER_URL);
+
+      let data = {
+        username: values.firstName + " " + values.lastName,
+        email: values.email,
+        password: values.password,
+      };
+
+      post("auth/signup", data)
+        .then((response) => {
+          console.log("Data submitted:", response.data);
+          if (response.status === 201) {
+            setAlertMessage([
+              "success",
+              "Verification link sent to your registered email",
+            ]);
+          }
+          if (response.status === 200) {
+            setAlertMessage(["error", "Email already registered use Login"]);
+          } else {
+            setAlertMessage(["error", "Something Went Wrong contact support"]);
+          }
+        })
+        .catch((error) => {
+          console.error("Error submitting data:", error);
+          const response = error.response;
+
+          console.log(response);
+
+          setAlertMessage(["error", "Something Went Wrong contact support"]);
+        });
+
+      //   TODO : navigate to dashboard
     },
   });
 
@@ -66,6 +106,7 @@ const SignUp = () => {
               justifyContent="center"
               alignItems="center"
               minHeight="100vh"
+              flexDirection="column"
             >
               <form
                 style={{
@@ -98,8 +139,13 @@ const SignUp = () => {
                         value={formik.values.firstName}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        error={formik.touched.firstName && Boolean(formik.errors.firstName)}
-                        helperText={formik.touched.firstName && formik.errors.firstName}
+                        error={
+                          formik.touched.firstName &&
+                          Boolean(formik.errors.firstName)
+                        }
+                        helperText={
+                          formik.touched.firstName && formik.errors.firstName
+                        }
                       />
                     </Grid>
                     <Grid item xs={6}>
@@ -112,8 +158,13 @@ const SignUp = () => {
                         value={formik.values.lastName}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-                        helperText={formik.touched.lastName && formik.errors.lastName}
+                        error={
+                          formik.touched.lastName &&
+                          Boolean(formik.errors.lastName)
+                        }
+                        helperText={
+                          formik.touched.lastName && formik.errors.lastName
+                        }
                       />
                     </Grid>
                   </Grid>
@@ -224,13 +275,28 @@ const SignUp = () => {
                 </FormControl>
 
                 <Button
-                  sx={{ mt: 6 }}
+                  sx={{ mt: 4, mb: 3 }}
                   color="primary"
                   variant="contained"
                   type="submit"
                 >
                   Create Account
                 </Button>
+
+                <Typography variant="caption" component="h2" align="center">
+                  Already have an account -
+                  <Button color="primary" variant="text" onClick={onLoginClick}>
+                    <Typography
+                      variant="caption"
+                      component="h2"
+                      sx={{ fontWeight: "700" }}
+                    >
+                      Login
+                    </Typography>
+                  </Button>
+                </Typography>
+
+                <AlertMessage alertMessage={alertMessage} />
               </form>
             </Box>
           </Grid>
