@@ -14,7 +14,9 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import IconButton from "@mui/material/IconButton";
 import FormHelperText from "@mui/material/FormHelperText";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { post } from "../api/api";
+import AlertMessage from "../components/AlertMessage";
 
 const validationSchema = yup.object({
   password: yup
@@ -29,6 +31,8 @@ const validationSchema = yup.object({
 
 const ForgotPassword = () => {
   const [showPassword, setShowPassword] = React.useState(false);
+  const { token } = useParams();
+  const [alertMessage, setAlertMessage] = React.useState([]);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -39,16 +43,42 @@ const ForgotPassword = () => {
   const navigate = useNavigate();
 
   const onLoginClick = () => {
-    navigate("/login")
-  }
+    navigate("/login");
+  };
 
   const formik = useFormik({
     initialValues: {},
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log(values);
-      alert(JSON.stringify(values, null, 2));
-      //   TODO : navigate to dashboard
+
+      if (token) {
+        post("auth/reset-password/" + token, { newPassword: values.password })
+          .then((response) => {
+            console.log("DATA FROM reset password ", response);
+            if (response.status === 200) {
+              setAlertMessage(["success", response.data.message]);
+
+              setTimeout(onLoginClick, 3000); 
+            } else {
+              setAlertMessage([
+                "error",
+                "Something Went Wrong contact support",
+              ]);
+            }
+          })
+          .catch((error) => {
+            console.error("Error submitting data:", error);
+            const response = error.response;
+            if (response.status === 400) {
+              setAlertMessage(["error", "Invalid Url"]);
+            } else if (response.status === 500) {
+              setAlertMessage([
+                "error",
+                "Something Went Wrong contact support",
+              ]);
+            }
+          });
+      }
     },
   });
 
@@ -174,7 +204,7 @@ const ForgotPassword = () => {
                 </FormControl>
 
                 <Button
-                  sx={{ mt: 3 , mb:3}}
+                  sx={{ mt: 3, mb: 3 }}
                   color="primary"
                   variant="contained"
                   type="submit"
@@ -183,12 +213,8 @@ const ForgotPassword = () => {
                 </Button>
 
                 <Typography variant="caption" component="h2" align="center">
-                  Change of mind ?  -
-                  <Button
-                    color="primary"
-                    variant="text"
-                    onClick={onLoginClick}
-                  >
+                  Change of mind ? -
+                  <Button color="primary" variant="text" onClick={onLoginClick}>
                     <Typography
                       variant="caption"
                       component="h2"
@@ -198,6 +224,7 @@ const ForgotPassword = () => {
                     </Typography>
                   </Button>
                 </Typography>
+                <AlertMessage alertMessage={alertMessage} />
               </form>
             </Box>
           </Grid>

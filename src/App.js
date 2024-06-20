@@ -6,6 +6,7 @@ import Homepage from "./pages/Homepage";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import ForgotPassword from "./pages/ForgotPassword";
+import VerifyEmail from "./pages/VerifyEmail";
 
 function App() {
   return (
@@ -16,7 +17,8 @@ function App() {
           <Route exact path="/" element={<Homepage />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/signup" element={<SignUp />} />
-          <Route exact path="/forgotpassword" element={<ForgotPassword />} />
+          <Route exact path="/reset-password/:token" element={<ForgotPassword />} />
+          <Route exact path="/verify-email/:token" element={<VerifyEmail />} />
         </Routes>
       </Router>
     </div>

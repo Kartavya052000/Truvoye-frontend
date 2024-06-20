@@ -23,6 +23,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import AlertMessage from "../components/AlertMessage";
+import { post } from "../api/api";
 
 const validationSchema = yup.object({
   email: yup
@@ -40,6 +42,8 @@ const Login = () => {
   const [checked, setChecked] = React.useState(false);
   const [isForgotPasswordDialogOpen, setIsForgotPasswordDialogOpen] =
     React.useState(false);
+  const [alertMessage, setAlertMessage] = React.useState([]);
+  const [dialogAlertMessage, setDialogAlertMessage] = React.useState([]);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -63,6 +67,7 @@ const Login = () => {
 
   const handleForgotPasswordDialogClose = () => {
     setIsForgotPasswordDialogOpen(false);
+    setDialogAlertMessage([])
   };
 
   const onForgotPasswordDialogSubmit = (event) => {
@@ -70,20 +75,59 @@ const Login = () => {
     const formData = new FormData(event.currentTarget);
     const formJson = Object.fromEntries(formData.entries());
     const email = formJson.email;
-    console.log(email);
-    // TODO :  send this email to backend for sending link 
-    handleForgotPasswordDialogClose();
-    // TODO :  remove this 
-    navigate("/forgotpassword")
-  }
+
+    post("auth/forget-password", {email : email})
+      .then((response) => {
+        console.log("DATA FROM Forget password ", response);
+        if (response.status === 200) {
+          setDialogAlertMessage(["success", response.data.message]);
+
+          setTimeout(handleForgotPasswordDialogClose, 3000);
+        }
+      })
+      .catch((error) => {
+        console.error("Error submitting data:", error);
+        const response = error.response;
+
+        if (response.status === 404) {
+          setDialogAlertMessage(["error", "User not found related to that email"]);
+        } else {
+          setDialogAlertMessage(["error", "Something Went Wrong contact support"]);
+        }
+      });
+
+
+    // navigate("/forgotpassword");
+  };
 
   // TODO : get the state of the check from here
   const formik = useFormik({
     initialValues: {},
     validationSchema: validationSchema,
-    onSubmit: (values) => { 
-      console.log(values);
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: (values) => {
+      post("auth/login", values)
+        .then((response) => {
+          console.log("DATA FROM LOGIN ", response);
+          if (response.status === 201) {
+            setAlertMessage(["success", "User logged in successfully"]);
+            // TODO :  Store token and redirect to the dashboard
+          } else if (response.status === 200) {
+            setAlertMessage(["error", response.data.message]);
+          } else {
+            setAlertMessage(["error", "Something Went Wrong contact support"]);
+          }
+        })
+        .catch((error) => {
+          console.error("Error submitting data:", error);
+          const response = error.response;
+
+          console.log(response);
+          if (response.status === 404) {
+            setAlertMessage(["error", "Incorrect password or email"]);
+          } else {
+            setAlertMessage(["error", "Something Went Wrong contact support"]);
+          }
+        });
     },
   });
 
@@ -106,14 +150,13 @@ const Login = () => {
                   component: "form",
                   onSubmit: (event) => {
                     onForgotPasswordDialogSubmit(event);
-
                   },
                 }}
               >
                 <DialogTitle>Forgot Password</DialogTitle>
                 <DialogContent>
                   <DialogContentText>
-                    Enter your email below we will send you password reset link 
+                    Enter your email below we will send you password reset link
                   </DialogContentText>
                   <TextField
                     autoFocus
@@ -124,14 +167,18 @@ const Login = () => {
                     label="Email Address"
                     type="email"
                     fullWidth
-                   size="small"
+                    size="small"
                     variant="outlined"
                   />
                 </DialogContent>
                 <DialogActions>
-                  <Button onClick={handleForgotPasswordDialogClose}>Cancel</Button>
+                  <Button onClick={handleForgotPasswordDialogClose}>
+                    Cancel
+                  </Button>
                   <Button type="submit">OK</Button>
                 </DialogActions>
+                
+                <AlertMessage alertMessage={dialogAlertMessage} />
               </Dialog>
 
               <form
@@ -272,6 +319,8 @@ const Login = () => {
                     </Typography>
                   </Button>
                 </Typography>
+
+                <AlertMessage alertMessage={alertMessage} />
               </form>
             </Box>
           </Grid>
