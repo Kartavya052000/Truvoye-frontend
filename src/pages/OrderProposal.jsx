@@ -1,93 +1,131 @@
-
 import React, { useState } from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import axios from 'axios';
+import Autocomplete from 'react-google-autocomplete';
 
 const OrderProposal = () => {
-  const [pickupAddress, setPickupAddress] = useState('');
-  const [receiverAddress, setReceiverAddress] = useState('');
-  const [weight, setWeight] = useState('');
   const [estimation, setEstimation] = useState(null);
-  const [shippingInfo, setShippingInfo] = useState(null);
+  //const [shippingInfo, setShippingInfo] = useState(null);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // Define Yup validation schema
+  const validationSchema = Yup.object().shape({
+    pickupAddress: Yup.string().required('Pickup Address is required'),
+    receiverAddress: Yup.string().required('Receiver Address is required'),
+    weight: Yup.number().required('Weight is required').positive('Weight must be positive'),
+  });
 
+  // Handle form submission with Formik
+  const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      const response = await fetch('http://localhost:3000/OrderProposal', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          pickup_address: pickupAddress,
-          receivers_address: receiverAddress,
-          weight: weight,
-          
-        }),
+      console.log('Submitting data:', {
+        pickup_address: values.pickupAddress,
+        pickup_latitude: values.pickupCoords.lat,
+        pickup_longitude: values.pickupCoords.lng,
+        receivers_address: values.receiverAddress,
+        receiver_latitude: values.receiverCoords.lat,
+        receiver_longitude: values.receiverCoords.lng,
+        weight: values.weight,
+        
       });
-    
 
+      const response = await axios.post('http://localhost:3000/api/orderDetails/OrderProposal', {
+        pickup_address: values.pickupAddress,
+        pickup_latitude: values.pickupCoords.lat,
+        pickup_longitude: values.pickupCoords.lng,
+        receivers_address: values.receiverAddress,
+        receiver_latitude: values.receiverCoords.lat,
+        receiver_longitude: values.receiverCoords.lng,
+        weight: values.weight,
+      });
 
-      if (!response.ok) {
+      if (!response.data) {
         throw new Error('Failed to fetch order proposal');
       }
 
-      const data = await response.json();
-      console.log("Response received");
-      setEstimation(data.estimation);
-      setShippingInfo(data.shippingInfo);
+      // Update state with response data
+      setEstimation(response.data.estimation);
+      //setShippingInfo(response.data.shippingInfo);
 
     } catch (error) {
       console.error('Error calculating order proposal:', error);
+    } finally {
+      setSubmitting(false);
     }
   };
 
   return (
     <div>
       <h2>Add an Order Proposal</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Pickup Address</label>
-          <input
-            type="text"
-            value={pickupAddress}
-            onChange={(e) => setPickupAddress(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Receiver Address</label>
-          <input
-            type="text"
-            value={receiverAddress}
-            onChange={(e) => setReceiverAddress(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Weight of Shipment</label>
-          <input
-            type="number"
-            value={weight}
-            onChange={(e) => setWeight(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Calculate</button>
-      </form>
+      <Formik
+        initialValues={{
+          pickupAddress: '',
+          pickupCoords: { lat: null, lng: null },
+          receiverAddress: '',
+          receiverCoords: { lat: null, lng: null },
+          weight: '',
+        }}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ setFieldValue, isSubmitting }) => (
+          <Form>
+            <div>
+              <label htmlFor="pickupAddress">Pickup Address</label>
+              <Autocomplete
+                apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
+                onPlaceSelected={(place) => {
+                  const address = place.formatted_address;
+                  const lat = place.geometry.location.lat();
+                  const lng = place.geometry.location.lng();
+                  setFieldValue('pickupAddress', address);
+                  setFieldValue('pickupCoords', { lat, lng });
+                }}
+                types={['address']}
+                placeholder="Enter Pickup Address"
+              />
+              <ErrorMessage name="pickupAddress" component="div" className="error" />
+            </div>
+
+            <div>
+              <label htmlFor="receiverAddress">Receiver Address</label>
+              <Autocomplete
+                apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
+                onPlaceSelected={(place) => {
+                  const address = place.formatted_address;
+                  const lat = place.geometry.location.lat();
+                  const lng = place.geometry.location.lng();
+                  setFieldValue('receiverAddress', address);
+                  setFieldValue('receiverCoords', { lat, lng });
+                }}
+                types={['address']}
+                placeholder="Enter Receiver Address"
+              />
+              <ErrorMessage name="receiverAddress" component="div" className="error" />
+            </div>
+
+            <div>
+              <label htmlFor="weight">Weight of Shipment</label>
+              <Field type="number" id="weight" name="weight" />
+              <ErrorMessage name="weight" component="div" className="error" />
+            </div>
+
+            <button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Calculating...' : 'Calculate'}
+            </button>
+          </Form>
+        )}
+      </Formik>
+
       {estimation && (
         <div>
           <h3>Order Estimation</h3>
-          <p>Cost: {estimation.cost}</p>
+          <p>Cost: {estimation.distance}</p>
           <p>Time: {estimation.time}</p>
         </div>
       )}
-      {shippingInfo && (
-        <div>
-          <h3>Shipping Information</h3>
-          <p>Distance: {shippingInfo.distance}</p>
-          <p>Estimated Time: {shippingInfo.duration}</p>
-        </div>
-      )}
+
+      
     </div>
   );
 };
