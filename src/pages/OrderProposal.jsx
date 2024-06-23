@@ -1,129 +1,154 @@
 import React, { useState } from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import axios from 'axios';
-import Autocomplete from 'react-google-autocomplete';
+
+import OrderEstimate from '../components/OrderEstimate';
+import Box from '@mui/material/Box';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import OrderEstimateDetails from '../components/OrderEstimateDetails';
+import SubmitOrder from '../components/SubmitOrder';
 
 const OrderProposal = () => {
-  const [estimation, setEstimation] = useState(null);
-  //const [shippingInfo, setShippingInfo] = useState(null);
+  const steps = ['Order Estimate', 'Get Estimates', 'Submit Order'];
 
-  // Define Yup validation schema
-  const validationSchema = Yup.object().shape({
-    pickupAddress: Yup.string().required('Pickup Address is required'),
-    receiverAddress: Yup.string().required('Receiver Address is required'),
-    weight: Yup.number().required('Weight is required').positive('Weight must be positive'),
-  });
-
-  // Handle form submission with Formik
-  const handleSubmit = async (values, { setSubmitting }) => {
-    try {
-      console.log('Submitting data:', {
-        pickup_address: values.pickupAddress,
-        pickup_latitude: values.pickupCoords.lat,
-        pickup_longitude: values.pickupCoords.lng,
-        receivers_address: values.receiverAddress,
-        receiver_latitude: values.receiverCoords.lat,
-        receiver_longitude: values.receiverCoords.lng,
-        weight: values.weight,
-        
-      });
-
-      const response = await axios.post('http://localhost:3000/api/orderDetails/OrderProposal', {
-        pickup_address: values.pickupAddress,
-        pickup_latitude: values.pickupCoords.lat,
-        pickup_longitude: values.pickupCoords.lng,
-        receivers_address: values.receiverAddress,
-        receiver_latitude: values.receiverCoords.lat,
-        receiver_longitude: values.receiverCoords.lng,
-        weight: values.weight,
-      });
-
-      if (!response.data) {
-        throw new Error('Failed to fetch order proposal');
-      }
-
-      // Update state with response data
-      setEstimation(response.data.estimation);
-      //setShippingInfo(response.data.shippingInfo);
-
-    } catch (error) {
-      console.error('Error calculating order proposal:', error);
-    } finally {
-      setSubmitting(false);
-    }
+  const [activeStep, setActiveStep] = useState(0);
+  const [skipped, setSkipped] = useState(new Set());
+  const [estimateData,SetEstimateData] = useState({});
+  const isStepOptional = (step) => {
+    return step === 1;
   };
 
+  const isStepSkipped = (step) => {
+    return skipped.has(step);
+  };
+
+  const handleNext = () => {
+    let newSkipped = skipped;
+    if (isStepSkipped(activeStep)) {
+      newSkipped = new Set(newSkipped.values());
+      newSkipped.delete(activeStep);
+    }
+
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setSkipped(newSkipped);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleSkip = () => {
+    if (!isStepOptional(activeStep)) {
+      // You probably want to guard against something like this,
+      // it should never occur unless someone's actively trying to break something.
+      throw new Error("You can't skip a step that isn't optional.");
+    }
+
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setSkipped((prevSkipped) => {
+      const newSkipped = new Set(prevSkipped.values());
+      newSkipped.add(activeStep);
+      return newSkipped;
+    });
+  };
+
+  const handleReset = () => {
+    setActiveStep(0);
+  };
+  const handleGetEstimate = (value) =>{
+    console.log(value)
+   SetEstimateData(value)
+   console.log(estimateData,"eee")
+   setActiveStep(1)
+
+  }
+
+  const handleOrderSubmission = () =>{
+    alert("order is submitted")
+  }
   return (
     <div>
-      <h2>Add an Order Proposal</h2>
-      <Formik
-        initialValues={{
-          pickupAddress: '',
-          pickupCoords: { lat: null, lng: null },
-          receiverAddress: '',
-          receiverCoords: { lat: null, lng: null },
-          weight: '',
-        }}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        {({ setFieldValue, isSubmitting }) => (
-          <Form>
-            <div>
-              <label htmlFor="pickupAddress">Pickup Address</label>
-              <Autocomplete
-                apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
-                onPlaceSelected={(place) => {
-                  const address = place.formatted_address;
-                  const lat = place.geometry.location.lat();
-                  const lng = place.geometry.location.lng();
-                  setFieldValue('pickupAddress', address);
-                  setFieldValue('pickupCoords', { lat, lng });
-                }}
-                types={['address']}
-                placeholder="Enter Pickup Address"
-              />
-              <ErrorMessage name="pickupAddress" component="div" className="error" />
-            </div>
+   <Box sx={{ width: '100%' }}>
+      <Stepper activeStep={activeStep}>
+        {steps.map((label, index) => {
+          const stepProps = {};
+          const labelProps = {};
+          if (isStepOptional(index)) {
+            labelProps.optional = (
+              <Typography variant="caption">Optional</Typography>
+            );
+          }
+          // if (isStepSkipped(index)) {
+          //   stepProps.completed = false;
+          // }
+          return (
+            <Step key={label} {...stepProps}>
+              <StepLabel {...labelProps}>{label}</StepLabel>
+            </Step>
+          );
+        })}
+      </Stepper>
+      {activeStep === steps.length ? (
+        <React.Fragment>
+          <Typography sx={{ mt: 2, mb: 1 }}>
+            All steps completed - you&apos;re finished
+          </Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+            <Box sx={{ flex: '1 1 auto' }} />
+            <Button onClick={handleReset}>Reset</Button>
+          </Box>
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+            <Button
+              color="inherit"
+              disabled={activeStep === 0}
+              onClick={handleBack}
+              sx={{ mr: 1 }}
+            >
+              Back
+            </Button>
+            <Box sx={{ flex: '1 1 auto' }} />
+            {/* {isStepOptional(activeStep) && (
+              <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
+                Skip
+              </Button>
+            )} */}
 
-            <div>
-              <label htmlFor="receiverAddress">Receiver Address</label>
-              <Autocomplete
-                apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
-                onPlaceSelected={(place) => {
-                  const address = place.formatted_address;
-                  const lat = place.geometry.location.lat();
-                  const lng = place.geometry.location.lng();
-                  setFieldValue('receiverAddress', address);
-                  setFieldValue('receiverCoords', { lat, lng });
-                }}
-                types={['address']}
-                placeholder="Enter Receiver Address"
-              />
-              <ErrorMessage name="receiverAddress" component="div" className="error" />
-            </div>
+            <Button onClick={handleNext}>
+              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+            </Button>
+          </Box>
+        </React.Fragment>
+      )}
+    </Box>
+    {activeStep === 0 && (
+              <Box sx={{ mt: 2 }}>
+                <OrderEstimate handleGetEstimate ={handleGetEstimate}/>
+              </Box>
+            )}
+            {activeStep === 1 && (
+              <Box sx={{ mt: 2 }}>
+                <OrderEstimateDetails estimateData={estimateData} />
+              </Box>
+            )}
+            {activeStep === 2 && (
+              <Box sx={{ mt: 2 }}>
+          <SubmitOrder initialData={estimateData} handleOrderSubmission={handleOrderSubmission} />
+              </Box>
+            )}
 
-            <div>
-              <label htmlFor="weight">Weight of Shipment</label>
-              <Field type="number" id="weight" name="weight" />
-              <ErrorMessage name="weight" component="div" className="error" />
-            </div>
-
-            <button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? 'Calculating...' : 'Calculate'}
-            </button>
-          </Form>
-        )}
-      </Formik>
-
-      {estimation && (
+      {/* {estimation && (
         <div>
           <h3>Order Estimation</h3>
           <p>Cost: {estimation.distance}</p>
           <p>Time: {estimation.time}</p>
         </div>
-      )}
+      )} */}
 
       
     </div>
