@@ -35,3 +35,14 @@
     animation: slide-out-right 0.5s forwards;
   }
   
+
+.container{
+  background-color: #D9D9D9;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: bold;
+  border: 1px solid black;
+}

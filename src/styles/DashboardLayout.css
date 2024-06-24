@@ -1,0 +1,35 @@
+/* styles/DashboardLayout.css */
+.dashboard-layout {
+    display: flex;
+  }
+  
+  .sidebar {
+    width: 200px;
+    background-color: #2e3b4e;
+    min-height: 100vh;
+    position: fixed;
+  }
+  
+  .dashboard-main-content {
+    margin-left: 200px; /* Match this to the sidebar width */
+    width: calc(100% - 200px);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .topbar {
+    background-color: #3e4e5e;
+    padding: 1rem;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .dashboard-content {
+    padding: 1rem;
+    background-color: #f4f6f8;
+    height: calc(100vh - 60px); /* Adjust height based on topbar height */
+    overflow-y: auto;
+  }
+  
