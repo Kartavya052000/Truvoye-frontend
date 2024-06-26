@@ -39,7 +39,7 @@ const validationSchema = yup.object({
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = React.useState(false);
-  const [alertMessage, setAlertMessage] = React.useState([]);
+  const [alertMessage, setAlertMessage] = React.useState([null]);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -76,7 +76,7 @@ const SignUp = () => {
               "Verification link sent to your registered email",
             ]);
           }
-          if (response.status === 200) {
+          else if (response.status === 200) {
             setAlertMessage(["error", "Email already registered use Login"]);
           } else {
             setAlertMessage(["error", "Something Went Wrong contact support"]);
@@ -91,7 +91,8 @@ const SignUp = () => {
           setAlertMessage(["error", "Something Went Wrong contact support"]);
         });
 
-      //   TODO : navigate to dashboard
+    
+        // navigate("/dashboard");
     },
   });
 

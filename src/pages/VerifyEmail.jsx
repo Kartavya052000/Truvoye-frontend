@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { post } from "../api/api";
+import { useCookies } from 'react-cookie';
+
 
 const VerifyEmail = () => {
   const [data, setData] = useState([]);
@@ -9,12 +11,21 @@ const VerifyEmail = () => {
   const [error, setError] = useState(null);
 
   const { token } = useParams();
+  const [, setCookie] = useCookies(["token"]);
+  const navigate = useNavigate();
   
   useEffect(() => {
 
     post("auth/verify-account/"+token, {})
       .then((response) => {
         console.log("Data submitted:", response.data);
+        setCookie('token', response.data.token, { path: '/' });
+
+        // //check if cookie is stored successfully
+        // const cookieToken = document.cookie.split(';').find(cookie => cookie.trim().startsWith('token='));
+        // console.log("Cookie Token:", cookieToken);
+
+        navigate("/dashboard"); 
         setData(response);
       })
       .catch((error) => {
@@ -25,7 +36,7 @@ const VerifyEmail = () => {
         setLoading(false);
       });
 
-  }, [token]);
+  }, [token, setCookie]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
