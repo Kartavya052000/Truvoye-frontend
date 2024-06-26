@@ -15,6 +15,8 @@ import Tracking from "./pages/Tracking";
 import Drivers from "./pages/Drivers";
 import DriverLayout from "./components/DriverLayout";
 import DriverHomepage from "./components/DriverHomepage";
+import DriverLogin  from "./pages/driver/Login";
+import DriverResetPassword from "./pages/driver/ResetPassword";
 
 function App() {
   return (
@@ -85,7 +87,9 @@ function App() {
 
           {/* Dashboard Routes */}
           <Route path="/driver/*" element={<DriverLayout />}>
-            <Route path="list" element={<DriverHomepage />} />
+            <Route path="home" element={<DriverHomepage />} />
+            <Route path="login" element={<DriverLogin />}/>
+            <Route path="reset-password/:token" element={<DriverResetPassword />}/>
             {/* <Route path="another-page" element={<AnotherDashboardPage />} /> */}
             {/* Add more dashboard routes here */}
           </Route>
