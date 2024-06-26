@@ -25,6 +25,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import AlertMessage from "../components/AlertMessage";
 import { post } from "../api/api";
+import { useCookies } from 'react-cookie';
 
 const validationSchema = yup.object({
   email: yup
@@ -44,6 +45,7 @@ const Login = () => {
     React.useState(false);
   const [alertMessage, setAlertMessage] = React.useState([]);
   const [dialogAlertMessage, setDialogAlertMessage] = React.useState([]);
+  const [, setCookie, ] = useCookies(["token"]);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -97,7 +99,7 @@ const Login = () => {
       });
 
 
-    // navigate("/forgotpassword");
+     navigate("/forgotpassword");
   };
 
   // TODO : get the state of the check from here
@@ -109,8 +111,11 @@ const Login = () => {
         .then((response) => {
           console.log("DATA FROM LOGIN ", response);
           if (response.status === 201) {
+            setCookie('token', response.data.token, { path: '/' }); 
+            
+            navigate("/dashboard"); 
             setAlertMessage(["success", "User logged in successfully"]);
-            // TODO :  Store token and redirect to the dashboard
+            
           } else if (response.status === 200) {
             setAlertMessage(["error", response.data.message]);
           } else {
@@ -130,6 +135,8 @@ const Login = () => {
         });
     },
   });
+
+  
 
   return (
     <div className="login">
@@ -322,6 +329,7 @@ const Login = () => {
 
                 <AlertMessage alertMessage={alertMessage} />
               </form>
+             
             </Box>
           </Grid>
         </Grid>
