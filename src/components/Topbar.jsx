@@ -1,15 +1,29 @@
 import React, { useState } from 'react'
 import "../styles/Topbar.css"
-import { Link,useLocation } from 'react-router-dom';
+import { Link,useLocation, useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+
+
 const Topbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+
+  // useEffect(() => {
+  //   console.log("Cookies: ", cookies);
+  // }, [cookies]);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
   const showHamburger = location.pathname.includes('driver');
+
+  const handleLogout = () => {
+    removeCookie("token", { path: "/" });
+    navigate("/");
+  };
 
   return (
     <div className='topbar_container'>
@@ -27,6 +41,13 @@ const Topbar = () => {
         </div>
       )}
       Topbar
+
+      <button className="logout_btn" onClick={handleLogout}
+      color="primary"
+      variant="contained"
+      sx={{ mt: 2 }}
+      >Logout</button>
+      
     </div>
   )
 }

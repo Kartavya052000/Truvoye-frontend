@@ -91,7 +91,8 @@ const SignUp = () => {
           setAlertMessage(["error", "Something Went Wrong contact support"]);
         });
 
-      //   TODO : navigate to dashboard
+    
+         navigate("/dashboard");
     },
   });
 
