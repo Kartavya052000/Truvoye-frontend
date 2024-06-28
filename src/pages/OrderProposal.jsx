@@ -58,7 +58,7 @@ const OrderProposal = () => {
     setActiveStep(0);
   };
   const handleGetEstimate = (value) =>{
-    console.log(value)
+    console.log(value,"vv")
    SetEstimateData(value)
    console.log(estimateData,"eee")
    setActiveStep(1)

@@ -18,6 +18,7 @@ import DriverHomepage from "./components/DriverHomepage";
 import DriverLogin  from "./pages/driver/Login";
 import DriverResetPassword from "./pages/driver/ResetPassword";
 import AddDriver from "./pages/AddDriver";
+import OrderDetails from "./pages/OrderDetails";
 
 function App() {
   return (
@@ -84,6 +85,7 @@ function App() {
             <Route path="tracking" element={<Tracking />} />
             <Route path="drivers" element={<Drivers />} />
             <Route path="add-driver" element={<AddDriver />} />
+            <Route path="order-details/:id" element={<OrderDetails />}/>
             
           </Route>
 

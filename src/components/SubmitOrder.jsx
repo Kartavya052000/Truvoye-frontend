@@ -2,7 +2,7 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-
+import {post} from "../api/api"
 const SubmitOrder = ({ initialData, handleOrderSubmission }) => {
   // Define Yup validation schema
   const validationSchema = Yup.object().shape({
@@ -15,7 +15,7 @@ const SubmitOrder = ({ initialData, handleOrderSubmission }) => {
 
   // Handle form submission with Formik
   const handleSubmit = async (values, { setSubmitting }) => {
-    try {
+    // try {
       const data = {
         pickup_date: values.pickupDate,
         pickup_address: initialData.pickupAddress,
@@ -27,18 +27,23 @@ const SubmitOrder = ({ initialData, handleOrderSubmission }) => {
         receivers_email: values.receiversEmail,
       };
 
-      const response = await axios.post('http://localhost:4000/api/orderDetails/SubmitOrder', data);
+  
+      post("/orderDetails/SubmitOrder", data)
+      .then((response) => {
+        handleOrderSubmission(response.data);
+        setSubmitting(false);
 
-      if (!response.data) {
-        throw new Error('Failed to submit order');
-      }
+         
+       
+      })
+      .catch((error) => {
+        console.error("Error submitting data:", error);
+        const response = error.response;
 
-      handleOrderSubmission(response.data);
-    } catch (error) {
-      console.error('Error submitting order:', error);
-    } finally {
-      setSubmitting(false);
-    }
+        console.log(response);
+        
+      });
+   
   };
 
   return (

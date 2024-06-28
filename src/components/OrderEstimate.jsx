@@ -3,6 +3,7 @@
   import * as Yup from 'yup';
   import axios from 'axios';
   import Autocomplete from 'react-google-autocomplete';
+  import { post } from "../api/api";
 
   const OrderEstimate = ({handleGetEstimate}) => {
       const [estimation, setEstimation] = useState();
@@ -17,7 +18,7 @@
     
       // Handle form submission with Formik
       const handleSubmit = async (values, { setSubmitting }) => {
-        try {
+        // try {
       let data ={
         pickup_address:{
           latitude:values.pickupCoords.lat,
@@ -29,23 +30,22 @@
         },
         weight:values.weight,
       }
-          const response = await axios.post('http://localhost:4000/api/orderDetails/OrderProposal',data);
-    
-          if (!response.data) {
-            throw new Error('Failed to fetch order proposal');
-          }
-    console.log(response.data,"rrr")
-          // Update state with response data
-          // setEstimation(r);
-          // handleGetEstimate(response.data);
+      post("/orderDetails/OrderProposal", data)
+      .then((response) => {
           handleGetEstimate({ ...response.data, ...values });
-
-    
-        } catch (error) {
-          console.error('Error calculating order proposal:', error);
-        } finally {
           setSubmitting(false);
-        }
+
+         
+       
+      })
+      .catch((error) => {
+        console.error("Error submitting data:", error);
+        const response = error.response;
+
+        console.log(response);
+        
+      });
+      
       };
     
     return (

@@ -106,34 +106,34 @@ const Login = () => {
   const formik = useFormik({
     initialValues: {},
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      post("auth/login", values)
-        .then((response) => {
-          console.log("DATA FROM LOGIN ", response);
-          if (response.status === 201) {
-            setCookie('token', response.data.token, { path: '/' }); 
-            
-            navigate("/dashboard"); 
-            setAlertMessage(["success", "User logged in successfully"]);
-            
-          } else if (response.status === 200) {
-            setAlertMessage(["error", response.data.message]);
-          } else {
-            setAlertMessage(["error", "Something Went Wrong contact support"]);
-          }
-        })
-        .catch((error) => {
-          console.error("Error submitting data:", error);
-          const response = error.response;
+      onSubmit: (values) => {
+        post("auth/login", values)
+          .then((response) => {
+            console.log("DATA FROM LOGIN ", response);
+            if (response.status === 201) {
+              setCookie('token', response.data.token, { path: '/' }); 
+              
+              navigate("/dashboard"); 
+              setAlertMessage(["success", "User logged in successfully"]);
+              
+            } else if (response.status === 200) {
+              setAlertMessage(["error", response.data.message]);
+            } else {
+              setAlertMessage(["error", "Something Went Wrong contact support"]);
+            }
+          })
+          .catch((error) => {
+            console.error("Error submitting data:", error);
+            const response = error.response;
 
-          console.log(response);
-          if (response.status === 404) {
-            setAlertMessage(["error", "Incorrect password or email"]);
-          } else {
-            setAlertMessage(["error", "Something Went Wrong contact support"]);
-          }
-        });
-    },
+            console.log(response);
+            if (response.status === 404) {
+              setAlertMessage(["error", "Incorrect password or email"]);
+            } else {
+              setAlertMessage(["error", "Something Went Wrong contact support"]);
+            }
+          });
+      },
   });
 
   

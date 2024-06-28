@@ -36,10 +36,12 @@ export const get = (endpoint, params) => {
   return apiClient.get(endpoint, { params });
 };
 
-export const post = (endpoint, data) => {
-  return apiClient.post(endpoint, data);
+// export const post = (endpoint, data) => {
+//   return apiClient.post(endpoint, data);
+// };
+export const post = (endpoint, data, queryParams = {}) => {
+  return apiClient.post(endpoint, data, { params: queryParams });
 };
-
 export const put = (endpoint, data) => {
   return apiClient.put(endpoint, data);
 };
