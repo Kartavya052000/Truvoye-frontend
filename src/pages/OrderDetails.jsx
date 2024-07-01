@@ -57,6 +57,24 @@ const fetchDrivers = async () => {
     const driver = drivers.find(driver => driver._id === driverId);
     setSelectedDriver(driver);
     setOpenModal(true); // Open modal when checkbox is clicked
+ 
+
+    let data = {
+      driverId: driverId,
+      orderId:id
+    }
+    post("/orderDetails/assign-order", data)
+    .then((response) => {
+      setSelectedDriver(driver);
+      setOpenModal(true); // Open modal when checkbox is clicked
+    })
+    .catch((error) => {
+      console.error("Error submitting data:", error);
+      const response = error.response;
+
+      console.log(response);
+      
+    });
   };
 
   const handleModalClose = () => {

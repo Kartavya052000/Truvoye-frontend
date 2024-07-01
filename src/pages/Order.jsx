@@ -61,7 +61,7 @@ const Order = () => {
               <TableCell align="right">{order.receiver_address}</TableCell>
               <TableCell align="right">{order.weight}</TableCell>
               <TableCell align="right">{new Date(order.pickup_date).toLocaleDateString()}</TableCell>
-              <TableCell align="right">{order.order_status === 0 ? 'Unassigned' : 'Assigned'}</TableCell>
+              <TableCell align="right">{!order?.driver_id ? 'Unassigned' : 'Assigned'}</TableCell>
               <TableCell align="right">
                 <Link to={`/dashboard/order-details/${order._id}`}>
                   <Avatar sx={{ bgcolor: blue }}>
