@@ -24,10 +24,14 @@ const OrderDetails = () => {
     fetchDrivers();
   }, [id]); // Fetch details whenever id changes
 
+  let order = [];
   const fetchOrderDetails = async () => {
     post("/order/get")
     .then((response) => {
-        setOrderDetails(response.data);
+      const orders = response.data;
+      const order = orders.find((ord) => ord._id === id);
+      setOrderDetails(order); // Set the specific order details
+      console.log(order);
     })
     .catch((error) => {
       console.error("Error submitting data:", error);
@@ -37,6 +41,10 @@ const OrderDetails = () => {
       
     });
 };
+
+
+
+
 const fetchDrivers = async () => {
     post("/driver/get?active=false",)
     .then((response) => {
@@ -92,46 +100,49 @@ const fetchDrivers = async () => {
   }
 
   return (
-    <div>
-      <h2>Order Details</h2>
-      <p><strong>Order ID:</strong> {orderDetails._id}</p>
-      <p><strong>Pickup Address:</strong> {orderDetails.pickup_address}</p>
-      <p><strong>Receiver Address:</strong> {orderDetails.receiver_address}</p>
-      <p><strong>Weight:</strong> {orderDetails.weight}</p>
-      <p><strong>Pickup Date:</strong> {new Date(orderDetails.pickup_date).toLocaleDateString()}</p>
-      <p><strong>Status:</strong> {orderDetails.order_status === 0 ? 'Unassigned' : 'Assigned'}</p>
+    <div>         
+        <h2>Order Details</h2>
+        <p><strong>Order ID:</strong> {orderDetails._id}</p>
+        <p><strong>Pickup Address:</strong> {orderDetails.pickup_address}</p>
+        <p><strong>Receiver Address:</strong> {orderDetails.receiver_address}</p>
+        <p><strong>Weight:</strong> {orderDetails.weight}</p>
+        <p><strong>Pickup Date:</strong> {new Date(orderDetails.pickup_date).toLocaleDateString()}</p>
+        <p><strong>Status:</strong> {orderDetails.order_status === 0 ? 'Unassigned' : 'Assigned'}</p>
 
-      <h2>Drivers List</h2>
-      <TableContainer component={Paper}>
-        <Table aria-label="drivers table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Email</TableCell>
-              <TableCell>Username</TableCell>
-              <TableCell>Phone</TableCell>
-              <TableCell>Truck License Plate</TableCell>
-              <TableCell>Assign</TableCell> {/* New column for checkboxes */}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {drivers.map((driver) => (
-              <TableRow key={driver._id}>
-                <TableCell>{driver.email}</TableCell>
-                <TableCell>{driver.username}</TableCell>
-                <TableCell>{driver.phone}</TableCell>
-                <TableCell>{driver.truckLicensePlateNumber}</TableCell>
-                <TableCell>
-                  <Checkbox
-                    checked={false} // Adjust based on your logic if needed
-                    onChange={handleAssignCheckboxChange(driver._id)}
-                  />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-
+        {orderDetails.order_status === 0 && (
+        <>
+          <h2>Drivers List</h2>
+          <TableContainer component={Paper}>
+            <Table aria-label="drivers table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Email</TableCell>
+                  <TableCell>Username</TableCell>
+                  <TableCell>Phone</TableCell>
+                  <TableCell>Truck License Plate</TableCell>
+                  <TableCell>Assign</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {drivers.map((driver) => (
+                  <TableRow key={driver._id}>
+                    <TableCell>{driver.email}</TableCell>
+                    <TableCell>{driver.username}</TableCell>
+                    <TableCell>{driver.phone}</TableCell>
+                    <TableCell>{driver.truckLicensePlateNumber}</TableCell>
+                    <TableCell>
+                      <Checkbox
+                        checked={false} // Adjust based on your logic if needed
+                        onChange={handleAssignCheckboxChange(driver._id)}
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </>
+      )}
       {/* Modal for confirmation */}
       <Modal
         open={openModal}
