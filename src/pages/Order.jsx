@@ -152,6 +152,7 @@ const Order = () => {
               </TableCell>
               <TableCell align="right">{new Date(order.pickup_date).toLocaleDateString()}</TableCell>
               <TableCell align="right">{order.receiver_address?.address_name}</TableCell>
+
               <TableCell align="right">
                 <Link to={`/dashboard/order-details/${order._id}`}>
                   <Avatar sx={{ bgcolor: blue }} >

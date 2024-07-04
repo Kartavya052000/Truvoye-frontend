@@ -96,6 +96,7 @@ setDrivers(response.data)
 
         console.log(response);
       });
+
   };
 
   const handleModalClose = () => {
