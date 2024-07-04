@@ -1,0 +1,68 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+*{
+    font-family: "Outfit", sans-serif; 
+}
+
+/* Banner */
+
+@media screen and (min-width: 740px) and (max-width: 1500px){ 
+.banner{
+    display: flex;
+}
+
+
+
+.left-container{
+    width: 50%;
+    justify-content: center;
+    margin-left: 2rem;
+    
+}
+
+.left-container h3{
+    color: #1237BF;
+    text-align: left;
+    font-size: 25px;
+    font-weight: bolder;
+}
+
+.left-container p{
+    color: black;
+    text-align: left;
+    font-size: 15px;
+    font-weight: normal;
+}
+
+.right-container{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.banner-btn{
+    margin-top: 1.5rem;
+    padding: .5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #1237BF;
+    color: white;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 150%;
+}
+}
+
+@media screen and (min-width: 740px) {
+
+    .left-container{
+        width: 100%;
+    }
+
+    .right-container{
+        width: 100%
+    }
+
+
+ }

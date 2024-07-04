@@ -37,12 +37,12 @@
   
 
 .container{
-  background-color: #D9D9D9;
+  background-color: white;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 2rem;
   font-weight: bold;
-  border: 1px solid black;
+  /* border: 1px solid black; */
 }

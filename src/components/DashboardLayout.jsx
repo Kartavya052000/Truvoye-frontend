@@ -8,9 +8,11 @@ import '../styles/DashboardLayout.css'; // Add styles as needed
 const DashboardLayout = () => {
   return (
     <div className="dashboard-layout">
-      <Sidebar />
-      <div className="dashboard-main-content">
         <Topbar />
+
+      <Sidebar />
+      <div className="dashboard-main-content"
+      style={{background: "#B8C3EC"}}>
         <div className="dashboard-content">
           <Outlet /> {/* This will render the matched child route */}
         </div>

@@ -1,4 +1,5 @@
 import React from 'react'
+import '../styles/HomePage.css';
 import Banner from '../components/Banner'
 import About from '../components/About'
 import TeamMembers from '../components/TeamMembers'
