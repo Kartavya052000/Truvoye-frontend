@@ -25,7 +25,7 @@ const OrderDetails = () => {
   }, [id]); // Fetch details whenever id changes
 
   const fetchOrderDetails = async () => {
-    post("/order/get")
+    post(`/order/get`)
     .then((response) => {
         setOrderDetails(response.data);
     })

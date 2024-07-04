@@ -18,8 +18,17 @@ const SubmitOrder = ({ initialData, handleOrderSubmission }) => {
     // try {
       const data = {
         pickup_date: values.pickupDate,
-        pickup_address: initialData.pickupAddress,
-        receiver_address: initialData.receiverAddress,
+        pickup_address: {
+         address_name: initialData.pickupAddress,
+         pickup_lat:initialData.pickupCoords.lat,
+         pickup_lng:initialData.pickupCoords.lng,
+        },
+        receiver_address: {
+          address_name:initialData.receiverAddress,
+          receiver_lat:initialData.receiverCoords.lat,
+          receiver_lng:initialData.receiverCoords.lng
+        },
+
         weight: initialData.weight,
         senders_name: values.sendersName,
         senders_email: values.sendersEmail,
