@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Grid, Typography, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { post } from '../api/api';
+import '../styles/Drivers.css'
 
 const Drivers = () => {
   const [drivers, setDrivers] = useState([]);
@@ -24,46 +25,72 @@ const Drivers = () => {
 
   return (
     <div>
-      <Button
-        sx={{ mt: 1, mb: 4 }}
+      
+      <Grid item xs={12}>
+        {/* <Typography
+          variant="h5"
+          component="h2"
+          sx={{ textAlign: "left", m: 3 , color: "#1237BF"}}
+        >
+          Drivers
+        </Typography>
+
+        <Button
+        sx={{ mt: 1, mb: 4, alignItems: "right" }}
         color="primary"
         variant="contained"
         component={Link}
         to="/dashboard/add-driver"
       >
         Add Driver
-      </Button>
-      <Grid item xs={12}>
+      </Button> */}
+       <Grid container justifyContent="space-between" alignItems="center" sx={{ m: 2 }}>
+      <Grid item>
         <Typography
           variant="h5"
           component="h2"
-          sx={{ textAlign: "center", m: 3 }}
+          sx={{ textAlign: 'left', color: '#1237BF' }}
         >
-          Drivers List
+          Drivers
         </Typography>
+      </Grid>
+      <Grid item>
+        <Button
+          sx={{ alignItems: 'right', marginRight: 6 , background: '#1237BF', color: 'white'}}
+          
+          variant="contained"
+          component={Link}
+          to="/dashboard/add-driver"
+        >
+          Add Driver
+        </Button>
+      </Grid>
+    </Grid>
 
-        <TableContainer component={Paper}>
-          <Table aria-label="drivers table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Email</TableCell>
-                <TableCell>Username</TableCell>
-                <TableCell>Phone</TableCell>
-                <TableCell>Truck License Plate</TableCell>
-                <TableCell>Driver License</TableCell>
-                <TableCell>Options</TableCell>
+        <TableContainer  component={Paper}>
+          <Table  aria-label="drivers table">
+            <TableHead className='drivers-tablehead' sx={{borderBottomColor:'#F9A33F' ,border: '1px solid #F9A33F'}}>
+              <TableRow class>
+              <TableCell sx={{ color: '#1237BF', fontWeight: 'bold' }}>Name</TableCell>
+              <TableCell sx={{ color: '#1237BF', fontWeight: 'bold' }}>Address</TableCell>
+                <TableCell sx={{ color: '#1237BF', fontWeight: 'bold' }}>Email</TableCell>
+                <TableCell sx={{ color: '#1237BF', fontWeight: 'bold' }}>Phone</TableCell>
+                <TableCell sx={{ color: '#1237BF' , fontWeight: 'bold'}}>Truck Plate</TableCell>
+                <TableCell sx={{ color: '#1237BF', fontWeight: 'bold' }}>Driver License</TableCell>
+                <TableCell sx={{ color: '#1237BF', fontWeight: 'bold' }}>Options</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {drivers.map((driver) => (
                 <TableRow key={driver._id}>
-                  <TableCell>{driver.email}</TableCell>
                   <TableCell>{driver.username}</TableCell>
+                  <TableCell>{driver.address.formatted_address.substring(0, 20)}</TableCell>
+                  <TableCell>{driver.email}</TableCell>
                   <TableCell>{driver.phone}</TableCell>
                   <TableCell>{driver.truckLicensePlateNumber}</TableCell>
                   <TableCell>{driver.driverLicense}</TableCell>
-                  <TableCell>
-                    <Button
+                  <TableCell >
+                    <Button sx={{ background: '#1237BF' }}
                       color="primary"
                       variant="contained"
                       component={Link}
@@ -72,11 +99,12 @@ const Drivers = () => {
                       Edit
                     </Button>
                   </TableCell>
-                </TableRow>
+                </TableRow >
               ))}
             </TableBody>
           </Table>
         </TableContainer>
+        
       </Grid>
     </div>
   );

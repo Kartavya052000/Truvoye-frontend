@@ -11,7 +11,8 @@ const DashboardLayout = () => {
         <Topbar />
 
       <Sidebar />
-      <div className="dashboard-main-content">
+      <div className="dashboard-main-content"
+      style={{background: "#B8C3EC"}}>
         <div className="dashboard-content">
           <Outlet /> {/* This will render the matched child route */}
         </div>

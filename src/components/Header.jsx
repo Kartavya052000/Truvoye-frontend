@@ -13,13 +13,13 @@ const Header = () => {
         <img src={logo} alt="Logo" className="logo-text" />
         </div>
       </div>
-      <nav className="nav">
+      <nav className="header-nav">
         <ul className="nav-list-header">
-          <li className="nav-item">About Us</li>
-          <li className="nav-item">Tier Models</li>
-          <li className="nav-item">Team Members</li>
-          <li className="nav-item">Proposal</li>
-          <li className="nav-item">Contact Us</li>
+          <li className="header-nav-item">About Us</li>
+          <li className="header-nav-item">Tier Models</li>
+          <li className="header-nav-item">Team Members</li>
+          <li className="header-nav-item">Proposal</li>
+          <li className="header-nav-item">Contact Us</li>
         </ul>
       </nav>
       <div className="auth-buttons">

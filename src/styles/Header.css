@@ -22,7 +22,7 @@
     align-items: center;
   }
   
-  .nav {
+  .header-nav {
     margin-left: 11rem;
     flex-grow: 1;
     display: flex;
@@ -35,7 +35,7 @@
     list-style: none;
   }
   
-  .nav-item {
+  .header-nav-item {
     margin: 0 10px;
     color: #000;
     font-size: 20px;
@@ -63,6 +63,7 @@
   .signup-btn {
     border-radius: 8px;
     background: #1237BF;
+    color: white;
   }
   
   .login-btn {
