@@ -58,7 +58,7 @@ const Order = () => {
                 {order._id}
               </TableCell>
               <TableCell align="right">{order.pickup_address?.address_name}</TableCell>
-              <TableCell align="right">{order.receiver_address?.address_name}</TableCell>
+              <TableCell align="right">{order.receiver_address?.address_name}</TableCell> 
               <TableCell align="right">{order.weight}</TableCell>
               <TableCell align="right">{new Date(order.pickup_date).toLocaleDateString()}</TableCell>
               <TableCell align="right">{!order?.driver_id ? 'Unassigned' : 'Assigned'}</TableCell>

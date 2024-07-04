@@ -62,9 +62,13 @@ const OrderProposal = () => {
    SetEstimateData(value)
    console.log(estimateData,"eee")
    setActiveStep(1)
+//  alert(activeStep)
 
   }
+const handleUpdateEstimate = ()=>{
+  setActiveStep(2)
 
+}
   const handleOrderSubmission = () =>{
     alert("order is submitted")
   }
@@ -98,7 +102,7 @@ const OrderProposal = () => {
             )}
             {activeStep === 1 && (
               <Box sx={{ mt: 2 }}>
-                <OrderEstimateDetails estimateData={estimateData} />
+                <OrderEstimateDetails estimateData={estimateData} handleUpdateEstimate={handleUpdateEstimate} />
               </Box>
             )}
             {activeStep === 2 && (

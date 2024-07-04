@@ -148,18 +148,19 @@ const OrderEstimateForm = ({ handleGetEstimate }) => {
       },
       weight: values.weight,
     };
+        handleGetEstimate(values);
 
-    post("/orderDetails/OrderProposal", data)
-      .then((response) => {
-        handleGetEstimate({ ...response.data, ...values });
-        setSubmitting(false);
-      })
-      .catch((error) => {
-        console.error("Error submitting data:", error);
-        const response = error.response;
-        // Handle error cases if needed
-        setSubmitting(false);
-      });
+    // post("/orderDetails/OrderProposal", data)
+    //   .then((response) => {
+    //     handleGetEstimate({ ...response.data, ...values });
+    //     setSubmitting(false);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error submitting data:", error);
+    //     const response = error.response;
+    //     // Handle error cases if needed
+    //     setSubmitting(false);
+    //   });
   };
 
   const textFieldStyle = {
@@ -174,9 +175,9 @@ const OrderEstimateForm = ({ handleGetEstimate }) => {
   return (
     <Formik
       initialValues={{
-        pickupAddress: '',
+        pickupAddress: 'Vancouver',
         pickupCoords: { lat: null, lng: null },
-        receiverAddress: '',
+        receiverAddress: 'Surrey',
         receiverCoords: { lat: null, lng: null },
         weight: '',
       }}
