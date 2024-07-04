@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import {
@@ -9,7 +9,7 @@ import {
   Grid,
   Button,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { post } from "../api/api";
 import AlertMessage from "../components/AlertMessage";
 import { useCookies } from 'react-cookie';
@@ -39,11 +39,54 @@ const validationSchema = yup.object({
     .required("Driver license is required"),
 });
 
-const AddDriver = () => {
-  const [alertMessage, setAlertMessage] = React.useState([]);
+const EditDriver = () => {
+  const [driver, setDriver] = useState(null);
+  const [alertMessage, setAlertMessage] = useState([]);
   const navigate = useNavigate();
+  const { id } = useParams(); // Get the id from the URL
   const [cookies] = useCookies(['token']);
   const token = cookies.token;
+
+  useEffect(() => {
+    if (id) {
+      fetchDriver(id);
+    }
+  }, [id]);
+
+  const fetchDriver = async (id) => {
+    try {
+      const response = await post(`/driver/get/${id}`);
+      let { data } = response;
+      data = data.driver;
+      console.log(data);
+      if (data) {
+        setDriver(data);
+        formik.setValues({
+          email: data.email,
+          username: data.username,
+          address: data.address.formatted_address,  // use formatted_address as string
+          pickupCoords: { 
+          lat: data.address.latitude, 
+          lng: data.address.longitude 
+        },
+          
+        //   address: {
+        //     formatted_address: data.address.formatted_address,
+        //     latitude: data.address.latitude,
+        //     longitude: data.address.longitude,
+        //   },
+          phone: data.phone,
+          truckLicensePlateNumber: data.truckLicensePlateNumber,
+          driverLicense: data.driverLicense
+        });
+      } else {
+        console.error("Driver data not found");
+      }
+    } catch (error) {
+      //console.error("Error fetching driver:", error);
+      console.error("Error fetching driver:", error.response ? error.response.data : error.message);
+    }
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -56,48 +99,39 @@ const AddDriver = () => {
       driverLicense: ''
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       const data = {
         email: values.email,
         username: values.username,
         address: {
-          formatted_address: values.address,
-          latitude: values.pickupCoords.lat,
-          longitude: values.pickupCoords.lng,
-        },
+        formatted_address: values.address,
+        latitude: values.pickupCoords.lat,
+        longitude: values.pickupCoords.lng,
+      },
         phone: values.phone,
         truckLicensePlateNumber: values.truckLicensePlateNumber,
         driverLicense: values.driverLicense
       };
 
-      post("/driver/add", data, {
-        headers: {
-          'Authorization': `Bearer ${token}`
+      try {
+        const response = await post(`/driver/edit/${id}`, data);
+        if (response.status === 200 || response.status === 201) {
+          setAlertMessage(["success", `Driver ${id ? "updated" : "added"} successfully`]);
+          navigate('/dashboard/drivers');
+        } else {
+          setAlertMessage(["error", "Something went wrong, contact support"]);
         }
-      })
-        .then((response) => {
-          console.log("DATA FROM ADD DRIVER", response);
-          if (response.status === 201) {
-            setAlertMessage(["success", "Driver added successfully"]);
-            console.log("driver added successfully")
-            navigate("/dashboard/drivers");
-          } else {
-            setAlertMessage(["error", "Something went wrong, contact support"]);
-          }
-        })
-        .catch((error) => {
-          console.error("Error submitting data:", error);
-          console.log("error adding driver ")
-          const response = error.response;
-
-          if (response.status === 400) {
-            setAlertMessage(["error", "Invalid data provided"]);
-          } else {
-            setAlertMessage(["error", "Something went wrong, contact support"]);
-          }
-        });
+      } catch (error) {
+        console.error("Error submitting data:", error);
+        if (error.response && error.response.status === 400) {
+          setAlertMessage(["error", "Invalid data provided"]);
+        } else {
+          setAlertMessage(["error", "Something went wrong, contact support"]);
+        }
+      }
     },
   });
+
   const textFieldStyle = {
     width: '100%',
     marginBottom: '16px',
@@ -106,8 +140,9 @@ const AddDriver = () => {
     borderRadius: '4px',
     fontSize: '16px',
   };
+
   return (
-    <div className="add-driver">
+    <div className="edit-driver">
       <Container maxWidth="lg" sx={{ height: "100vh" }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -133,7 +168,7 @@ const AddDriver = () => {
                   component="h1"
                   sx={{ textAlign: "center", m: 3 }}
                 >
-                  Add New Driver
+                  {id ? "Edit Driver" : "Add New Driver"}
                 </Typography>
 
                 <TextField
@@ -165,7 +200,6 @@ const AddDriver = () => {
                 />
 
                 <div>
-                  {/* <label htmlFor="address">Address</label> */}
                   <Autocomplete
                     apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
                     onPlaceSelected={(place) => {
@@ -178,7 +212,8 @@ const AddDriver = () => {
                     types={['address']}
                     placeholder="Enter Address"
                     style={textFieldStyle}
-
+                    value={formik.values.address}  // Ensure the value prop is set
+                    onChange={(e) => formik.setFieldValue('address', e.target.value)}
                   />
                   <AlertMessage name="address" component="div" className="error" />
                 </div>
@@ -231,7 +266,7 @@ const AddDriver = () => {
                   variant="contained"
                   type="submit"
                 >
-                  Add Driver
+                  {id ? "Update Driver" : "Add Driver"}
                 </Button>
 
                 <AlertMessage alertMessage={alertMessage} />
@@ -244,4 +279,4 @@ const AddDriver = () => {
   );
 };
 
-export default AddDriver;
+export default EditDriver;

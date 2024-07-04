@@ -2,13 +2,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/Header.css';
+import logo from '../Assets/imagesV/logo.svg';
 
 const Header = () => {
+  
   return (
     <header className="header">
       <div className="logo">
         <div className="logo-circle">
-          <span className="logo-text">Logo</span>
+        <img src={logo} alt="Logo" className="logo-text" />
         </div>
       </div>
       <nav className="nav">
@@ -21,8 +23,8 @@ const Header = () => {
         </ul>
       </nav>
       <div className="auth-buttons">
-        <Link to="/signup" className="btn signup-btn">Sign Up</Link>
         <Link to="/login" className="btn login-btn">Login</Link>
+        <Link to="/signup" className="btn signup-btn">Sign Up</Link>
       </div>
     </header>
   );
