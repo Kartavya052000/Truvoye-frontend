@@ -15,6 +15,12 @@ import Tracking from "./pages/Tracking";
 import Drivers from "./pages/Drivers";
 import DriverLayout from "./components/DriverLayout";
 import DriverHomepage from "./components/DriverHomepage";
+import DriverLogin  from "./pages/driver/Login";
+import DriverResetPassword from "./pages/driver/ResetPassword";
+import AddDriver from "./pages/AddDriver";
+import EditDriver from "./pages/EditDriver";
+import OrderDetails from "./pages/OrderDetails";
+import Map from "./components/Map";
 
 function App() {
   return (
@@ -80,12 +86,18 @@ function App() {
             <Route path="orders" element={<Order />} />
             <Route path="tracking" element={<Tracking />} />
             <Route path="drivers" element={<Drivers />} />
+            <Route path="add-driver" element={<AddDriver />} />
+            <Route path="edit-driver/:id" element={<EditDriver />} />
+            <Route path="order-details/:id" element={<OrderDetails />}/>
+            <Route path="order-tracking/:id" element={<Map />}/>
             
           </Route>
 
           {/* Dashboard Routes */}
           <Route path="/driver/*" element={<DriverLayout />}>
-            <Route path="list" element={<DriverHomepage />} />
+            <Route path="home" element={<DriverHomepage />} />
+            <Route path="login" element={<DriverLogin />}/>
+            <Route path="reset-password/:token" element={<DriverResetPassword />}/>
             {/* <Route path="another-page" element={<AnotherDashboardPage />} /> */}
             {/* Add more dashboard routes here */}
           </Route>

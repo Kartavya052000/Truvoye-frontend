@@ -92,7 +92,7 @@ const SignUp = () => {
         });
 
     
-        // navigate("/dashboard");
+
     },
   });
 
