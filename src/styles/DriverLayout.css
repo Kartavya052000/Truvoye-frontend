@@ -1,0 +1,15 @@
+/* styles/DriverLayout.css */
+.driver-layout {
+  /* background-color:  !important; */
+  margin: 0 auto;
+  max-width: 400px !important;
+  /* padding: 20px; */
+}
+.driver-container{
+  align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding-top: 40px;
+background-color: bisque;
+}

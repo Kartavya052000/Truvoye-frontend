@@ -1,0 +1,45 @@
+ 
+ /* .sidebar{
+    height: 90vh;
+    background-color: white;
+    width: 13rem;
+    color: white;
+    display: flex;
+    border: 1px solid blue;
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+    
+    z-index: 1000;
+   
+} */
+/* .nav {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center; 
+    flex-direction: column;
+   
+  }
+  
+  .nav-list {
+    display: flex;
+    list-style: none;
+    width:20px;
+    margin: 0;
+    padding: 0;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    
+  }
+  
+  .nav-item {
+    margin: 0;
+    text-align-last: left;
+
+  }
+  a {
+    color: black;
+    text-decoration: none;
+    text-align-last: left;
+   
+  }  */
