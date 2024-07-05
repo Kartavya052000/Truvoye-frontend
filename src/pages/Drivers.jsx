@@ -71,13 +71,13 @@ const Drivers = () => {
           <Table  aria-label="drivers table">
             <TableHead className='drivers-tablehead' sx={{borderBottomColor:'#F9A33F' ,border: '1px solid #F9A33F'}}>
               <TableRow class>
-              <TableCell sx={{ color: '#1237BF', fontWeight: 'bold' }}>Name</TableCell>
-              <TableCell sx={{ color: '#1237BF', fontWeight: 'bold' }}>Address</TableCell>
-                <TableCell sx={{ color: '#1237BF', fontWeight: 'bold' }}>Email</TableCell>
-                <TableCell sx={{ color: '#1237BF', fontWeight: 'bold' }}>Phone</TableCell>
-                <TableCell sx={{ color: '#1237BF' , fontWeight: 'bold'}}>Truck Plate</TableCell>
-                <TableCell sx={{ color: '#1237BF', fontWeight: 'bold' }}>Driver License</TableCell>
-                <TableCell sx={{ color: '#1237BF', fontWeight: 'bold' }}>Options</TableCell>
+              <TableCell sx={{ color: '#1237BF', fontWeight: 'bold', borderBottomColor:'#F9A33F' }}>Name</TableCell>
+              <TableCell sx={{ color: '#1237BF', fontWeight: 'bold', borderBottomColor:'#F9A33F' }}>Address</TableCell>
+                <TableCell sx={{ color: '#1237BF', fontWeight: 'bold' , borderBottomColor:'#F9A33F'}}>Email</TableCell>
+                <TableCell sx={{ color: '#1237BF', fontWeight: 'bold', borderBottomColor:'#F9A33F' }}>Phone</TableCell>
+                <TableCell sx={{ color: '#1237BF' , fontWeight: 'bold', borderBottomColor:'#F9A33F'}}>Truck Plate</TableCell>
+                <TableCell sx={{ color: '#1237BF', fontWeight: 'bold', borderBottomColor:'#F9A33F' }}>Driver License</TableCell>
+                <TableCell sx={{ color: '#1237BF', fontWeight: 'bold' , borderBottomColor:'#F9A33F'}}>Options</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

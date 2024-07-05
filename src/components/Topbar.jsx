@@ -106,14 +106,13 @@ const Topbar = () => {
       <div className="icons">
         <img src={notificationIcon} alt="Notification" />
         <img src={profileIcon} alt="Profile"  />
-      
+        <button className="logout_btn" onClick={handleLogout}
+      variant="contained"
+      sx={{ mt: 2 , background: "#1237BF"}}
+      >Logout</button>
       </div>
 
-      <button className="logout_btn" onClick={handleLogout}
-      color="primary"
-      variant="contained"
-      sx={{ mt: 2 }}
-      >Logout</button>
+
       
     </div>
   )
