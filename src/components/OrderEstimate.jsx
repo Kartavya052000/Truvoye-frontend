@@ -134,6 +134,32 @@ const validationSchema = Yup.object({
   weight: Yup.number().required('Weight is required').positive('Weight must be positive'),
 });
 
+const textFieldStyle = {
+  width: '100%',
+  marginBottom: '16px',
+  padding: '8px',
+  fontSize: '14px',
+  boxSizing: 'border-box',
+  borderRadius: '20px', // Adding border radius
+  border: '1px solid #1237BF', // Adding a border
+};
+
+const formItemStyle = {
+  display: 'block',
+  alignItems: 'start',
+  textAlign: 'left',
+  
+};
+
+const labelStyle = {
+  width: '150px', // Adjust width as needed
+  marginRight: '16px',
+  fontSize: '15px',
+  fontWeight: 'bold',
+  color: '#1237BF',
+};
+
+
 const OrderEstimateForm = ({ handleGetEstimate }) => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
@@ -163,14 +189,7 @@ const OrderEstimateForm = ({ handleGetEstimate }) => {
     //   });
   };
 
-  const textFieldStyle = {
-    width: '100%',
-    marginBottom: '16px',
-    padding: '10px',
-    border: '1px solid rgba(0, 0, 0, 0.23)',
-    borderRadius: '4px',
-    fontSize: '16px',
-  };
+  
 
   return (
     <Formik
@@ -188,7 +207,7 @@ const OrderEstimateForm = ({ handleGetEstimate }) => {
         <Form>
           <Container maxWidth="lg" sx={{ height: "100vh" }}>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid item xs={12} sx={{padding : 0}}>
                 <Box
                   display="flex"
                   justifyContent="center"
@@ -197,24 +216,24 @@ const OrderEstimateForm = ({ handleGetEstimate }) => {
                 >
                   <div
                     style={{
-                      width: "60%",
+                      width: "50%",
                       margin: "auto",
                       border: "1px solid #000000",
                       borderRadius: "30px",
-                      padding: "48px",
+                      padding: "20px",
                       textAlign: "center",
                     }}
                   >
                     <Typography
                       variant="h5"
                       component="h1"
-                      sx={{ textAlign: "center", m: 3 }}
+                      sx={{ textAlign: "center", m: 1, color: '#1237BF', fontWeight: 'bold'  }}
                     >
                       Order Estimate
                     </Typography>
 
-                    <div>
-                      <label htmlFor="pickupAddress">Pickup Address</label>
+                    <div style={formItemStyle}>
+                      <label htmlFor="pickupAddress"  style={labelStyle}>Pickup Address</label>
                       <Autocomplete
                         apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
                         onPlaceSelected={(place) => {
@@ -231,8 +250,8 @@ const OrderEstimateForm = ({ handleGetEstimate }) => {
                       <ErrorMessage name="pickupAddress" component="div" className="error" />
                     </div>
 
-                    <div>
-                      <label htmlFor="receiverAddress">Receiver Address</label>
+                    <div style={formItemStyle}>
+                      <label style={labelStyle}htmlFor="receiverAddress">Receiver Address</label>
                       <Autocomplete
                         apiKey={process.env.REACT_APP_GOOGLE_API_KEY}
                         onPlaceSelected={(place) => {
@@ -249,8 +268,8 @@ const OrderEstimateForm = ({ handleGetEstimate }) => {
                       <ErrorMessage name="receiverAddress" component="div" className="error" />
                     </div>
 
-                    <div>
-                      <label htmlFor="weight">Weight of Shipment (kg)</label>
+                    <div style={formItemStyle}>
+                      <label style={labelStyle}htmlFor="weight">Weight of Shipment (kg)</label>
                       <Field
                         type="number"
                         id="weight"
@@ -262,7 +281,7 @@ const OrderEstimateForm = ({ handleGetEstimate }) => {
                     </div>
 
                     <Button
-                      sx={{ mt: 3 }}
+                      sx={{ mt: 3 , background:"#1237BF", borderRadius: '8px' , padding: '10px 30px'}}
                       color="primary"
                       variant="contained"
                       type="submit"

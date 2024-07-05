@@ -1,4 +1,5 @@
 import "./App.css";
+import { ThemeProvider } from '@mui/material/styles';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Homepage from "./pages/Homepage";
