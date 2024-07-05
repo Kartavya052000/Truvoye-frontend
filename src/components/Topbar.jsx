@@ -69,6 +69,9 @@ const Topbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+    // const location = useLocatio();
+
+  // const showHamburger = location.pathname.includes('driver');
 
   // useEffect(() => {
   //   console.log("Cookies: ", cookies);
@@ -87,7 +90,7 @@ const Topbar = () => {
 
   return (
     <div className='topbar_container'>
-      <img src={logo} alt="Logo" className="logo-text" />
+    {!showHamburger &&   <img src={logo} alt="Logo" className="logo-text" />}
         {/* {showHamburger && (
         <div className="hamburger-menu">
           <div className={`hamburger-icon ${isOpen ? 'open' : ''}`} onClick={toggleMenu}>
@@ -102,18 +105,32 @@ const Topbar = () => {
         </div>
       )}
       Topbar */}
-
-      <div className="icons">
+{!showHamburger && (
+  <div className="icons">
         <img src={notificationIcon} alt="Notification" />
         <img src={profileIcon} alt="Profile"  />
-      
-      </div>
-
-      <button className="logout_btn" onClick={handleLogout}
-      color="primary"
+        <button className="logout_btn" onClick={handleLogout}
       variant="contained"
-      sx={{ mt: 2 }}
+      sx={{ mt: 2 , background: "#1237BF"}}
       >Logout</button>
+      </div>
+)} 
+  {showHamburger && (
+        <div className="hamburger-menu">
+          <div className={`hamburger-icon ${isOpen ? 'open' : ''}`} onClick={toggleMenu}>
+            <div className="bar1"></div>
+            <div className="bar2"></div>
+            <div className="bar3"></div>
+          </div>
+          <div className={`menu ${isOpen ? 'open' : ''}`}>
+            <Link to="/driver/pickup">Pickup</Link>
+            <Link to="/driver/jobsheet">Job Sheet</Link>
+          </div>
+        </div>
+      )}
+      
+
+
       
     </div>
   )

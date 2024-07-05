@@ -2,16 +2,34 @@
 import axios from 'axios';
 import config from '../config/config';
 import { Cookies } from 'react-cookie';
+import { useLocation } from 'react-router-dom';
 
 const cookies = new Cookies();
 const apiClient = axios.create({
   baseURL: config.BASE_SERVER_URL,
 });
+// const location = useLocation();
+// const driver = location.pathname.includes('driver');
+
+// Request interceptor to add JWT token to headers
+// Function to get the current path
+const getCurrentPath = () => {
+  return window.location.pathname;
+};
 
 // Request interceptor to add JWT token to headers
 apiClient.interceptors.request.use(
   (config) => {
-    const token = cookies.get('token'); // Adjust based on your auth logic
+    let token = '';
+    const currentPath = getCurrentPath();
+
+    // if (currentPath.includes('driver') && !currentPath.includes('add-driver')) {
+    //   token = cookies.get('driver_token'); // Adjust based on your auth logic
+    // } else {
+      token = cookies.get('token'); // Adjust based on your auth logic
+    // }
+
+    console.log(config, "config");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

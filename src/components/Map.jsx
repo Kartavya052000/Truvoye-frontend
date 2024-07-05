@@ -49,8 +49,8 @@ function Map() {
     // Adjust zoom level based on truck's location
     if (driverLocation && orderDetails) {
       const distanceToDestination = getDistanceBetweenPoints(driverLocation, {
-        lat: orderDetails.order.receiver_address.receiver_lat,
-        lng: orderDetails.order.receiver_address.receiver_lng,
+        lat: orderDetails.order.receiver_address.latitude,
+        lng: orderDetails.order.receiver_address.longitude,
       });
       if (distanceToDestination < 1000) {
         setZoom(15); // Zoom in when close to destination
@@ -82,12 +82,12 @@ function Map() {
           <DirectionsService
             options={{
               destination: {
-                lat: orderDetails.order.receiver_address.receiver_lat,
-                lng: orderDetails.order.receiver_address.receiver_lng,
+                lat: orderDetails.order.receiver_address.latitude,
+                lng: orderDetails.order.receiver_address.longitude,
               }, // Receiver address
               origin: {
-                lat: orderDetails.order.pickup_address.pickup_lat,
-                lng: orderDetails.order.pickup_address.pickup_lng,
+                lat: orderDetails.order.pickup_address.latitude,
+                lng: orderDetails.order.pickup_address.longitude,
               }, // Pickup address
               travelMode: 'DRIVING',
             }}
