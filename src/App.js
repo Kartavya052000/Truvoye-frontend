@@ -1,4 +1,5 @@
 import "./App.css";
+import { ThemeProvider } from '@mui/material/styles';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Homepage from "./pages/Homepage";
@@ -20,7 +21,11 @@ import DriverResetPassword from "./pages/driver/ResetPassword";
 import AddDriver from "./pages/AddDriver";
 import EditDriver from "./pages/EditDriver";
 import OrderDetails from "./pages/OrderDetails";
+import JobSheet from "./pages/driver/JobSheet";
+import OTPVerification from "./pages/driver/OTPVerification";
 import Map from "./components/Map";
+import Pickup from "./pages/driver/Pickup";
+
 
 function App() {
   return (
@@ -98,6 +103,9 @@ function App() {
             <Route path="home" element={<DriverHomepage />} />
             <Route path="login" element={<DriverLogin />}/>
             <Route path="reset-password/:token" element={<DriverResetPassword />}/>
+            <Route path="jobsheet" element={<JobSheet />}/>
+            <Route path="pickup" element={<Pickup />}/>
+            <Route path="jobsheet/otp-verification/:orderId" element={<OTPVerification />}/>
             {/* <Route path="another-page" element={<AnotherDashboardPage />} /> */}
             {/* Add more dashboard routes here */}
           </Route>

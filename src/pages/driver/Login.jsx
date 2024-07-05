@@ -24,6 +24,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { post } from "../../api/api";
 import AlertMessage from "../../components/AlertMessage";
+import { useCookies } from "react-cookie";
 
 const validationSchema = yup.object({
   email: yup
@@ -43,6 +44,7 @@ const Login = () => {
     React.useState(false);
   const [alertMessage, setAlertMessage] = React.useState([]);
   const [dialogAlertMessage, setDialogAlertMessage] = React.useState([]);
+  const [, setCookie, ] = useCookies(["token"]);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -110,8 +112,9 @@ const Login = () => {
           console.log("DATA FROM LOGIN ", response);
           if (response.status === 201) {
             setAlertMessage(["success", "User logged in successfully"]);
-            navigate("/driver/home")
-            // TODO :  Store token and redirect to the dashboard
+            // setCookie('driver_token', response.data.token, { path: '/' }); 
+            setCookie('token', response.data.token, { path: '/' }); 
+            navigate("/driver/jobsheet")
           } else {
             setAlertMessage(["error", "Something Went Wrong contact support"]);
           }

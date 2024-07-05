@@ -15,6 +15,7 @@ import FormHelperText from "@mui/material/FormHelperText";
 import { useNavigate, useParams } from "react-router-dom";
 import { post } from "../../api/api";
 import AlertMessage from "../../components/AlertMessage";
+import { useCookies } from "react-cookie";
 
 const validationSchema = yup.object({
   password: yup
@@ -31,6 +32,7 @@ const ResetPassword = () => {
   const [showPassword, setShowPassword] = React.useState(false);
   const { token } = useParams();
   const [alertMessage, setAlertMessage] = React.useState([]);
+  const [, setCookie, ] = useCookies(["token"]);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -54,6 +56,7 @@ const ResetPassword = () => {
             console.log("DATA FROM reset password ", response);
             if (response.status === 200) {
               setAlertMessage(["success","Password Reset Was Successful"]);
+              setCookie('token', response.data.token, { path: '/' }); 
 
               setTimeout(onLoginClick, 3000);
             } else if (response.status === 201){

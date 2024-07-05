@@ -1,6 +1,6 @@
 import React from "react";
 import '../styles/Login.css'
-import loginIllustration from '../Assets/imagesV/logIn.png';
+import loginIllustration from '../Assets/imagesB/Boy.png';
 
 import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
@@ -29,6 +29,10 @@ import DialogTitle from "@mui/material/DialogTitle";
 import AlertMessage from "../components/AlertMessage";
 import { post } from "../api/api";
 import { useCookies } from 'react-cookie';
+import { Tabs } from '@mui/material';
+
+
+
 
 const validationSchema = yup.object({
   email: yup
@@ -40,6 +44,9 @@ const validationSchema = yup.object({
     .min(8, "Password should be of minimum 8 characters length")
     .required("Password is required"),
 });
+
+
+
 
 const Login = () => {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -105,6 +112,11 @@ const Login = () => {
      navigate("/forgotpassword");
   };
 
+  
+
+
+
+
   // TODO : get the state of the check from here
   const formik = useFormik({
     initialValues: {},
@@ -147,9 +159,9 @@ const Login = () => {
       <img src={loginIllustration} alt="login-illustration"/>
       </div> */}
       
-        <Container maxWidth="lg" sx={{ height: "100vh" }}>
+        <Container maxWidth="x-lg" sx={{ height: "100vh" }}>
           <Grid container spacing={2}>
-            <Grid item xs={6}></Grid>
+            <Grid item xs={6}><img src={loginIllustration} alt="Banner-illustration"/></Grid>
             <Grid item xs={6}>
               <Box
                 display="flex"
@@ -198,7 +210,7 @@ const Login = () => {
                   style={{
                     width: "60%",
                     margin: "auto",
-                    border: "1px solid #000000",
+                    border: "1px solid #1237BF",
                     borderRadius: "30px",
                     padding: "48px",
                     textAlign: "center",
@@ -208,7 +220,8 @@ const Login = () => {
                   <Typography
                     variant="h5"
                     component="h1"
-                    sx={{ textAlign: "center", m: 3 }}
+                    sx={{ textAlign: "center", m: 3, color: '#1237BF' }}
+                    
                   >
                     Welcome Back !
                   </Typography>
@@ -216,9 +229,14 @@ const Login = () => {
                     fullWidth
                     id="email"
                     name="email"
-                    label="Email"
+                    label="Username"
                     size="small"
                     margin="normal"
+                    InputProps={{
+                      style: {
+                        borderRadius: "50px",
+                      }
+                    }}
                     value={formik.values.email}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -244,6 +262,7 @@ const Login = () => {
                     <InputLabel
                       htmlFor="outlined-adornment-password"
                       size="small"
+                      
                     >
                       Password
                     </InputLabel>
@@ -269,6 +288,7 @@ const Login = () => {
                       value={formik.values.password}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
+                     
                     />
                     {formik.touched.password && formik.errors.password && (
                       <FormHelperText error>
@@ -276,7 +296,7 @@ const Login = () => {
                       </FormHelperText>
                     )}
                   </FormControl>
-                  {/* TODO: Design Issue - FromControlLable is messing with the width of the container here  - Khushal @ 16/06 7:42PM */}
+                 
                   <Box
                     sx={{
                       display: "flex",
@@ -302,7 +322,7 @@ const Login = () => {
                     />
                   </Box>
                   <Button
-                    sx={{ mt: 1, mb: 4 }}
+                    sx={{ mt: 1, mb: 4 , bgcolor:"#1237BF", width:"70%"}}
                     color="primary"
                     variant="contained"
                     type="submit"
@@ -319,7 +339,7 @@ const Login = () => {
                       <Typography
                         variant="caption"
                         component="h2"
-                        sx={{ fontWeight: "700" }}
+                        sx={{ fontWeight: "700",color:"#1237BF" }}
                       >
                         Sign Up
                       </Typography>
@@ -332,6 +352,7 @@ const Login = () => {
             </Grid>
           </Grid>
         </Container>
+       
       </div>
     
   );

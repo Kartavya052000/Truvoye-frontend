@@ -67,6 +67,7 @@ const OrderProposal = () => {
   }
 const handleUpdateEstimate = ()=>{
   setActiveStep(2)
+  
 
 }
   const handleOrderSubmission = () =>{

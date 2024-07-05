@@ -16,7 +16,7 @@ const OrderDetails = () => {
   const [orderDetails, setOrderDetails] = useState(null);
   const [drivers, setDrivers] = useState([]);
   const [driver, setDriver] = useState({});
-  const [selectedDriver, setSelectedDriver] = useState(null); // Track selected driver for modal
+  const [selectedDriver, setSelectedDriver] = useState({}); // Track selected driver for modal
   const [openModal, setOpenModal] = useState(false); // Modal state
   const { id } = useParams(); // Extract id from URL
   useEffect(() => {
@@ -78,17 +78,31 @@ setDrivers(response.data)
   const handleAssignCheckboxChange = (driverId) => (event) => {
     // Handle checkbox change logic here
     const driver = drivers.find((driver) => driver._id === driverId);
+    console.log(driver,"driver");
     setSelectedDriver(driver);
     setOpenModal(true); // Open modal when checkbox is clicked
 
+ 
+
+  
+  };
+  const handleModalClose = () => {
+    setOpenModal(false);
+  };
+
+  const handleRequestDriver = () => {
+    // Implement logic to send request to selected driver
+    console.log(`Sending request to driver: ${selectedDriver}`);
+    setOpenModal(false); // Close modal after handling request
     let data = {
-      driverId: driverId,
+      driverId: selectedDriver._id,
       orderId: id,
     };
     post("/orderDetails/assign-order", data)
       .then((response) => {
         setSelectedDriver(driver);
-        setOpenModal(true); // Open modal when checkbox is clicked
+        window.location.reload();
+        // setOpenModal(true); // Open modal when checkbox is clicked
       })
       .catch((error) => {
         console.error("Error submitting data:", error);
@@ -98,17 +112,6 @@ setDrivers(response.data)
       });
 
   };
-
-  const handleModalClose = () => {
-    setOpenModal(false);
-  };
-
-  const handleRequestDriver = () => {
-    // Implement logic to send request to selected driver
-    console.log(`Sending request to driver: ${selectedDriver.username}`);
-    setOpenModal(false); // Close modal after handling request
-  };
-
   if (!orderDetails) {
     return <div>Loading...</div>;
   }
@@ -166,7 +169,7 @@ setDrivers(response.data)
                       <TableCell>
                         <Checkbox
                           checked={false} // Adjust based on your logic if needed
-                          onChange={handleAssignCheckboxChange(driver._id)}
+                          onChange={handleAssignCheckboxChange(driver?._id)}
                         />
                       </TableCell>
                     </TableRow>
@@ -182,7 +185,7 @@ setDrivers(response.data)
                       <TableCell>
                         <Checkbox
                           checked={false} // Adjust based on your logic if needed
-                          onChange={handleAssignCheckboxChange(driver?._id)}
+                          onChange={ handleAssignCheckboxChange(driver?._id)}
                         />
                       </TableCell>
               )}
@@ -196,7 +199,7 @@ setDrivers(response.data)
       {/* Modal for confirmation */}
       <Modal
         open={openModal}
-        onClose={handleModalClose}
+        onClose={()=> handleModalClose()}
         aria-labelledby="request-driver-modal"
         aria-describedby="request-driver-description"
       >
@@ -219,10 +222,10 @@ setDrivers(response.data)
             Are you sure you want to send a request to{" "}
             {selectedDriver?.username}?
           </p>
-          <Button variant="contained" onClick={handleRequestDriver}>
+          <Button variant="contained" sx={{m:1}} onClick={ handleRequestDriver}>
             Yes
           </Button>
-          <Button variant="contained" onClick={handleModalClose}>
+          <Button variant="contained" onClick={() => handleModalClose()}>
             No
           </Button>
         </div>
