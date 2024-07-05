@@ -1,4 +1,7 @@
 import React from "react";
+import '../styles/Login.css'
+import loginIllustration from '../Assets/imagesV/logIn.png';
+
 import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
@@ -140,201 +143,197 @@ const Login = () => {
 
   return (
     <div className="login">
-      <Container maxWidth="lg" sx={{ height: "100vh" }}>
-        <Grid container spacing={2}>
-          <Grid item xs={6}></Grid>
-          <Grid item xs={6}>
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              minHeight="100vh"
-            >
-              <Dialog
-                open={isForgotPasswordDialogOpen}
-                onClose={handleForgotPasswordDialogClose}
-                PaperProps={{
-                  component: "form",
-                  onSubmit: (event) => {
-                    onForgotPasswordDialogSubmit(event);
-                  },
-                }}
+      {/* <div className="left-column">
+      <img src={loginIllustration} alt="login-illustration"/>
+      </div> */}
+      
+        <Container maxWidth="lg" sx={{ height: "100vh" }}>
+          <Grid container spacing={2}>
+            <Grid item xs={6}></Grid>
+            <Grid item xs={6}>
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                minHeight="100vh"
               >
-                <DialogTitle>Forgot Password</DialogTitle>
-                <DialogContent>
-                  <DialogContentText>
-                    Enter your email below we will send you password reset link
-                  </DialogContentText>
-                  <TextField
-                    autoFocus
-                    required
-                    margin="normal"
-                    id="name"
-                    name="email"
-                    label="Email Address"
-                    type="email"
-                    fullWidth
-                    size="small"
-                    variant="outlined"
-                  />
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleForgotPasswordDialogClose}>
-                    Cancel
-                  </Button>
-                  <Button type="submit">OK</Button>
-                </DialogActions>
-                
-                <AlertMessage alertMessage={dialogAlertMessage} />
-              </Dialog>
-
-              <form
-                style={{
-                  width: "60%",
-                  margin: "auto",
-                  border: "1px solid #000000",
-                  borderRadius: "30px",
-                  padding: "48px",
-                  textAlign: "center",
-                }}
-                onSubmit={formik.handleSubmit}
-              >
-                <Typography
-                  variant="h5"
-                  component="h1"
-                  sx={{ textAlign: "center", m: 3 }}
-                >
-                  Welcome Back !
-                </Typography>
-
-                <TextField
-                  fullWidth
-                  id="email"
-                  name="email"
-                  label="Email"
-                  size="small"
-                  margin="normal"
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.email && Boolean(formik.errors.email)}
-                  helperText={formik.touched.email && formik.errors.email}
-                />
-
-                <Typography
-                  align="right"
-                  variant="caption"
-                  component="h2"
-                  sx={{ textDecoration: "underline", cursor: "pointer" }}
-                  onClick={onForgotPasswordClick}
-                >
-                  Forgot Password ?
-                </Typography>
-
-                <FormControl
-                  fullWidth
-                  variant="outlined"
-                  error={
-                    formik.errors.password && Boolean(formik.errors.password)
-                  }
-                >
-                  <InputLabel
-                    htmlFor="outlined-adornment-password"
-                    size="small"
-                  >
-                    Password
-                  </InputLabel>
-                  <OutlinedInput
-                    id="outlined-adornment-password"
-                    type={showPassword ? "text" : "password"}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          onMouseDown={handleMouseDownPassword}
-                          edge="end"
-                        >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                    name="password"
-                    label="Password"
-                    size="small"
-                    margin="normal"
-                    value={formik.values.password}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  />
-
-                  {formik.touched.password && formik.errors.password && (
-                    <FormHelperText error>
-                      {formik.errors.password}
-                    </FormHelperText>
-                  )}
-                </FormControl>
-
-                {/* TODO: Design Issue - FromControlLable is messing with the width of the container here  - Khushal @ 16/06 7:42PM */}
-                <Box
-                  sx={{
-                    display: "flex",
-                    mt: 1,
-                    mb: 1,
-                    justifyContent: "center",
+                <Dialog
+                  open={isForgotPasswordDialogOpen}
+                  onClose={handleForgotPasswordDialogClose}
+                  PaperProps={{
+                    component: "form",
+                    onSubmit: (event) => {
+                      onForgotPasswordDialogSubmit(event);
+                    },
                   }}
                 >
-                  <FormControlLabel
-                    label={
-                      <Typography variant="caption" component="h2">
-                        Remember Me
-                      </Typography>
-                    }
-                    control={
-                      <Checkbox
-                        size="small"
-                        checked={checked}
-                        inputProps={{ "aria-label": "controlled" }}
-                        onChange={handleChange}
-                      />
-                    }
-                  />
-                </Box>
-
-                <Button
-                  sx={{ mt: 1, mb: 4 }}
-                  color="primary"
-                  variant="contained"
-                  type="submit"
+                  <DialogTitle>Forgot Password</DialogTitle>
+                  <DialogContent>
+                    <DialogContentText>
+                      Enter your email below we will send you password reset link
+                    </DialogContentText>
+                    <TextField
+                      autoFocus
+                      required
+                      margin="normal"
+                      id="name"
+                      name="email"
+                      label="Email Address"
+                      type="email"
+                      fullWidth
+                      size="small"
+                      variant="outlined"
+                    />
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleForgotPasswordDialogClose}>
+                      Cancel
+                    </Button>
+                    <Button type="submit">OK</Button>
+                  </DialogActions>
+        
+                  <AlertMessage alertMessage={dialogAlertMessage} />
+                </Dialog>
+                <form
+                  style={{
+                    width: "60%",
+                    margin: "auto",
+                    border: "1px solid #000000",
+                    borderRadius: "30px",
+                    padding: "48px",
+                    textAlign: "center",
+                  }}
+                  onSubmit={formik.handleSubmit}
                 >
-                  Login
-                </Button>
-
-                <Typography variant="caption" component="h2" align="center">
-                  New Here? Create an Account -
-                  <Button
-                    color="primary"
-                    variant="text"
-                    onClick={onSignUpClick}
+                  <Typography
+                    variant="h5"
+                    component="h1"
+                    sx={{ textAlign: "center", m: 3 }}
                   >
-                    <Typography
-                      variant="caption"
-                      component="h2"
-                      sx={{ fontWeight: "700" }}
+                    Welcome Back !
+                  </Typography>
+                  <TextField
+                    fullWidth
+                    id="email"
+                    name="email"
+                    label="Email"
+                    size="small"
+                    margin="normal"
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                    helperText={formik.touched.email && formik.errors.email}
+                  />
+                  <Typography
+                    align="right"
+                    variant="caption"
+                    component="h2"
+                    sx={{ textDecoration: "underline", cursor: "pointer" }}
+                    onClick={onForgotPasswordClick}
+                  >
+                    Forgot Password ?
+                  </Typography>
+                  <FormControl
+                    fullWidth
+                    variant="outlined"
+                    error={
+                      formik.errors.password && Boolean(formik.errors.password)
+                    }
+                  >
+                    <InputLabel
+                      htmlFor="outlined-adornment-password"
+                      size="small"
                     >
-                      Sign Up
-                    </Typography>
+                      Password
+                    </InputLabel>
+                    <OutlinedInput
+                      id="outlined-adornment-password"
+                      type={showPassword ? "text" : "password"}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                      name="password"
+                      label="Password"
+                      size="small"
+                      margin="normal"
+                      value={formik.values.password}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    {formik.touched.password && formik.errors.password && (
+                      <FormHelperText error>
+                        {formik.errors.password}
+                      </FormHelperText>
+                    )}
+                  </FormControl>
+                  {/* TODO: Design Issue - FromControlLable is messing with the width of the container here  - Khushal @ 16/06 7:42PM */}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      mt: 1,
+                      mb: 1,
+                      justifyContent: "center",
+                    }}
+                  >
+                    <FormControlLabel
+                      label={
+                        <Typography variant="caption" component="h2">
+                          Remember Me
+                        </Typography>
+                      }
+                      control={
+                        <Checkbox
+                          size="small"
+                          checked={checked}
+                          inputProps={{ "aria-label": "controlled" }}
+                          onChange={handleChange}
+                        />
+                      }
+                    />
+                  </Box>
+                  <Button
+                    sx={{ mt: 1, mb: 4 }}
+                    color="primary"
+                    variant="contained"
+                    type="submit"
+                  >
+                    Login
                   </Button>
-                </Typography>
-
-                <AlertMessage alertMessage={alertMessage} />
-              </form>
-             
-            </Box>
+                  <Typography variant="caption" component="h2" align="center">
+                    New Here? Create an Account -
+                    <Button
+                      color="primary"
+                      variant="text"
+                      onClick={onSignUpClick}
+                    >
+                      <Typography
+                        variant="caption"
+                        component="h2"
+                        sx={{ fontWeight: "700" }}
+                      >
+                        Sign Up
+                      </Typography>
+                    </Button>
+                  </Typography>
+                  <AlertMessage alertMessage={alertMessage} />
+                </form>
+        
+              </Box>
+            </Grid>
           </Grid>
-        </Grid>
-      </Container>
-    </div>
+        </Container>
+      </div>
+    
   );
 };
 
