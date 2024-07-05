@@ -168,25 +168,26 @@ const OrderEstimateForm = ({ handleGetEstimate }) => {
         latitude: values.pickupCoords.lat,
         longitude: values.pickupCoords.lng,
       },
-      receiver_address: {
+      receivers_address: {
         latitude: values.receiverCoords.lat,
         longitude: values.receiverCoords.lng,
       },
       weight: values.weight,
     };
-        handleGetEstimate(values);
+    // console.log(v)
+        // handleGetEstimate(values);
 
-    // post("/orderDetails/OrderProposal", data)
-    //   .then((response) => {
-    //     handleGetEstimate({ ...response.data, ...values });
-    //     setSubmitting(false);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error submitting data:", error);
-    //     const response = error.response;
-    //     // Handle error cases if needed
-    //     setSubmitting(false);
-    //   });
+    post("/orderDetails/OrderProposal", data)
+      .then((response) => {
+        handleGetEstimate({ ...response.data, ...values });
+        setSubmitting(false);
+      })
+      .catch((error) => {
+        console.error("Error submitting data:", error);
+        const response = error.response;
+        // Handle error cases if needed
+        setSubmitting(false);
+      });
   };
 
   
@@ -194,9 +195,9 @@ const OrderEstimateForm = ({ handleGetEstimate }) => {
   return (
     <Formik
       initialValues={{
-        pickupAddress: 'Vancouver',
+        pickupAddress: '',
         pickupCoords: { lat: null, lng: null },
-        receiverAddress: 'Surrey',
+        receiverAddress: '',
         receiverCoords: { lat: null, lng: null },
         weight: '',
       }}
@@ -212,7 +213,7 @@ const OrderEstimateForm = ({ handleGetEstimate }) => {
                   display="flex"
                   justifyContent="center"
                   alignItems="center"
-                  minHeight="100vh"
+                  // minHeight="100vh"
                 >
                   <div
                     style={{

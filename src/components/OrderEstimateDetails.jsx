@@ -186,6 +186,8 @@ const OrderEstimateDetails = ({ estimateData, handleUpdateEstimate }) => {
                         margin="normal"
                         disabled
                         style={textFieldStyle}
+                        value={estimateData?.distance}
+
                       />
                     </div>
 
@@ -199,6 +201,7 @@ const OrderEstimateDetails = ({ estimateData, handleUpdateEstimate }) => {
                         margin="normal"
                         disabled
                         style={textFieldStyle}
+                        value={estimateData?.duration}
                       />
                     </div>
 

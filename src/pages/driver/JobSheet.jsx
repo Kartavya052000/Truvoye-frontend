@@ -74,6 +74,7 @@ export default function BasicTabs() {
   const [completedOrders, setCompletedOrders] = React.useState([]);
   const [alertMessage, setAlertMessage] = React.useState([]);
 
+  
   // TODO :  GET ME THE DRIVER ID FROM LOGIN HERE
   const driverId = "667a44273149776a7412a59e";
 
@@ -267,7 +268,7 @@ export default function BasicTabs() {
           </Typography>
 
           <Typography variant="subtitle1" component="h2">
-            <b>Destination:</b> {orderDetails.receiver_address}
+            <b>Destination:</b> {orderDetails.receiver_address?.address_name}
           </Typography>
           <Typography variant="subtitle1" component="h2">
             <b>Duration:</b> {orderDetails?.duration ?? "NA"}
@@ -280,10 +281,10 @@ export default function BasicTabs() {
             <b>Weight of Shipment:</b> {orderDetails.weight} KG
           </Typography>
           <Typography variant="subtitle1" component="h2">
-            <b>Pickup Address:</b> {orderDetails.pickup_address}
+            <b>Pickup Address:</b> {orderDetails?.pickup_address?.address_name}
           </Typography>
           <Typography variant="subtitle1" component="h2">
-            <b>Delivery Address:</b> {orderDetails.receiver_address}
+            <b>Delivery Address:</b> {orderDetails?.receiver_address?.address_name}
           </Typography>
 
           {orderDetails.order_status === 3 && (

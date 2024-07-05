@@ -10,11 +10,14 @@ import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import { blue } from '@mui/material/colors';
 import { post } from "../api/api";
-import { Link } from 'react-router-dom';
 import drivers from '../Assets/imagesV/Truck.svg'; // Import Link from React Router
+import { Link, useNavigate } from 'react-router-dom';
+import AlertMessage from "../components/AlertMessage";
 
 const Tracking = () => {
   const [orders, setOrders] = useState([]);
+  const navigate = useNavigate();
+  const [alertMessage, setAlertMessage] = React.useState([]);
 
   useEffect(() => {
     fetchOrders();
@@ -22,21 +25,28 @@ const Tracking = () => {
 
   const fetchOrders = async () => {
     post("/order/get")
-    .then((response) => {
-    setOrders(response.data);
-    })
-    .catch((error) => {
-      console.error("Error submitting data:", error);
-      const response = error.response;
-
-      console.log(response);
-      
-    });
-};
+      .then((response) => {
+        setOrders(response.data);
+      })
+      .catch((error) => {
+        console.error("Error submitting data:", error);
+        const response = error.response;
+        console.log(response);
+      });
+  };
 
   const getInitials = (name) => {
     const parts = name.split(' ');
     return parts[0].charAt(0).toUpperCase() + parts[parts.length - 1].charAt(0).toUpperCase();
+  };
+
+  const TrackRoute = (order) => {
+    console.log(order.order_status);
+    if (order.order_status === 2) {
+      navigate(`/dashboard/order-tracking/${order._id}`);
+    } else {
+      setAlertMessage(["error", "Order is not picked up yet"]);
+    }
   };
 
   return (
@@ -64,7 +74,7 @@ const Tracking = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {orders.map((order, index) => (
+          {orders.map((order) => (
             <TableRow key={order._id}>
               <TableCell component="th" scope="row">
                 {order._id.substring(0, 10).toUpperCase()}
@@ -73,19 +83,23 @@ const Tracking = () => {
               <TableCell align="right">{order.receiver_address?.address_name}</TableCell>
               {/* <TableCell align="right">{order.weight}</TableCell> */}
               <TableCell align="right">{new Date(order.pickup_date).toLocaleDateString()}</TableCell>
-              {/* <TableCell align="right">{!order?.driver_id ? 'Unassigned' : 'Assigned'}</TableCell> */}
-              <TableCell align="right">
-                <Link to={`/dashboard/order-tracking/${order._id}`}>
-                <img classname="sidebar-icons" src={drivers} alt="drivers-icon"/>
-                  {/* <Avatar sx={{ bgcolor: blue }}>
+              <TableCell align="right">{!order?.driver_id ? 'Unassigned' : 'Assigned'}</TableCell>
+              <TableCell align="right" style={{cursor:"pointer"}}>
+                {order.order_status === 2 ? (
+                  <Link to={`/dashboard/order-tracking/${order._id}`}>
+                    <Avatar sx={{ bgcolor: blue[500] }}>&gt;</Avatar>
+                  </Link>
+                ) : (
+                  <Avatar sx={{ bgcolor: blue[100] }} onClick={() => setAlertMessage(["error", "Order is not picked up yet"])}>
                     &gt;
-                  </Avatar> */}
-                </Link>
+                  </Avatar>
+                )}
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+      <AlertMessage alertMessage={alertMessage} />
     </TableContainer>
     </div>
   );

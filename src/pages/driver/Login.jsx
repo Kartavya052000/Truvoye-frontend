@@ -112,6 +112,7 @@ const Login = () => {
           console.log("DATA FROM LOGIN ", response);
           if (response.status === 201) {
             setAlertMessage(["success", "User logged in successfully"]);
+            // setCookie('driver_token', response.data.token, { path: '/' }); 
             setCookie('token', response.data.token, { path: '/' }); 
             navigate("/driver/jobsheet")
           } else {

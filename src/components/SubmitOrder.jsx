@@ -192,6 +192,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Container, Box, Typography, Grid, Button, TextField } from "@mui/material";
 import { post } from "../api/api";
+import { useNavigate } from 'react-router-dom';
 
 const textFieldStyle = {
   width: '100%',
@@ -226,18 +227,20 @@ const validationSchema = Yup.object().shape({
 });
 
 const SubmitOrder = ({ initialData, handleOrderSubmission }) => {
+  const navigate = useNavigate();
+
   const handleSubmit = async (values, { setSubmitting }) => {
     const data = {
       pickup_date: values.pickupDate,
       pickup_address: {
         address_name: initialData.pickupAddress,
-        pickup_lat: initialData.pickupCoords.lat,
-        pickup_lng: initialData.pickupCoords.lng,
+        latitude: initialData.pickupCoords.lat,
+        longitude: initialData.pickupCoords.lng,
       },
       receiver_address: {
         address_name: initialData.receiverAddress,
-        receiver_lat: initialData.receiverCoords.lat,
-        receiver_lng: initialData.receiverCoords.lng,
+        latitude: initialData.receiverCoords.lat,
+        longitude: initialData.receiverCoords.lng,
       },
       weight: initialData.weight,
       senders_name: values.sendersName,
@@ -250,6 +253,7 @@ const SubmitOrder = ({ initialData, handleOrderSubmission }) => {
       .then((response) => {
         handleOrderSubmission(response.data);
         setSubmitting(false);
+        navigate("/dashboard/order-proposal")
       })
       .catch((error) => {
         console.error("Error submitting data:", error);
