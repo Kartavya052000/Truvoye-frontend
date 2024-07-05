@@ -19,6 +19,8 @@ import DriverLogin  from "./pages/driver/Login";
 import DriverResetPassword from "./pages/driver/ResetPassword";
 import AddDriver from "./pages/AddDriver";
 import OrderDetails from "./pages/OrderDetails";
+import JobSheet from "./pages/driver/JobSheet";
+import OTPVerification from "./pages/driver/OTPVerification";
 
 function App() {
   return (
@@ -94,6 +96,8 @@ function App() {
             <Route path="home" element={<DriverHomepage />} />
             <Route path="login" element={<DriverLogin />}/>
             <Route path="reset-password/:token" element={<DriverResetPassword />}/>
+            <Route path="jobsheet" element={<JobSheet />}/>
+            <Route path="jobsheet/otp-verification/:orderId" element={<OTPVerification />}/>
             {/* <Route path="another-page" element={<AnotherDashboardPage />} /> */}
             {/* Add more dashboard routes here */}
           </Route>
