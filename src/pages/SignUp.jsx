@@ -19,6 +19,8 @@ import { useNavigate } from "react-router-dom";
 import { post } from "../api/api";
 import config from "../config/config";
 import AlertMessage from "../components/AlertMessage";
+import BoyImg from '../Assets/imagesB/Boy.png';
+import { Boy } from "@mui/icons-material";
 
 const validationSchema = yup.object({
   email: yup
@@ -98,9 +100,9 @@ const SignUp = () => {
 
   return (
     <div className="signUp">
-      <Container maxWidth="lg" sx={{ height: "100vh" }}>
+      <Container maxWidth="x-lg" sx={{ height: "100vh" }}>
         <Grid container spacing={2}>
-          <Grid item xs={6}></Grid>
+          <Grid item xs={6}><img src={BoyImg} alt="Banner-illustration"/></Grid>
           <Grid item xs={6}>
             <Box
               display="flex"
@@ -113,7 +115,7 @@ const SignUp = () => {
                 style={{
                   width: "60%",
                   margin: "auto",
-                  border: "1px solid #000000",
+                  border: "1px solid #1237BF",
                   borderRadius: "30px",
                   padding: "48px",
                   textAlign: "center",
@@ -123,7 +125,7 @@ const SignUp = () => {
                 <Typography
                   variant="h5"
                   component="h1"
-                  sx={{ textAlign: "center", m: 3 }}
+                  sx={{ textAlign: "center", m: 3, color:"#1237BF" }}
                 >
                   Well, Hello There !
                 </Typography>
@@ -276,7 +278,7 @@ const SignUp = () => {
                 </FormControl>
 
                 <Button
-                  sx={{ mt: 4, mb: 3 }}
+                  sx={{ mt: 4, mb: 3, bgcolor:"#1237BF", width:"70%"}}
                   color="primary"
                   variant="contained"
                   type="submit"

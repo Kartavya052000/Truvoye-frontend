@@ -7,7 +7,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { WarningAmberRounded } from "@mui/icons-material";
 import { post } from "../../api/api";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AlertMessage from "../../components/AlertMessage";
 
 const OTPVerification = () => {
@@ -17,6 +17,7 @@ const OTPVerification = () => {
   const [open, setOpen] = React.useState(false);
   const [alertMessage, setAlertMessage] = React.useState([]);
   const { orderId } = useParams();
+  const navigate = useNavigate();
 
   const handleKeyPress = (event) => {
     const { key } = event;
@@ -66,11 +67,16 @@ const OTPVerification = () => {
             console.log(response);
 
             setAlertMessage(["success", "OTP Verified Delivery Confirmed"]);
+            setTimeout(()=>{
+navigate("/driver/jobsheet")
+            },2000)
           }
         })
         .catch((error) => {
           console.log("MAYDAY! MAYDAY! MAYDAYYY!!!!");
           console.error("Error updating order status:", error);
+// navigate("/driver/jobsheet")
+
           if(error.response.status === 401){
             setAlertMessage(["error", "The OTP entered is invalid"]);
 

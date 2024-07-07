@@ -61,7 +61,7 @@ const JobSheetOrder = ({ data, onOrderButtonClick }) => {
                   textOverflow: "ellipsis",
                 }}
               >
-                <b>Destination:</b> {data.receiver_address}
+                <b>Destination:</b> {data.receiver_address.address_name}
               </Typography>
             </Box>
           </Grid>
