@@ -1,15 +1,12 @@
-
+/* 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
 *{
     font-family: "Outfit", sans-serif; 
 }
 
-/* Banner */
 
-@media screen and (min-width: 740px) and (max-width: 1500px){ 
-.banner{
-    display: flex;
-}
+
+
 
 
 
@@ -52,7 +49,7 @@
     font-style: normal;
     line-height: 150%;
 }
-}
+
 
 @media screen and (min-width: 740px) {
 
@@ -65,4 +62,4 @@
     }
 
 
- }
+ } */
