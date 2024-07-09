@@ -1,3 +1,20 @@
 .login{
     background-color: white;
 }
+.mui-selected{
+    background-color: #1237BFB2 !important;
+    color: white !important;
+    border-radius: 50px !important;
+}
+.unselected{
+    border: 0px !important;
+}
+.Buttongrp{
+    
+    border: #1237BF 1px solid;
+    max-width: fit-content;
+    justify-self: center !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+

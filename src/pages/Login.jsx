@@ -1,7 +1,9 @@
 import React from "react";
 import '../styles/Login.css'
 import loginIllustration from '../Assets/imagesB/Boy.png';
+import { Link } from "react-router-dom";
 
+import { makeStyles } from '@material-ui/core/styles';
 import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
@@ -27,9 +29,32 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import AlertMessage from "../components/AlertMessage";
+import { NavLink } from "react-router-dom";
 import { post } from "../api/api";
 import { useCookies } from 'react-cookie';
 import { Tabs } from '@mui/material';
+import ButtonGroup from '@mui/material/ButtonGroup';
+
+
+const useStyles = makeStyles({
+  button: {
+    "&.active": {
+      backgroundColor:'#1237BF',
+      color:'white'
+    },
+  },
+});
+
+
+const buttons = [
+  <Button key="Manager" className="nav-button mui-selected" sx={{borderRadius:"50px"}} component={NavLink} >
+    Manager
+  </Button>,
+  <Button key="Driver" className="nav-button unselected" sx={{borderRadius:"50px"}} component={NavLink} to="/driver/login">
+    Driver
+  </Button>,
+];
+
 
 
 
@@ -56,6 +81,8 @@ const Login = () => {
   const [alertMessage, setAlertMessage] = React.useState([]);
   const [dialogAlertMessage, setDialogAlertMessage] = React.useState([]);
   const [, setCookie, ] = useCookies(["token"]);
+  const classes = useStyles();
+
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -163,7 +190,10 @@ const Login = () => {
           <Grid container spacing={2}>
             <Grid item xs={6}><img src={loginIllustration} alt="Banner-illustration"/></Grid>
             <Grid item xs={6}>
-              <Box
+            <ButtonGroup size="large" aria-label="Large button group" className = "Buttongrp"sx={{ display: "flex", justifyContent: "center", alignItems: "center", borderRadius: "50px" }}>
+              {buttons}
+            </ButtonGroup>
+            <Box
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
@@ -288,6 +318,7 @@ const Login = () => {
                       value={formik.values.password}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
+                      sx={{borderRadius:"50px"}}
                      
                     />
                     {formik.touched.password && formik.errors.password && (
