@@ -65,8 +65,14 @@ const OrderProposal = () => {
 //  alert(activeStep)
 
   }
-const handleUpdateEstimate = ()=>{
+const handleUpdateEstimate = (value)=>{
+  SetEstimateData(prevData => {
+    const updatedData = { ...prevData, ...value };
+    console.log(updatedData, "updated estimate data");
+    return updatedData;
+  });
   setActiveStep(2)
+  
   
 
 }

@@ -46,3 +46,15 @@
   font-weight: bold;
   /* border: 1px solid black; */
 }
+.analytics-container{
+  background-color: #B8C3EC;
+
+}
+
+.wrap-graphs{
+  display: grid;
+grid-template-columns: 1fr 1fr;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: bold;
+}
