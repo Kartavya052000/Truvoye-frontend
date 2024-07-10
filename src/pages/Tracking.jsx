@@ -26,7 +26,7 @@ const Tracking = () => {
   const fetchOrders = async () => {
     post("/order/get")
       .then((response) => {
-        setOrders(response.data);
+        setOrders(response.data.orders);
       })
       .catch((error) => {
         console.error("Error submitting data:", error);

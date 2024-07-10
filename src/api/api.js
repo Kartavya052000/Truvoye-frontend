@@ -29,7 +29,6 @@ apiClient.interceptors.request.use(
       token = cookies.get('token'); // Adjust based on your auth logic
     // }
 
-    console.log(config, "config");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
