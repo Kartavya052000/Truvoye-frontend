@@ -18,3 +18,14 @@
     align-items: center !important;
 }
 
+
+.wrapper_login_buttons{
+   display: grid;
+   grid-template-columns: 1fr;
+   grid-gap: 2rem;
+}
+.signup-btn {
+    border-radius: 8px;
+    background: #1237BF;
+    color: white;
+  }
