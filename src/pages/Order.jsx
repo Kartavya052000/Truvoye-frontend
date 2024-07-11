@@ -1,189 +1,369 @@
-// import React, { useState, useEffect } from 'react';
-// import Table from '@mui/material/Table';
-// import TableBody from '@mui/material/TableBody';
-// import TableCell from '@mui/material/TableCell';
-// import TableContainer from '@mui/material/TableContainer';
-// import TableHead from '@mui/material/TableHead';
-// import TableRow from '@mui/material/TableRow';
-// import Paper from '@mui/material/Paper';
-// import Avatar from '@mui/material/Avatar';
-// import { blue } from '@mui/material/colors';
-// import { post } from "../api/api";
-// import { Link } from 'react-router-dom'; // Import Link from React Router
+import React, { useState, useEffect, useCallback, useMemo } from "react";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import { post } from "../api/api";
+import { Link } from "react-router-dom";
+import {
+  Box,
+  Button,
+  IconButton,
+  InputBase,
+  TextField,
+  Typography,
+} from "@mui/material";
+import StatusBadge from "../components/StatusBadge";
+import SearchIcon from "@mui/icons-material/Search";
+import { debounce, last } from "lodash";
+import details from "../Assets/imagesV/Details.svg";
+import loadingGif from "../Assets/imagesG/TruckAnimationTruvoey.gif";
+import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
+import SortDialog from "../components/SortDialog";
 
-// const Order = () => {
-//   const [orders, setOrders] = useState([]);
-
-//   useEffect(() => {
-//     fetchOrders();
-//   }, []);
-
-//   const fetchOrders = async () => {
-//     post("/order/get")
-//     .then((response) => {
-//     setOrders(response.data);
-//     })
-//     .catch((error) => {
-//       console.error("Error submitting data:", error);
-//       const response = error.response;
-
-//       console.log(response);
-      
-//     });
-// };
-
-//   const getInitials = (name) => {
-//     const parts = name.split(' ');
-//     return parts[0].charAt(0).toUpperCase() + parts[parts.length - 1].charAt(0).toUpperCase();
-//   };
-
-//   return (
-//     <TableContainer component={Paper}>
-//       <Table sx={{ minWidth: 650 }} aria-label="order table">
-//         <TableHead>
-//           <TableRow>
-//             <TableCell>Order ID</TableCell>
-//             <TableCell align="right">Pickup Address</TableCell>
-//             <TableCell align="right">Receiver Address</TableCell>
-//             <TableCell align="right">Weight</TableCell>
-//             <TableCell align="right">Pickup Date</TableCell>
-//             <TableCell align="right">Status</TableCell>
-//             <TableCell align="right">Details</TableCell>
-//           </TableRow>
-//         </TableHead>
-//         <TableBody>
-//           {orders.map((order, index) => (
-//             <TableRow key={order._id}>
-//               <TableCell component="th" scope="row">
-//                 {order._id}
-//               </TableCell>
-//               <TableCell align="right">{order.pickup_address?.address_name}</TableCell>
-//               <TableCell align="right">{order.receiver_address?.address_name}</TableCell> 
-//               <TableCell align="right">{order.weight}</TableCell>
-//               <TableCell align="right">{new Date(order.pickup_date).toLocaleDateString()}</TableCell>
-//               <TableCell align="right">{!order?.driver_id ? 'Unassigned' : 'Assigned'}</TableCell>
-//               <TableCell align="right">
-//                 <Link to={`/dashboard/order-details/${order._id}`}>
-//                   <Avatar sx={{ bgcolor: blue }}>
-//                     &gt;
-//                   </Avatar>
-//                 </Link>
-//               </TableCell>
-//             </TableRow>
-//           ))}
-//         </TableBody>
-//       </Table>
-//     </TableContainer>
-//   );
-// };
-
-// export default Order;
-import React, { useState, useEffect } from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-//import Avatar from '@mui/material/Avatar';
-import { post } from '../api/api';
-import { Link } from 'react-router-dom'; // Import Link from React Router
-import { blue } from '@mui/material/colors';
-import details from '../Assets/imagesV/Details.svg';
+const sortOptions = [
+  { value: "latest", label: "Latest Order" },
+  { value: "unassigned", label: "Unassigned" },
+  { value: "assigned", label: "Assigned" },
+  { value: "inProgress", label: "In Progress" },
+  { value: "completed", label: "Completed" },
+];
 
 const Order = () => {
   const [orders, setOrders] = useState([]);
-  useEffect(() => {
-    fetchOrders();
-    fetchDrivers();
-  }, []);
-  const fetchOrders = async () => {
-    post("/order/get")
-    .then((response) => {
-      console.log(response.data,"data");
-    setOrders(response.data);
-    console.log(orders,"ORDERSSSSSS")
-    })
-    .catch((error) => {
-      console.error("Error submitting data:", error);
-      const response = error.response;
-      console.log(response);
-    });
-};
-  // fetching the Driver details:-
-  // const Driver = () => {
-    const [drivers, setdrivers] = useState([]);
-    const fetchDrivers = async () => {
-      post("/driver/get")
-      .then((response) => {
-      setdrivers(response.data);
-      })
-      .catch((error) => {
-        console.error("Error submitting data:", error);
-        const response = error.response;
-        console.log(response);
-      });
+  const [loading, setLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [limit, setLimit] = useState(8);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [totalOrders, setTotalOrders] = useState([]);
+  const [orderStatus, setOrderStatus] = useState(null);
+
+  const [selectedSort, setSelectedSort] = useState("latest");
+
+  const handleSortChange = (newSort) => {
+    setSelectedSort(newSort);
+    console.log(newSort);
+
+    setCurrentPage(1);
+    setOrders([]); // Clear orders when new limit is set
+    setTotalOrders([]);
+
+    switch (newSort) {
+      case "unassigned":
+        setOrderStatus(0);
+        break;
+      case "assigned":
+        setOrderStatus(1);
+        break;
+      case "inProgress":
+        setOrderStatus(2);
+        break;
+      case "completed":
+        setOrderStatus(3);
+        break;
+      default:
+        setOrderStatus(null);
     }
-  const getInitials = (name) => {
-    const parts = name.split(' ');
-    return parts[0].charAt(0).toUpperCase() + parts[parts.length - 1].charAt(0).toUpperCase();
   };
+
+  const fetchOrders = useCallback(
+    async (searchQuery = "", currentPage = 1, orderStatus) => {
+      console.log(
+        "what is current page : " +
+          currentPage +
+          " what is search query " +
+          searchQuery +
+          "and what is limit" +
+          limit
+          + " What is status " +
+          orderStatus
+      );
+      setLoading(true);
+      try {
+        const response = await post(
+          "/order/get",
+          {},
+          { query: searchQuery, limit, page: currentPage, status: orderStatus }
+        );
+
+        console.log(response);
+
+        const newOrders = response.data.orders;
+
+        setTotalOrders((prevOrders) =>
+          prevOrders.length > 0 ? [...prevOrders, ...newOrders] : newOrders
+        );
+
+        setOrders(newOrders);
+
+        setTotalPages(Math.ceil(response.data.total / limit));
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [limit]
+  );
+
+  useEffect(() => {
+    const indexOfFirstRecord = (currentPage - 1) * limit;
+    const indexOfLastRecord = indexOfFirstRecord + limit;
+    if (totalOrders.length >= indexOfLastRecord) {
+      const currentRecords = totalOrders.slice(
+        indexOfFirstRecord,
+        indexOfLastRecord
+      );
+      setOrders(currentRecords);
+    } else {
+      fetchOrders(searchQuery, currentPage, orderStatus);
+    }
+  }, [searchQuery, limit, currentPage, orderStatus, fetchOrders]);
+
+  const debouncedSearch = useCallback(
+    debounce((value) => {
+      setSearchQuery(value);
+      setOrders([]); // Clear orders when new search is made
+      setTotalOrders([]);
+    }, 500),
+    []
+  );
+
+  const handleSearchChange = (e) => {
+    debouncedSearch(e.target.value);
+  };
+
+  const debouncedLimit = useCallback(
+    debounce((value) => {
+      setLimit(value);
+      setCurrentPage(1);
+      setOrders([]); // Clear orders when new limit is set
+      setTotalOrders([]);
+    }, 500),
+    []
+  );
+
+  const onLimitChange = (event) => {
+    debouncedLimit(Number(event.target.value));
+  };
+
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+
+  const memoizedTableRows = useMemo(
+    () =>
+      orders.map((order) => (
+        <TableRow key={order._id}>
+          <TableCell component="th" scope="row">
+            {order._id.slice(-10).toUpperCase()}
+          </TableCell>
+          <TableCell align="right">
+            <StatusBadge status={order.order_status}></StatusBadge>
+          </TableCell>
+          <TableCell align="right">
+            {!order?.driver_info
+              ? "None"
+              : order?.driver_info?.username || "None"}
+          </TableCell>
+          <TableCell align="right">
+            {new Date(order.pickup_date).toLocaleDateString()}
+          </TableCell>
+          <TableCell align="right">
+            {order.receiver_address?.address_name}
+          </TableCell>
+          <TableCell align="right">
+            <Link to={`/dashboard/order-details/${order._id}`}>
+              <img className="details" src={details} alt="details-icon" />
+            </Link>
+          </TableCell>
+        </TableRow>
+      )),
+    [orders]
+  );
+
   return (
     <div>
-    <h1 className="my-4 text-2xl font-bold" style={{ color: '#1237BF' }}>Orders</h1>
-    <TableContainer component={Paper} >
-      <Table  aria-label="order table">
-        <TableHead  sx={{borderBottomColor:'#F9A33F' ,border: '1px solid #F9A33F'}}>
-          <TableRow >
-            <TableCell  sx={{ color: '#1237BF', fontWeight: 'bold', borderBottomColor:'#F9A33F' }}>ID</TableCell>
-            <TableCell sx={{ color: '#1237BF', fontWeight: 'bold', borderBottomColor:'#F9A33F' }} align="right">Status</TableCell>
-            {/* <TableCell align="right">Pickup</TableCell> */}
-            <TableCell sx={{ color: '#1237BF', fontWeight: 'bold', borderBottomColor:'#F9A33F' }} align="right">Assigned Driver</TableCell>
-            <TableCell sx={{ color: '#1237BF', fontWeight: 'bold', borderBottomColor:'#F9A33F' }} align="right">Date</TableCell>
-            <TableCell sx={{ color: '#1237BF', fontWeight: 'bold', borderBottomColor:'#F9A33F'}}align="right">Destination</TableCell>
-            <TableCell sx={{ color: '#1237BF', fontWeight: 'bold', borderBottomColor:'#F9A33F' }} align="right">Details</TableCell>
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        <h1
+          className="my-4 text-2xl font-bold"
+          style={{ color: "#1237BF", flexGrow: "1" }}
+        >
+          Orders
+        </h1>
+        <Box
+          component="form"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            width: 400,
+            border: "1px solid #1237BF",
+            borderRadius: "100px",
+          }}
+        >
+          <InputBase
+            onChange={handleSearchChange}
+            sx={{
+              ml: 2,
+              flex: 1,
+            }}
+            placeholder="Search Order"
+            inputProps={{ "aria-label": "search order" }}
+          />
+          <IconButton type="button" sx={{ color: "black" }} aria-label="search">
+            <SearchIcon />
+          </IconButton>
+        </Box>
 
+        <SortDialog
+          options={sortOptions}
+          selectedValue={selectedSort}
+          onChange={handleSortChange}
+        />
+      </Box>
 
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {orders.map((order) => (
-            <TableRow key={order._id}>
-              <TableCell component="th" scope="row">
-                {order._id.substring(0, 10).toUpperCase()}
-              </TableCell>
-              <TableCell align="right">{!order?.driver_id ? 'Unassigned' : 'Assigned'}</TableCell>
-              <TableCell align="right">
-              {!order?.driver_id ? 'None' : drivers.find(driver => driver.driver_id === order.driver_id)?.username || 'None'}
-              </TableCell>
-              <TableCell align="right">{new Date(order.pickup_date).toLocaleDateString()}</TableCell>
-              <TableCell align="right">{order.receiver_address?.address_name}</TableCell>
+      {loading ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "60vh", // Adjust this height as per your layout
+          }}
+        >
+          <img
+            style={{ maxWidth: "300px" }}
+            src={loadingGif}
+            alt="Loading..."
+          />
+          {/* Alternatively, you can use CircularProgress */}
+          {/* <CircularProgress /> */}
+        </Box>
+      ) : (
+        <>
+          <TableContainer component={Paper}>
+            <Table aria-label="order table">
+              <TableHead
+                sx={{
+                  borderBottomColor: "#F9A33F",
+                  border: "1px solid #F9A33F",
+                }}
+              >
+                <TableRow>
+                  <TableCell
+                    sx={{
+                      color: "#1237BF",
+                      fontWeight: "bold",
+                      borderBottomColor: "#F9A33F",
+                    }}
+                  >
+                    ID
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      color: "#1237BF",
+                      fontWeight: "bold",
+                      borderBottomColor: "#F9A33F",
+                    }}
+                    align="right"
+                  >
+                    Status
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      color: "#1237BF",
+                      fontWeight: "bold",
+                      borderBottomColor: "#F9A33F",
+                    }}
+                    align="right"
+                  >
+                    Assigned Driver
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      color: "#1237BF",
+                      fontWeight: "bold",
+                      borderBottomColor: "#F9A33F",
+                    }}
+                    align="right"
+                  >
+                    Date
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      color: "#1237BF",
+                      fontWeight: "bold",
+                      borderBottomColor: "#F9A33F",
+                    }}
+                    align="right"
+                  >
+                    Destination
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      color: "#1237BF",
+                      fontWeight: "bold",
+                      borderBottomColor: "#F9A33F",
+                    }}
+                    align="right"
+                  >
+                    Details
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>{memoizedTableRows}</TableBody>
+            </Table>
+          </TableContainer>
 
-              {/* <TableCell align="right">{order.pickup_address?.address_name}</TableCell> */}
-             
-              {/* <TableCell align="right">{order.receiver_address?.address_name}</TableCell> */}
-              {/* <TableCell align="right">{order.weight}</TableCell> */}
-              {/* <TableCell align="right">{new Date(order.pickup_date).toLocaleDateString()}</TableCell> */}
+          <Box sx={{ display: "flex", borderTop: "solid 1px #F9A33F", pt: 2 }}>
+            <Button
+              variant="contained"
+              onClick={handlePrevious}
+              disabled={currentPage === 1}
+            >
+              Previous
+            </Button>
+            <Typography align="center" sx={{ flexGrow: "1" }}>
+              Page {currentPage} of {totalPages}
+            </Typography>
 
-              
-              
-              
-              
-
-              <TableCell align="right">
-                <Link to={`/dashboard/order-details/${order._id}`}>
-                  {/* <Avatar sx={{ bgcolor: blue }} >
-                    &gt;
-                  </Avatar> */}
-                  <img classname="details" src={details} alt="details-icon"/>
-                </Link>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+            <TextField
+              type="number"
+              size="small"
+              defaultValue={limit}
+              inputProps={{
+                min: 1,
+                step: 10,
+                style: { maxWidth: "50px" },
+              }}
+              onChange={onLimitChange}
+              variant="outlined"
+              sx={{
+                mr: 2,
+              }}
+            />
+            <Button
+              variant="contained"
+              onClick={handleNext}
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </Button>
+          </Box>
+        </>
+      )}
     </div>
   );
 };

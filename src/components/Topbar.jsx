@@ -118,6 +118,7 @@ const Topbar = () => {
       </div>
 )} 
   {showHamburger && (
+    <>
         <div className="hamburger-menu">
           <div className={`hamburger-icon ${isOpen ? 'open' : ''}`} onClick={toggleMenu}>
             <div className="bar1"></div>
@@ -129,6 +130,11 @@ const Topbar = () => {
             <Link to="/driver/jobsheet">Job Sheet</Link>
           </div>
         </div>
+         <div className="auth-buttons">
+         <Link to="/login" className="btn login-btn">Login</Link>
+         <Link to="/signup" className="btn signup-btn">Sign Up</Link>
+       </div>
+       </>
       )}
       
 
