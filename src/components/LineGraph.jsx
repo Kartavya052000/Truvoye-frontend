@@ -129,7 +129,7 @@ export default function AreaChartFillByValue() {
     post("/order/get")
 
       .then(response => {
-        const orders = response.data;
+        const orders = response.data.orders;
         console.log(response.data,"rrr")
         const dates = orders.map(order => order.created_at);
         const counts = orders.reduce((acc, order) => {

@@ -92,7 +92,7 @@ export default function BarGraph() {
   React.useEffect(() => {
     post('/order/get')
       .then(response => {
-        const orders = response.data;
+        const orders = response.data.orders;
         const orderCounts = orders.reduce((acc, order) => {
           const date = order.created_at.split('T')[0];
           acc[date] = (acc[date] || 0) + 1;

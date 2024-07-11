@@ -14,7 +14,7 @@ export default function SparkLine() {
     const fetchData = async () => {
       try {
         const orderResponse = await post('/order/get');
-        const orders = orderResponse.data;
+        const orders = orderResponse.data.orders;
         
         const orderCounts = orders.reduce((acc, order) => {
           const date = order.created_at.split('T')[0];
