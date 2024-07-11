@@ -34,12 +34,37 @@ const JobSheetOrder = ({ data, onOrderButtonClick }) => {
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
+                  color: "#1237BF",
+                  fontSize: 18,
+                  fontFamily: "Outfit",
+                  fontWeight: 700,
+                  wordWrap: "break-word",
                 }}
               >
                 <b>Order ID: {truncateStart(data._id, 5)}</b>
               </Typography>
               <Typography variant="subtitle1" component="h2">
-                <b>Pickup Date:</b> {formatDate(data.pickup_date)}
+                <b
+                  style={{
+                    fontWeight: "bold", // Make the text bold
+                    color: "#1237BF", // Set the text color
+                    fontSize: 16, // Adjust font size if necessary
+                    fontFamily: "Outfit", // Specify the font family
+                  }}
+                >
+                  Pickup Date:
+                </b>
+                <span
+                  style={{
+                    color: "#1237BF", // Set the text color
+                    fontSize: 14, // Adjust font size if necessary
+                    fontFamily: "Outfit", // Specify the font family
+                    fontWeight: 400, // Set font weight (Note: Use numeric value for inline styles)
+                    wordWrap: "break-word", // Allow word wrapping
+                  }}
+                >
+                  {formatDate(data.pickup_date)}
+                </span>
               </Typography>
               <Typography
                 variant="subtitle1"
@@ -50,7 +75,24 @@ const JobSheetOrder = ({ data, onOrderButtonClick }) => {
                   textOverflow: "ellipsis",
                 }}
               >
-                <b>Weight of Shipment:</b> {data.weight} kg
+                <b style={{
+                    fontWeight: "bold", // Make the text bold
+                    color: "#1237BF", // Set the text color
+                    fontSize: 16, // Adjust font size if necessary
+                    fontFamily: "Outfit", // Specify the font family
+                  }}
+                >Weight of Shipment:</b> 
+                   <span
+                  style={{
+                    color: "#1237BF", // Set the text color
+                    fontSize: 14, // Adjust font size if necessary
+                    fontFamily: "Outfit", // Specify the font family
+                    fontWeight: 400, // Set font weight (Note: Use numeric value for inline styles)
+                    wordWrap: "break-word", // Allow word wrapping
+                  }}
+                >
+                 {data.weight} kg
+                 </span>
               </Typography>
               <Typography
                 variant="subtitle1"
@@ -61,7 +103,26 @@ const JobSheetOrder = ({ data, onOrderButtonClick }) => {
                   textOverflow: "ellipsis",
                 }}
               >
-                <b>Destination:</b> {data.receiver_address.address_name}
+                <b
+                style={{
+                  fontWeight: "bold", // Make the text bold
+                  color: "#1237BF", // Set the text color
+                  fontSize: 16, // Adjust font size if necessary
+                  fontFamily: "Outfit", // Specify the font family
+                }}
+                
+                >Destination:</b> 
+                    <span
+                  style={{
+                    color: "#1237BF", // Set the text color
+                    fontSize: 14, // Adjust font size if necessary
+                    fontFamily: "Outfit", // Specify the font family
+                    fontWeight: 400, // Set font weight (Note: Use numeric value for inline styles)
+                    wordWrap: "break-word", // Allow word wrapping
+                  }}
+                >
+                {data.receiver_address.address_name}
+                </span>
               </Typography>
             </Box>
           </Grid>
