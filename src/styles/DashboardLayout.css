@@ -119,6 +119,9 @@
   box-sizing: border-box;
   padding-bottom: 4rem;
 }
+.remove-bg{
+  background-color: transparent;
+}
 
 /* topbar ------------------------*/
 

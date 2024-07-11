@@ -1,0 +1,80 @@
+.analytics-container {
+  background-color: #b8c3ec;
+}
+
+.wrap-graphs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: bold;
+  gap: 1rem;
+}
+.graph_text {
+  width: 100%;
+  height: 100%;
+  color: #1237BF;
+  font-size: 18px;
+  font-family: "Outfit";
+  font-weight: "700";
+  word-wrap: "break-word";
+  padding: 1rem;
+}
+.line_under{
+    width: 100%;
+    height:100%;
+     border: 1.88px #F9A33F solid
+}
+.card-container {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 2rem;
+  }
+  
+  .card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    width: 236px;
+    /* box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); */
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+     align-items: flex-start;
+  }
+  
+  .icon-container {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #B8C3EC;
+    /* margin: 0 auto 10px; */
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+  }
+  
+  .value {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .label {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .percentage {
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  
+  .up {
+    color: #4CAF50;
+  }
+  
+  .down {
+    color: #F44336;
+  }

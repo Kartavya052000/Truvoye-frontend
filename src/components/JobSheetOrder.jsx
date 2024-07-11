@@ -5,7 +5,7 @@ import React from "react";
 const JobSheetOrder = ({ data, onOrderButtonClick }) => {
   const truncateStart = (str, maxLength) => {
     if (str.length > maxLength) {
-      return `...${str.substring(str.length - maxLength)}`;
+      return `${str.substring(str.length - maxLength)}`;
     } else {
       return str;
     }
@@ -41,7 +41,7 @@ const JobSheetOrder = ({ data, onOrderButtonClick }) => {
                   wordWrap: "break-word",
                 }}
               >
-                <b>Order ID: {truncateStart(data._id, 5)}</b>
+                <b>Order ID: {truncateStart(data._id, 8)}</b>
               </Typography>
               <Typography variant="subtitle1" component="h2">
                 <b
