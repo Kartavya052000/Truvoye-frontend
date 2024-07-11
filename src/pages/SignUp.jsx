@@ -1,7 +1,9 @@
 import React from "react";
+import '../styles/Login.css';
 import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
+import { borders } from '@mui/system';
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
@@ -158,6 +160,7 @@ const SignUp = () => {
                         name="lastName"
                         label="Last Name"
                         size="small"
+
                         value={formik.values.lastName}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
@@ -168,6 +171,7 @@ const SignUp = () => {
                         helperText={
                           formik.touched.lastName && formik.errors.lastName
                         }
+
                       />
                     </Grid>
                   </Grid>
@@ -180,6 +184,7 @@ const SignUp = () => {
                   name="email"
                   label="Email"
                   size="small"
+                  className="Signup-box"
                   value={formik.values.email}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -223,6 +228,7 @@ const SignUp = () => {
                     value={formik.values.password}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+
                   />
 
                   {formik.touched.password && formik.errors.password && (

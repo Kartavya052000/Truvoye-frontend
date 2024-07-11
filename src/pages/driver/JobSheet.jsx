@@ -315,7 +315,7 @@ export default function BasicTabs() {
         )}
       </BootstrapDialog>
 
-      <Box sx={{ width: "100%", height: "90vh" }}>
+      <Box sx={{ width: "100%", height: "90vh" ,background:"#B8C3EC"}}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
             value={value}

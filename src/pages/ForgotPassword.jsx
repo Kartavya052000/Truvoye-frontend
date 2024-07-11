@@ -84,7 +84,7 @@ const ForgotPassword = () => {
 
   return (
     <div className="signUp">
-      <Container maxWidth="lg" sx={{ height: "100vh" }}>
+      <Container maxWidth="lg" sx={{ height: "100vh" }} >
         <Grid container spacing={2}>
           <Grid item xs={6}></Grid>
           <Grid item xs={6}>
@@ -99,7 +99,7 @@ const ForgotPassword = () => {
                   width: "60%",
                   margin: "auto",
                   border: "1px solid #000000",
-                  borderRadius: "30px",
+                  borderRadius: "50px",
                   padding: "48px",
                   textAlign: "center",
                 }}
