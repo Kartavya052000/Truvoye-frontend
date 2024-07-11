@@ -1,7 +1,9 @@
 import React from "react";
 import '../styles/Login.css'
 import loginIllustration from '../Assets/imagesB/Boy.png';
+import { Link } from "react-router-dom";
 
+import { makeStyles } from '@material-ui/core/styles';
 import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
@@ -27,9 +29,23 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import AlertMessage from "../components/AlertMessage";
+import { NavLink } from "react-router-dom";
 import { post } from "../api/api";
 import { useCookies } from 'react-cookie';
 import { Tabs } from '@mui/material';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import ButtonGroupComponent from "../components/ButtonGroupComponent";
+
+
+const useStyles = makeStyles({
+  button: {
+    "&.active": {
+      backgroundColor:'#1237BF',
+      color:'white'
+    },
+  },
+});
+
 
 
 
@@ -45,9 +61,6 @@ const validationSchema = yup.object({
     .required("Password is required"),
 });
 
-
-
-
 const Login = () => {
   const [showPassword, setShowPassword] = React.useState(false);
   const [checked, setChecked] = React.useState(false);
@@ -56,6 +69,8 @@ const Login = () => {
   const [alertMessage, setAlertMessage] = React.useState([]);
   const [dialogAlertMessage, setDialogAlertMessage] = React.useState([]);
   const [, setCookie, ] = useCookies(["token"]);
+  const classes = useStyles();
+
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -109,14 +124,10 @@ const Login = () => {
       });
 
 
-     navigate("/forgotpassword");
+    //  navigate("/forgotpassword");
   };
 
   
-
-
-
-
   // TODO : get the state of the check from here
   const formik = useFormik({
     initialValues: {},
@@ -150,7 +161,10 @@ const Login = () => {
           });
       },
   });
-
+  const buttons = [
+    { name: "Manager", link: "/", active: true },
+    { name: "Driver", link: "/driver/login", active: false },
+  ];
   
 
   return (
@@ -159,15 +173,22 @@ const Login = () => {
       <img src={loginIllustration} alt="login-illustration"/>
       </div> */}
       
+        {/* <Container maxWidth="x-lg" sx={{ height: "100vh" }}> */}
         <Container maxWidth="x-lg" sx={{ height: "100vh" }}>
           <Grid container spacing={2}>
             <Grid item xs={6}><img src={loginIllustration} alt="Banner-illustration"/></Grid>
             <Grid item xs={6}>
-              <Box
+              <div className="wrapper_login_buttons">
+            {/* <ButtonGroup size="large" aria-label="Large button group" className = "Buttongrp"sx={{ display: "flex", justifyContent: "center", alignItems: "center", borderRadius: "50px" }}>
+              {buttons}
+            </ButtonGroup> */}
+              <ButtonGroupComponent buttons={buttons} activeButton="Manager" />
+
+            <Box
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
-                minHeight="100vh"
+                // minHeight="100vh"
               >
                 <Dialog
                   open={isForgotPasswordDialogOpen}
@@ -177,38 +198,69 @@ const Login = () => {
                     onSubmit: (event) => {
                       onForgotPasswordDialogSubmit(event);
                     },
+                    sx:{
+                      width: "400px",
+                      height: "210px",
+                    }
                   }}
+                 
                 >
-                  <DialogTitle>Forgot Password</DialogTitle>
+<DialogTitle
+  sx={{
+    color: '#1237BF',
+    fontSize: 27,
+    fontFamily: 'Outfit',
+    fontWeight: '600',
+    wordWrap: 'break-word',
+  }}
+>
+  Forgot Password
+</DialogTitle>
                   <DialogContent>
-                    <DialogContentText>
-                      Enter your email below we will send you password reset link
-                    </DialogContentText>
-                    <TextField
-                      autoFocus
-                      required
-                      margin="normal"
-                      id="name"
-                      name="email"
-                      label="Email Address"
-                      type="email"
-                      fullWidth
-                      size="small"
-                      variant="outlined"
-                    />
+                  <DialogContentText
+  sx={{
+    color: '#1237BF',
+    fontSize: 20,
+    fontFamily: 'Outfit',
+    fontWeight: '700',
+    wordWrap: 'break-word'
+  }}
+>
+  Enter Email
+</DialogContentText>
+
+<OutlinedInput
+  autoFocus
+  required
+  fullWidth
+  id="email"
+  name="email"
+  type="email"
+  placeholder="Email Address"
+  sx={{
+    border: '1px solid #1237BF',
+    borderRadius: '25px',
+    height: '45px',  // Adjust height to reduce overall height
+    padding: 0,      // Remove padding
+  }}
+/>
+
+
                   </DialogContent>
                   <DialogActions>
-                    <Button onClick={handleForgotPasswordDialogClose}>
+                    <Button onClick={handleForgotPasswordDialogClose} className="btn login-btn">
                       Cancel
                     </Button>
-                    <Button type="submit">OK</Button>
+                    {/* <Link to="/signup" >Sign Up</Link> */}
+
+                    <Button type="submit" className="btn signup-btn">Send</Button>
                   </DialogActions>
         
                   <AlertMessage alertMessage={dialogAlertMessage} />
                 </Dialog>
                 <form
                   style={{
-                    width: "60%",
+                    width: "100%",
                     margin: "auto",
                     border: "1px solid #1237BF",
                     borderRadius: "30px",
@@ -288,6 +340,7 @@ const Login = () => {
                       value={formik.values.password}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
+                      sx={{borderRadius:"50px"}}
                      
                     />
                     {formik.touched.password && formik.errors.password && (
@@ -349,6 +402,7 @@ const Login = () => {
                 </form>
         
               </Box>
+              </div>
             </Grid>
           </Grid>
         </Container>

@@ -25,6 +25,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { post } from "../../api/api";
 import AlertMessage from "../../components/AlertMessage";
 import { useCookies } from "react-cookie";
+import ButtonGroupComponent from "../../components/ButtonGroupComponent";
 
 const validationSchema = yup.object({
   email: yup
@@ -44,7 +45,7 @@ const Login = () => {
     React.useState(false);
   const [alertMessage, setAlertMessage] = React.useState([]);
   const [dialogAlertMessage, setDialogAlertMessage] = React.useState([]);
-  const [, setCookie, ] = useCookies(["token"]);
+  const [, setCookie] = useCookies(["token"]);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -112,9 +113,9 @@ const Login = () => {
           console.log("DATA FROM LOGIN ", response);
           if (response.status === 201) {
             setAlertMessage(["success", "User logged in successfully"]);
-            // setCookie('driver_token', response.data.token, { path: '/' }); 
-            setCookie('token', response.data.token, { path: '/' }); 
-            navigate("/driver/jobsheet")
+            // setCookie('driver_token', response.data.token, { path: '/' });
+            setCookie("token", response.data.token, { path: "/" });
+            navigate("/driver/jobsheet");
           } else {
             setAlertMessage(["error", "Something Went Wrong contact support"]);
           }
@@ -126,20 +127,25 @@ const Login = () => {
           console.log(response);
           if (response.status === 404) {
             setAlertMessage(["error", "Incorrect password or email"]);
-          } else if (response.status === 401){
+          } else if (response.status === 401) {
             setAlertMessage(["error", response.data.message]);
           }
         });
     },
   });
-
+  const buttons = [
+    { name: "Manager", link: "/login", active: false },
+    { name: "Driver", link: "/driver/login", active: true },
+  ];
   return (
     <div className="login">
       <Box
         display="flex"
         justifyContent="center"
+        flexDirection="column"
         alignItems="center"
         minHeight="90vh"
+        paddingTop="3rem"
       >
         <Dialog
           open={isForgotPasswordDialogOpen}
@@ -176,10 +182,11 @@ const Login = () => {
 
           <AlertMessage alertMessage={dialogAlertMessage} />
         </Dialog>
+        <ButtonGroupComponent buttons={buttons} activeButton="Driver" />
 
         <form
           style={{
-            width: "70%",
+            width: "92%",
             margin: "auto",
             border: "1px solid #000000",
             borderRadius: "30px",
@@ -193,7 +200,7 @@ const Login = () => {
             component="h1"
             sx={{ textAlign: "center", m: 3 }}
           >
-            Welcome Back !
+            Well, Hello There !{" "}
           </Typography>
 
           <TextField

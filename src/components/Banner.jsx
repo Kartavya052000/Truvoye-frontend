@@ -1,23 +1,93 @@
-import React from 'react'
-import '../pages/Homepage'
+
+
+import React from 'react';
+import { Box, Typography, Button,  } from '@mui/material';
 import illustration from '../Assets/imagesV/banner.png';
+import { styled } from '@mui/system';
+
+
+const Container = styled(Box)({
+  display: 'flex',
+  flexDirection: 'row',
+  '@media (max-width: 740px)': {
+    flexDirection: 'column-reverse',
+    width: '100%',
+    overflowX: 'hidden',
+    // marginLeft: '2rem',
+    // marginRight: '2rem',
+    padding: '0 1rem 0 1rem',
+    
+  },
+  fontFamily: '"Outfit", sans-serif',
+});
+
+const LeftContainer = styled(Box)({
+  width: '50%',
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  textAlign: 'flex-start',
+  justifyContent: 'center',
+  alignItems: 'left',
+  //marginLeft: '4rem',
+  marginTop: '18rem',
+  '@media (max-width: 740px)': {
+    width: '100%',
+    marginTop: '1rem',
+    
+  },
+});
+
+const RightContainer = styled(Box)({
+  width: '50%',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginTop: '6rem',
+  //marginRight: '-2rem',
+  '@media (max-width: 740px)': {
+    width: '100%',
+    //marginLeft: '2rem',
+  },
+});
+
+const BannerButton = styled(Button)({
+  marginTop: '1.5rem',
+  padding: '.5rem 1rem',
+  borderRadius: '8px',
+  cursor: 'pointer',
+  background: '#1237BF',
+  color: 'white',
+  fontWeight: 500,
+  fontStyle: 'normal',
+  lineHeight: '150%',
+  alignSelf: 'flex-start',
+});
 
 const Banner = () => {
   return (
-    <div className='container'>
-      <div className="left-container">
-      <h3>Logistics Management Platform</h3> 
-      <p>Streamline your logistics with our cutting-edge management solutions. Reduce costs, improve efficiency, and ensure timely deliveries. Experience seamless operations & real-time tracking to make your business future-proof.  Simplify logistics today!</p>
-
-      <button className="banner-btn">Download Proposal</button>
-
-      </div>
-      <div className="right-container">
-      <img src={illustration} alt="Banner-illustration"/>
+    <Container>
+     
+        <LeftContainer>
+          <Typography variant="h3" sx={{ color: '#1237BF', textAlign: 'left', fontSize: '25px', fontWeight: 'bolder' }}>
+            Logistics Management Platform
+          </Typography>
+          <Typography variant="body1" sx={{ color: 'black', textAlign: 'left', fontSize: '15px', fontWeight: 'normal' }}>
+            Streamline your logistics with our cutting-edge management solutions. Reduce costs, improve efficiency, and ensure timely deliveries. Experience seamless operations & real-time tracking to make your business future-proof. Simplify logistics today!
+          </Typography>
+          <BannerButton>
+            Download Proposal
+          </BannerButton>
+          </LeftContainer>
+          <RightContainer>
+          <img src={illustration} alt="Banner illustration" />
+        </RightContainer>
+    </Container>
+      
+      
         
-      </div>
-    </div>
-  )
-}
+     
+  );
+};
 
-export default Banner
+export default Banner;
