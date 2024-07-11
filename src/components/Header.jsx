@@ -18,8 +18,9 @@ const Header = () => {
         <button  className="menu-button" style={{fontWeight:"bold", fontSize: '39px'}} onClick={toggleMobileNav}>&#9776;</button>
         <div className="logo">
           <div className="logo-circle">
-            <img src={logo} alt="Logo" className="logo-text" />
-          </div>
+          <Link to="/">
+              <img src={logo} alt="Logo" className="logo-text" />
+            </Link>          </div>
         </div>
         <nav className="header-nav">
           <ul className="nav-list-header">
