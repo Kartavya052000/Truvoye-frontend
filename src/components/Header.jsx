@@ -12,6 +12,7 @@ const Header = () => {
     setIsMobileNavVisible(!isMobileNavVisible);
   };
 
+  
   return (
     <>
       <header className="header">
