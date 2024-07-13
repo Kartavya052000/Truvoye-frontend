@@ -206,13 +206,11 @@ const OrderEstimateDetails = ({ estimateData, handleUpdateEstimate }) => {
                     </div>
 
                     <div style={formItemStyle}>
-                      <label style={labelStyle} htmlFor="cost">Cost</label>
-                      <input
+                      <label style={labelStyle}htmlFor="cost">Cost</label>
+                      <Field
+                        type="number"
+                        id="cost"
                         name="cost"
-                        as={TextField}
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
                         style={textFieldStyle}
                       />
                     </div>

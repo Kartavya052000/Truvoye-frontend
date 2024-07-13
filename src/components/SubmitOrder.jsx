@@ -247,7 +247,13 @@ const SubmitOrder = ({ initialData, handleOrderSubmission }) => {
       senders_email: values.sendersEmail,
       receivers_name: values.receiversName,
       receivers_email: values.receiversEmail,
+      cost: initialData.cost,
+      distance : initialData.distance,
+      duration : initialData.duration
     };
+
+    console.log("Data we sending ===> ")
+    console.log(data)
 
     post("/orderDetails/SubmitOrder", data)
       .then((response) => {
