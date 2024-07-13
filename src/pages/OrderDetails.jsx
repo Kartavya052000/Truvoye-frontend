@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { post } from "../api/api";
 import Table from "@mui/material/Table";
@@ -11,41 +11,45 @@ import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
-import { Box, Grid, IconButton, InputBase, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Grid,
+  IconButton,
+  InputBase,
+  TextField,
+  Typography,
+} from "@mui/material";
 import SenderReceiverInfo from "../components/SenderReceiverInfo ";
 import SearchIcon from "@mui/icons-material/Search";
 import SortDialog from "../components/SortDialog";
+import { debounce } from "lodash";
+import loadingGif from "../Assets/imagesG/TruckAnimationTruvoey.gif";
 
 const OrderDetails = () => {
-  const [orderDetails, setOrderDetails] = useState(null);
+  const [orderDetails, setOrderDetails] = useState();
   const [drivers, setDrivers] = useState([]);
-  const [driver, setDriver] = useState({});
-  const [selectedDriver, setSelectedDriver] = useState({}); // Track selected driver for modal
-  const [openModal, setOpenModal] = useState(false); // Modal state
-  const { id } = useParams(); // Extract id from URL
-  const [selectedSort, setSelectedSort] = useState("latest");
+  const [selectedDriver, setSelectedDriver] = useState({});
+  const [openModal, setOpenModal] = useState(false);
+  const { id } = useParams();
   const [limit, setLimit] = useState(8);
+  const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [totalDrivers, setTotalDrivers] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    fetchOrderDetails();
-  }, [id]); // Fetch details whenever id changes
+    fetchOrderDetails(id);
+  }, [id]);
 
   let order = [];
-  const fetchOrderDetails = async () => {
+  const fetchOrderDetails = async (id) => {
     const url = "/order/get/" + id;
     post(url)
       .then((response) => {
         console.log(response);
         const orders = response.data;
-        // const order = orders.find((ord) => ord._id === id);
-        setOrderDetails(orders.order); // Set the specific order details
-        // setTimeout(()=>{
-        fetchDrivers(orders.order);
-
-        // },500)
-        // console.log(order,"order");
+        setOrderDetails(orders.order);
       })
       .catch((error) => {
         console.error("Error submitting data:", error);
@@ -53,43 +57,68 @@ const OrderDetails = () => {
 
         console.log(response);
       });
-    // fetchDrivers();
   };
 
-  const fetchDrivers = async (order) => {
-    let driverurl = "";
-    if (order?.order_status == 0) {
-      driverurl = "/driver/get?active=false";
-    } else {
-      // alert(hit)
-      driverurl = "/driver/get/" + order?.driver_id?._id;
+  useEffect(() => {
+    const fetchDrivers = async (order) => {
+      let param = { query: searchQuery, limit, page: currentPage };
+      let apiUrl = "/driver/get/";
+      console.log("What is the order status => " + order);
+      if (order?.order_status === 0) {
+        param.active = true;
+      } else {
+        apiUrl = "/driver/get/" + order?.driver_id?._id;
+      }
+
+      setLoading(true);
+      post(apiUrl, {}, param)
+        .then((response) => {
+          if (order)
+            if (order?.order_status === 0) {
+              const newDrivers = response.data.drivers;
+              setTotalDrivers((prevDrivers) =>
+                prevDrivers.length > 0
+                  ? [...prevDrivers, ...newDrivers]
+                  : newDrivers
+              );
+
+              setDrivers(newDrivers);
+
+              setTotalPages(Math.ceil(response.data.total / limit));
+            } else {
+              setDrivers([response.data]);
+              setTotalPages(1);
+            }
+        })
+        .catch((error) => {
+          console.error("Error submitting data:", error);
+          const response = error.response;
+
+          console.log(response);
+        }).finally(() => {setLoading(false);})
+    };
+    if (orderDetails) {
+      const indexOfFirstRecord = (currentPage - 1) * limit;
+      const indexOfLastRecord = indexOfFirstRecord + limit;
+      if (totalDrivers.length >= indexOfLastRecord) {
+        const currentRecords = totalDrivers.slice(
+          indexOfFirstRecord,
+          indexOfLastRecord
+        );
+        setDrivers(currentRecords);
+      } else {
+        fetchDrivers(orderDetails);
+      }
     }
+  }, [orderDetails, searchQuery, limit, currentPage]);
 
-    post(driverurl)
-      .then((response) => {
-        if (order)
-          if (order?.order_status == 0) {
-            setDrivers(response.data);
-          } else {
-            // alert(hit)
-            setDriver(response.data);
-          }
-      })
-      .catch((error) => {
-        console.error("Error submitting data:", error);
-        const response = error.response;
-
-        console.log(response);
-      });
-  };
-
-  const handleAssignCheckboxChange = (driverId) => (event) => {
+  const handleAssignCheckboxChange = (driver) => (event) => {
     // Handle checkbox change logic here
-    const driver = drivers.find((driver) => driver._id === driverId);
     console.log(driver, "driver");
     setSelectedDriver(driver);
     setOpenModal(true); // Open modal when checkbox is clicked
   };
+
   const handleModalClose = () => {
     setOpenModal(false);
   };
@@ -105,7 +134,7 @@ const OrderDetails = () => {
     };
     post("/orderDetails/assign-order", data)
       .then((response) => {
-        setSelectedDriver(driver);
+        // setSelectedDriver(driver);   //i think this is not required ?
         window.location.reload();
         // setOpenModal(true); // Open modal when checkbox is clicked
       })
@@ -147,13 +176,55 @@ const OrderDetails = () => {
     }
   };
 
-  const handleSearchChange = (e) => {};
+  const debouncedSearch = useCallback(
+    debounce((value) => {
+      setSearchQuery(value);
+      setDrivers([]); // Clear orders when new search is made
+      setTotalDrivers([]);
+    }, 500),
+    []
+  );
+
+  const handleSearchChange = (e) => {
+    debouncedSearch(e.target.value);
+  };
+
   const handlePrevious = (e) => {};
-  const handleNext = (e) => {};
-  const onLimitChange = (e) => {};
+  const handleNext = (e) => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const debouncedLimit = useCallback(
+    debounce((value) => {
+      setLimit(value);
+      setCurrentPage(1);
+      setDrivers([]); // Clear orders when new limit is set
+      setTotalDrivers([]);
+    }, 500),
+    []
+  );
+
+  const onLimitChange = (e) => {
+    debouncedLimit(Number(e.target.value));
+  };
 
   if (!orderDetails) {
-    return <div>Loading...</div>;
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "80vh", // Adjust this height as per your layout
+        }}
+      >
+        <img style={{ maxWidth: "300px" }} src={loadingGif} alt="Loading..." />
+        {/* Alternatively, you can use CircularProgress */}
+        {/* <CircularProgress /> */}
+      </Box>
+    );
   }
 
   return (
@@ -222,7 +293,24 @@ const OrderDetails = () => {
         </Grid>
       </Grid>
 
-      {/* {drivers && ( */}
+      {loading ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "60vh", // Adjust this height as per your layout
+          }}
+        >
+          <img
+            style={{ maxWidth: "300px" }}
+            src={loadingGif}
+            alt="Loading..."
+          />
+          {/* Alternatively, you can use CircularProgress */}
+          {/* <CircularProgress /> */}
+        </Box>
+      ) : (
       <>
         <Box
           sx={{
@@ -266,7 +354,6 @@ const OrderDetails = () => {
                 <SearchIcon />
               </IconButton>
             </Box>
-
           </Box>
           <TableContainer component={Paper}>
             <Table aria-label="drivers table">
@@ -282,37 +369,22 @@ const OrderDetails = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {orderDetails.order_status === 0 ? (
-                  drivers.map((driver) => (
-                    <TableRow key={driver._id}>
-                      <TableCell>{driver.email}</TableCell>
-                      <TableCell>{driver.username}</TableCell>
-                      <TableCell>{driver.phone}</TableCell>
-                      <TableCell>{driver.truckLicensePlateNumber}</TableCell>
-                      <TableCell>
-                        <Checkbox
-                          checked={false} // Adjust based on your logic if needed
-                          onChange={handleAssignCheckboxChange(driver?._id)}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  ))
-                ) : (
+                {drivers.map((driver) => (
                   <TableRow key={driver._id}>
-                    <TableCell>{driver?.email}</TableCell>
-                    <TableCell>{driver?.username}</TableCell>
-                    <TableCell>{driver?.phone}</TableCell>
-                    <TableCell>{driver?.truckLicensePlateNumber}</TableCell>
+                    <TableCell>{driver.email}</TableCell>
+                    <TableCell>{driver.username}</TableCell>
+                    <TableCell>{driver.phone}</TableCell>
+                    <TableCell>{driver.truckLicensePlateNumber}</TableCell>
                     {orderDetails.order_status === 0 && (
                       <TableCell>
                         <Checkbox
                           checked={false} // Adjust based on your logic if needed
-                          onChange={handleAssignCheckboxChange(driver?._id)}
+                          onChange={handleAssignCheckboxChange(driver)}
                         />
                       </TableCell>
                     )}
                   </TableRow>
-                )}
+                ))}
               </TableBody>
             </Table>
           </TableContainer>
@@ -352,7 +424,7 @@ const OrderDetails = () => {
             </Button>
           </Box>
         </Box>
-      </>
+      </>)}
       {/* //  )} */}
       {/* Modal for confirmation */}
       <Modal
