@@ -3,6 +3,7 @@ import "../styles/Login.css";
 import loginIllustration from "../Assets/imagesB/Boy.png";
 import { Link } from "react-router-dom";
 
+// import { makeStyles } from '@material-ui/core/styles';
 import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
@@ -35,6 +36,20 @@ import {  Tabs } from "@mui/material";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import ButtonGroupComponent from "../components/ButtonGroupComponent";
 
+
+// const useStyles = makeStyles({
+//   button: {
+//     "&.active": {
+//       backgroundColor:'#1237BF',
+//       color:'white'
+//     },
+//   },
+// });
+
+
+
+
+
 const validationSchema = yup.object({
   email: yup
     .string("Enter your email")
@@ -53,7 +68,9 @@ const Login = () => {
     React.useState(false);
   const [alertMessage, setAlertMessage] = React.useState([]);
   const [dialogAlertMessage, setDialogAlertMessage] = React.useState([]);
-  const [, setCookie] = useCookies(["token"]);
+  const [, setCookie, ] = useCookies(["token"]);
+  // const classes = useStyles();
+
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
