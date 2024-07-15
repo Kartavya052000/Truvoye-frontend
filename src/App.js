@@ -25,6 +25,7 @@ import JobSheet from "./pages/driver/JobSheet";
 import OTPVerification from "./pages/driver/OTPVerification";
 import Map from "./components/Map";
 import Pickup from "./pages/driver/Pickup";
+import OrderTracking from "./pages/OrderTracking";
 
 
 function App() {
@@ -94,7 +95,7 @@ function App() {
             <Route path="add-driver" element={<AddDriver />} />
             <Route path="edit-driver/:id" element={<EditDriver />} />
             <Route path="order-details/:id" element={<OrderDetails />}/>
-            <Route path="order-tracking/:id" element={<Map />}/>
+            <Route path="order-tracking/:id" element={<OrderTracking />}/>
             
           </Route>
 
