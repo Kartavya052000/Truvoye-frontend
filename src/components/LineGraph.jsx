@@ -130,7 +130,7 @@ export default function AreaChartFillByValue() {
 
       .then(response => {
         const orders = response.data.orders;
-        console.log(response.data,"rrr")
+        console.log(response.data.orders,"rrr")
         const dates = orders.map(order => order.created_at);
         const counts = orders.reduce((acc, order) => {
           const date = order.created_at.split('T')[0];
@@ -164,6 +164,8 @@ return acc;
                 fill: 'url(#swich-color-id-2)',
             },
         }}
+        grid={{ horizontal: true }}
+
       >
         <ColorPalette id="swich-color-id-2" />
         <rect x={0} y={0} width={5} height="100%" fill="url(#swich-color-id-2)" />
