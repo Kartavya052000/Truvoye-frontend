@@ -1,7 +1,7 @@
 import * as React from 'react';
 import axios from 'axios';
 
-import { green, red } from '@mui/material/colors';
+import { green, red,blue } from '@mui/material/colors';
 import Stack from '@mui/material/Stack';
 import { useYScale, useDrawingArea } from '@mui/x-charts/hooks';
 import { LineChart, areaElementClasses } from '@mui/x-charts/LineChart';
@@ -50,50 +50,50 @@ function ColorPalette({ id }) {
       >
         <stop
           offset={scale(5000) / svgHeight}
-          stopColor={green[400]}
+          stopColor={blue[400]}
           stopOpacity={1}
         />
         <stop
           offset={scale(4000) / svgHeight}
-          stopColor={green[400]}
+          stopColor={blue[400]}
           stopOpacity={1}
         />
         <stop
           offset={scale(4000) / svgHeight}
-          stopColor={green[300]}
+          stopColor={blue[300]}
           stopOpacity={1}
         />
         <stop
           offset={scale(3000) / svgHeight}
-          stopColor={green[300]}
+          stopColor={blue[300]}
           stopOpacity={1}
         />
         <stop
           offset={scale(3000) / svgHeight}
-          stopColor={green[200]}
+          stopColor={blue[200]}
           stopOpacity={1}
         />
         <stop
           offset={scale(2000) / svgHeight}
-          stopColor={green[200]}
+          stopColor={blue[200]}
           stopOpacity={1}
         />
         <stop
           offset={scale(2000) / svgHeight}
-          stopColor={green[100]}
+          stopColor={blue[100]}
           stopOpacity={1}
         />
         <stop
           offset={scale(1000) / svgHeight}
-          stopColor={green[100]}
+          stopColor={blue[100]}
           stopOpacity={1}
         />
         <stop
           offset={scale(1000) / svgHeight}
-          stopColor={green[50]}
+          stopColor={blue[50]}
           stopOpacity={1}
         />
-        <stop offset={scale(0) / svgHeight} stopColor={green[50]} stopOpacity={1} />
+        <stop offset={scale(0) / svgHeight} stopColor={blue[50]} stopOpacity={1} />
         <stop offset={scale(0) / svgHeight} stopColor={red[100]} stopOpacity={1} />
         <stop
           offset={scale(-1000) / svgHeight}
@@ -148,7 +148,7 @@ return acc;
   }, []);
 
   return (
-    <Stack direction="column" width="100%" spacing={1} sx={{backgroundColor:'white',minHeight:"325px"}}>
+    <Stack direction="column" width="100%" spacing={1} sx={{backgroundColor:'white',minHeight:"325px",borderRadius:"10px"}}>
         <div className="graph_text">Total Earnings</div>
         <div className='line_under'></div>
       <LineChart
