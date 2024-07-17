@@ -53,8 +53,10 @@ const MapComponent = ({ start, end }) => {
     throttle((index) => {
         if (routePoints[index]) {
             setDriverLocation(routePoints[index]);
+            const { lat, lng } = routePoints[index];
+            map.panTo(new window.google.maps.LatLng(lat, lng))
         }
-    }, 3000),
+    }, 3500),
     [routePoints] // Dependencies for the callback
 );
 
@@ -142,7 +144,7 @@ const MapComponent = ({ start, end }) => {
     <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_API_KEY}>
       <GoogleMap
         mapContainerStyle={containerStyle}
-        center={driverLocation} // Default center while loading
+        center={start} // Default center while loading
         zoom={zoom} // Default zoom while loading
         onLoad={(map) => setMap(map)}
       >

@@ -63,7 +63,7 @@ const OrderTracking = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            height: "60vh", // Adjust this height as per your layout
+            height: "60vh", 
           }}
         >
           <img
@@ -71,8 +71,6 @@ const OrderTracking = () => {
             src={loadingGif}
             alt="Loading..."
           />
-          {/* Alternatively, you can use CircularProgress */}
-          {/* <CircularProgress /> */}
         </Box>
       )}
     </div>
