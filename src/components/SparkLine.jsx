@@ -49,7 +49,8 @@ console.log(orders,"OOO")
     <Stack direction="column" width="100%" spacing={1}
     sx={{
       backgroundColor: 'white',
-      maxHeight:"325px" // Set the background color to white
+      maxHeight:"325px", // Set the background color to white
+      borderRadius:"10px"
     }}>
             <div className="graph_text">Orders & Drivers</div>
         <div className='line_under'></div>
