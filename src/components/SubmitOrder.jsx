@@ -281,18 +281,17 @@ const SubmitOrder = ({ initialData, handleOrderSubmission }) => {
     >
       {({ isSubmitting, handleChange }) => (
         <Form>
-          <Container maxWidth="lg" sx={{ height: "100vh" }}>
+          <Container maxWidth="lg">
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Box
                   display="flex"
                   justifyContent="center"
                   alignItems="center"
-                  minHeight="100vh"
                 >
-                  <div
-                    style={{
-                      width: "60%",
+                  <Box
+                    sx={{
+                      width: { xs: '100%', sm: '80%', md : '60%', lg : '50%' },
                       margin: "auto",
                       border: "1px solid #000000",
                       borderRadius: "30px",
@@ -404,7 +403,7 @@ const SubmitOrder = ({ initialData, handleOrderSubmission }) => {
                         {isSubmitting ? 'Submitting...' : 'Submit Order'}
                       </Button>
                     </Grid>
-                  </div>
+                  </Box>
                 </Box>
               </Grid>
             </Grid>

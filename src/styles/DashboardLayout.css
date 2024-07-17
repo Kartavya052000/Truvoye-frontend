@@ -193,6 +193,7 @@ height: auto;
 }
 /* -------------------------------------------------- */
 
+
 /* mobile responsiveness */
 
 @media (max-width:600px){
@@ -203,5 +204,8 @@ height: auto;
   .dashboard-content{
     margin-left: 0;
     width: 100%;
+  }
+    .tableTitle{
+    display: none;
   }
 }
