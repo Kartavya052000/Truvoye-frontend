@@ -3,7 +3,7 @@ import { PieChart } from '@mui/x-charts/PieChart';
 
 export default function PieCharts() {
   return (
-    <div style={{ width: '100%',backgroundColor:'white' }}>
+    <div style={{ width: '100%',backgroundColor:'white',minHeight:"358px",borderRadius:"10px" }}>
    <div className="graph_text">Total Shipment Delivered</div>
         <div className='line_under'></div>
     <PieChart
@@ -18,7 +18,7 @@ export default function PieCharts() {
       ]}
     //   width={400}
       height={205}
-      sx={{backgroundColor:'white'}}
+      sx={{backgroundColor:'white',marginTop:"40px"}}
     />
     </div>
   );

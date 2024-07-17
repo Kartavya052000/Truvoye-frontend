@@ -43,3 +43,43 @@
     text-align-last: left;
    
   }  */
+
+  /* responsive css */
+
+  @media (max-width: 400px) {
+    .sidebar{
+      z-index: 99;
+      /* display: none !important; */
+      height: 52vh !important;
+      width: 100% !important;
+      border-top-right-radius: 0 !important;
+      border-bottom-right-radius: 0 !important;
+      display: flex;
+      justify-content: center;
+    }
+  }
+  .sidebar-content .active-link {
+    color: blue;
+    font-weight: bold;
+  }
+  .sidebar-content .active-link span {
+  position: relative !important; /* Ensure relative positioning for the pseudo-element */
+}
+.sidebar-content a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.2rem;
+}
+.sidebar-content .active-link span::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; /* Adjust as needed */
+  left: 0;
+  width: 50%; /* Adjust the width of the underline */
+  height: 4px; /* Thickness of the underline */
+  background-color: #F9A33F; /* Solid color for the underline */
+  border-radius: 15px; /* Rounded border radius */
+}
+
+
