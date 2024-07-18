@@ -1,5 +1,8 @@
 import React from "react";
 import TextField from "@mui/material/TextField";
+import Truck from "../../Assets/imagesB/Truck.svg";
+import { Grid } from '@mui/material';
+
 
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -144,51 +147,91 @@ const Login = () => {
         justifyContent="center"
         flexDirection="column"
         alignItems="center"
-        minHeight="90vh"
+        minHeight="90vh"  
         paddingTop="3rem"
       >
-        <Dialog
-          open={isForgotPasswordDialogOpen}
-          onClose={handleForgotPasswordDialogClose}
-          PaperProps={{
-            component: "form",
-            onSubmit: (event) => {
-              onForgotPasswordDialogSubmit(event);
-            },
-          }}
-        >
-          <DialogTitle>Forgot Password</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Enter your email below we will send you password reset link
-            </DialogContentText>
-            <TextField
-              autoFocus
-              required
-              margin="normal"
-              id="name"
-              name="email"
-              label="Email Address"
-              type="email"
-              fullWidth
-              size="small"
-              variant="outlined"
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleForgotPasswordDialogClose}>Cancel</Button>
-            <Button type="submit">OK</Button>
-          </DialogActions>
+         <Dialog
+                  open={isForgotPasswordDialogOpen}
+                  onClose={handleForgotPasswordDialogClose}
+                  PaperProps={{
+                    component: "form",
+                    onSubmit: (event) => {
+                      onForgotPasswordDialogSubmit(event);
+                    },
+                    sx: {
+                      width: "400px",
+                      height: "210px",
+                    },
+                  }}
+                >
+                  <DialogTitle
+                    sx={{
+                      color: "#1237BF",
+                      fontSize: 27,
+                      fontFamily: "Outfit",
+                      fontWeight: "600",
+                      wordWrap: "break-word",
+                    }}
+                  >
+                    Forgot Password
+                  </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText
+                      sx={{
+                        color: "#1237BF",
+                        fontSize: 20,
+                        fontFamily: "Outfit",
+                        fontWeight: "700",
+                        wordWrap: "break-word",
+                      }}
+                    >
+                      Enter Email
+                    </DialogContentText>
 
-          <AlertMessage alertMessage={dialogAlertMessage} />
-        </Dialog>
-        <ButtonGroupComponent buttons={buttons} activeButton="Driver" />
+                    <OutlinedInput
+                      autoFocus
+                      required
+                      fullWidth
+                      id="email"
+                      name="email"
+                      type="email"
+                      placeholder="Email Address"
+                      sx={{
+                        border: "1px solid #1237BF",
+                        borderRadius: "25px",
+                        height: "45px", // Adjust height to reduce overall height
+                        padding: 0, // Remove padding
+                      }}
+                    />
+                  </DialogContent>
+                  <DialogActions>
+                    <Button
+                      onClick={handleForgotPasswordDialogClose}
+                      className="btn login-btn"
+                    >
+                      Cancel
+                    </Button>
+                    {/* <Link to="/signup" >Sign Up</Link> */}
 
+                    <Button type="submit" className="btn signup-btn">
+                      Send
+                    </Button>
+                  </DialogActions>
+
+                  <AlertMessage alertMessage={dialogAlertMessage} />
+                </Dialog>
+        <Grid container spacing={2}>
+        <Grid item xs={12} md={6} sx={{mx:"auto"}}><Box sx={{mx:"auto"}}><img src={Truck} alt="Truck-illustration" fullWidth/></Box></Grid>
+      
+
+<Grid item xs={12} md={6} justifyContent="center">
+          <div className="wrapper_login_buttons">
+<ButtonGroupComponent buttons={buttons} activeButton="Driver" sx={{justifyContent:"center"}} />
         <form
           style={{
             width: "92%",
             margin: "auto",
-            border: "1px solid #000000",
+            border: "1px solid #1237BF",
             borderRadius: "30px",
             padding: "32px",
             textAlign: "center",
@@ -198,24 +241,29 @@ const Login = () => {
           <Typography
             variant="h5"
             component="h1"
-            sx={{ textAlign: "center", m: 3 }}
+            sx={{ textAlign: "center", m: 3,color: "#1237BF"  }}
           >
-            Well, Hello There !{" "}
+            Well, Hello There !
           </Typography>
 
-          <TextField
-            fullWidth
-            id="email"
-            name="email"
-            label="Email"
-            size="small"
-            margin="normal"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
-          />
+          <FormControl fullWidth>
+  <Typography variant="caption" component="h2" sx={{ color: "#1237BF", fontSize: 14, fontWeight: "bold", textAlign:"left"}}>
+    Email
+  </Typography>
+  <TextField
+    fullWidth
+    id="email"
+    name="email"
+    labelPlacement="top"
+    size="small"
+    margin="normal"
+    value={formik.values.email}
+    onChange={formik.handleChange}
+    onBlur={formik.handleBlur}
+    error={formik.touched.email && Boolean(formik.errors.email)}
+    helperText={formik.touched.email && formik.errors.email}
+  />
+</FormControl>
 
           <Typography
             align="right"
@@ -227,42 +275,39 @@ const Login = () => {
             Forgot Password ?
           </Typography>
 
-          <FormControl
-            fullWidth
-            variant="outlined"
-            error={formik.errors.password && Boolean(formik.errors.password)}
-          >
-            <InputLabel htmlFor="outlined-adornment-password" size="small">
-              Password
-            </InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-password"
-              type={showPassword ? "text" : "password"}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              name="password"
-              label="Password"
-              size="small"
-              margin="normal"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
+          <FormControl fullWidth variant="outlined" error={formik.errors.password && Boolean(formik.errors.password)}>
+  <Typography variant="caption" component="h2" sx={{ color: "#1237BF", fontSize: 14, fontWeight: "bold",textAlign:"left" }}>
+    Password
+  </Typography>
+  <OutlinedInput
+    id="outlined-adornment-password"
+    type={showPassword? "text" : "password"}
+    endAdornment={
+      <InputAdornment position="end">
+        <IconButton
+          aria-label="toggle password visibility"
+          onClick={handleClickShowPassword}
+          onMouseDown={handleMouseDownPassword}
+          edge="end"
+        >
+          {showPassword? <VisibilityOff /> : <Visibility />}
+        </IconButton>
+      </InputAdornment>
+    }
+    name="password"
+    label="Password"
+    size="small"
+    labelPlacement="top"
+    margin="normal"
+    value={formik.values.password}
+    onChange={formik.handleChange}
+    onBlur={formik.handleBlur}
+  />
 
-            {formik.touched.password && formik.errors.password && (
-              <FormHelperText error>{formik.errors.password}</FormHelperText>
-            )}
-          </FormControl>
+  {formik.touched.password && formik.errors.password && (
+    <FormHelperText error>{formik.errors.password}</FormHelperText>
+  )}
+</FormControl>
 
           {/* TODO: Design Issue - FromControlLable is messing with the width of the container here  - Khushal @ 16/06 7:42PM */}
           <Box
@@ -291,7 +336,7 @@ const Login = () => {
           </Box>
 
           <Button
-            sx={{ mt: 1, mb: 4 }}
+            sx={{ mt: 1, mb: 4, bgcolor: "#1237BF", width: "70%" }}
             color="primary"
             variant="contained"
             type="submit"
@@ -301,6 +346,11 @@ const Login = () => {
 
           <AlertMessage alertMessage={alertMessage} />
         </form>
+        </div>
+
+        </Grid>
+        </Grid>
+       
       </Box>
     </div>
   );

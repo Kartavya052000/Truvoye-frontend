@@ -49,9 +49,9 @@ function App() {
             path="/login"
             element={
               <>
-                <Header />
+                {/* <Header /> */}
                 <Login />
-                <Footer />
+                {/* <Footer /> */}
               </>
             }
           />
@@ -59,9 +59,9 @@ function App() {
             path="/signup"
             element={
               <>
-                <Header />
+                {/* <Header /> */}
                 <SignUp />
-                <Footer />
+                {/* <Footer /> */}
               </>
             }
           />

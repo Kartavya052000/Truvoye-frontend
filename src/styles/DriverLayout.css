@@ -2,7 +2,7 @@
 .driver-layout {
   /* background-color:  !important; */
   margin: 0 auto;
-  max-width: 400px !important;
+  /* max-width: 400px !important; */
   /* padding: 20px; */
 }
 .driver-container{
@@ -13,3 +13,4 @@
     padding-top: 40px;
 background-color: bisque;
 }
+
