@@ -498,23 +498,48 @@ const OrderDetails = () => {
             minWidth: "300px",
             maxWidth: "80%",
             textAlign: "center",
+            borderRadius:"10px"
           }}
         >
-          <h2 id="request-driver-modal">Request Driver</h2>
+          <h2 id="request-driver-modal">Assign Driver</h2>
           <p id="request-driver-description">
-            Are you sure you want to send a request to{" "}
+            Are you sure you want to assign to the driver {" "}
             {selectedDriver?.username}?
           </p>
           <Button
-            variant="contained"
-            sx={{ m: 1 }}
-            onClick={handleRequestDriver}
-          >
-            Yes
-          </Button>
-          <Button variant="contained" onClick={() => handleModalClose()}>
-            No
-          </Button>
+        variant="contained"
+        sx={{
+          m: 1,
+          width:"28%",
+          backgroundColor: '#1237BF', // Blue background
+          color: 'white', // White text
+          '&:hover': {
+            backgroundColor: '#0e2e8c', // Darker blue on hover
+          },
+          borderRadius: '20px',
+        }}
+        onClick={handleRequestDriver}
+      >
+        Yes
+      </Button>
+      <Button
+        variant="outlined"
+        sx={{
+          m: 1,
+          borderColor: '#E53E3E', // Red border
+          color: '#E53E3E', // Red text
+          '&:hover': {
+            borderColor: '#C53030', // Darker red on hover
+            color: '#C53030', // Darker red text on hover
+            backgroundColor: 'transparent', // Ensure background stays white on hover
+          },
+          width:"28%",
+          borderRadius: '20px',
+        }}
+        onClick={handleModalClose}
+      >
+        No
+      </Button>
         </div>
       </Modal>
     </div>

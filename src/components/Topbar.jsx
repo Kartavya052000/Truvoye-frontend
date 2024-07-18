@@ -162,7 +162,7 @@ const Topbar = () => {
       
     </div>
     {isOpen ?
-     <Sidebar show={true} navItems={navItems}/>
+     <Sidebar show={true} navItems={navItems} triggerEvent ={triggerEvent}/>
      :""
     }
     {isOpenDriver ?
