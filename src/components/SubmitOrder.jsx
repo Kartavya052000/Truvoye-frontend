@@ -193,6 +193,7 @@ import * as Yup from 'yup';
 import { Container, Box, Typography, Grid, Button, TextField } from "@mui/material";
 import { post } from "../api/api";
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const textFieldStyle = {
   width: '100%',
@@ -228,7 +229,14 @@ const validationSchema = Yup.object().shape({
 
 const SubmitOrder = ({ initialData, handleOrderSubmission }) => {
   const navigate = useNavigate();
-
+// Function to get the current date in YYYY-MM-DD format
+const getCurrentDate = () => {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed in JS
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
   const handleSubmit = async (values, { setSubmitting }) => {
     const data = {
       pickup_date: values.pickupDate,
@@ -259,6 +267,17 @@ const SubmitOrder = ({ initialData, handleOrderSubmission }) => {
       .then((response) => {
         handleOrderSubmission(response.data);
         setSubmitting(false);
+        Swal.fire({
+          title: "Order successfully added",
+          icon: "success",
+          iconColor: "blue",
+          showConfirmButton: false,
+          customClass: {
+            // icon: 'custom-icon',
+            title: 'custom-title',
+            content: 'custom-content'
+          }
+        });
         navigate("/dashboard/order-proposal")
       })
       .catch((error) => {
@@ -281,18 +300,17 @@ const SubmitOrder = ({ initialData, handleOrderSubmission }) => {
     >
       {({ isSubmitting, handleChange }) => (
         <Form>
-          <Container maxWidth="lg" sx={{ height: "100vh" }}>
+          <Container maxWidth="lg">
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Box
                   display="flex"
                   justifyContent="center"
                   alignItems="center"
-                  minHeight="100vh"
                 >
-                  <div
-                    style={{
-                      width: "60%",
+                  <Box
+                    sx={{
+                      width: { xs: '100%', sm: '80%', md : '60%', lg : '50%' },
                       margin: "auto",
                       border: "1px solid #000000",
                       borderRadius: "30px",
@@ -404,7 +422,7 @@ const SubmitOrder = ({ initialData, handleOrderSubmission }) => {
                         {isSubmitting ? 'Submitting...' : 'Submit Order'}
                       </Button>
                     </Grid>
-                  </div>
+                  </Box>
                 </Box>
               </Grid>
             </Grid>

@@ -135,7 +135,7 @@ const Login = () => {
           if (response.status === 201) {
             setCookie("token", response.data.token, { path: "/" });
 
-            navigate("/dashboard");
+            navigate("/dashboard/analytics");
             setAlertMessage(["success", "User logged in successfully"]);
           } else if (response.status === 200) {
             setAlertMessage(["error", response.data.message]);

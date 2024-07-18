@@ -1,40 +1,39 @@
-import React from 'react'
-import "../styles/Sidebar.css"
-import { Link } from 'react-router-dom'
-import analytics from '../Assets/imagesV/Analytics.svg';
-import orders from '../Assets/imagesV/Orders.svg';
-import proposals from '../Assets/imagesV/Proposals.svg';
-import gps from '../Assets/imagesV/GPS.svg';
-import drivers from '../Assets/imagesV/Truck.svg';
 
-const Sidebar = () => {
+
+// export default Sidebar
+import React, { useEffect } from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import '../styles/Sidebar.css'
+
+const Sidebar = ({ show, navItems,triggerEvent }) => {
+  const location = useLocation();
+
+  useEffect(() => {
+    console.log(show)
+  }, [show])
+
+  const getNavLinkClass = (path) => {
+    return location.pathname === path ? 'active-link' : ''
+  }
+
+  const getIcon = (path, activeIcon, defaultIcon) => {
+    return location.pathname === path ? activeIcon : defaultIcon;
+  }
+
   return (
-    <div className='sidebar'>
-           <nav className="nav">
-        <ul className="nav-list">
-        <div className="sidebar-content">
-          <img classname="sidebar-icons" src={analytics} alt="analytics-icon"/>
-          <Link to="/dashboard/analytics" >Analytics</Link>
-        </div>
-          <div className="sidebar-content">
-            <img  classname="sidebar-icons" src={orders} alt="orders-icon"/>
-            <Link to="/dashboard/orders" >Orders</Link>
-          </div>
-          <div className="sidebar-content">
-            <img  classname="sidebar-icons" src={proposals} alt="proposals-icon"/>
-            <Link to="/dashboard/order-proposal" >Proposals</Link>
-          </div>
-          <div className="sidebar-content">
-            <img classname="sidebar-icons" src={gps} alt="gps-icon"/>
-            <Link to="/dashboard/tracking" >GPS</Link>
-          </div>
-          <div className="sidebar-content">
-            <img classname="sidebar-icons" src={drivers} alt="drivers-icon"/>
-            <Link to="/dashboard/drivers" >Drivers</Link>
-          </div>
+    <div className='sidebar' style={{ display: show ? 'flex' : '',zIndex:"99" }}>
+      <nav className='nav'>
+        <ul className='nav-list'>
+          {navItems &&navItems.map(item => (
+            <li className='sidebar-content' key={item.path}>
+              <Link to={item.path} className={getNavLinkClass(item.path)} onClick={triggerEvent}>
+                <img className='sidebar-icons' src={getIcon(item.path, item.activeIcon, item.defaultIcon)} alt={`${item.name}-icon`} />
+                <span className='sidebar_text'>{item.name}</span>
+              </Link>
+            </li>
+          ))}
         </ul>
       </nav>
-
     </div>
   )
 }

@@ -15,14 +15,15 @@ import {
   InputBase,
   TextField,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import StatusBadge from "../components/StatusBadge";
 import SearchIcon from "@mui/icons-material/Search";
-import { debounce, last } from "lodash";
+import { debounce } from "lodash";
 import details from "../Assets/imagesV/Details.svg";
 import loadingGif from "../Assets/imagesG/TruckAnimationTruvoey.gif";
-import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
 import SortDialog from "../components/SortDialog";
+import MobileOrderCard from "../components/MobileOrderCard";
 
 const sortOptions = [
   { value: "latest", label: "Latest Order" },
@@ -41,6 +42,7 @@ const Order = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [totalOrders, setTotalOrders] = useState([]);
   const [orderStatus, setOrderStatus] = useState(null);
+  const isMobile = useMediaQuery("(min-width:600px)");
 
   const [selectedSort, setSelectedSort] = useState("latest");
 
@@ -78,8 +80,8 @@ const Order = () => {
           " what is search query " +
           searchQuery +
           "and what is limit" +
-          limit
-          + " What is status " +
+          limit +
+          " What is status " +
           orderStatus
       );
       setLoading(true);
@@ -111,6 +113,7 @@ const Order = () => {
   );
 
   useEffect(() => {
+    console.log("This function should be called ")
     const indexOfFirstRecord = (currentPage - 1) * limit;
     const indexOfLastRecord = indexOfFirstRecord + limit;
     if (totalOrders.length >= indexOfLastRecord) {
@@ -123,6 +126,15 @@ const Order = () => {
       fetchOrders(searchQuery, currentPage, orderStatus);
     }
   }, [searchQuery, limit, currentPage, orderStatus, fetchOrders]);
+
+  useEffect(() => {
+    if (isMobile) {
+      setLimit(8);
+      console.log("Limit is set to 8")
+    } else {
+      setLimit(1000);
+    }
+  }, [isMobile]);
 
   const debouncedSearch = useCallback(
     debounce((value) => {
@@ -198,19 +210,21 @@ const Order = () => {
     <div>
       <Box sx={{ display: "flex", alignItems: "center" }}>
         <h1
-          className="my-4 text-2xl font-bold"
-          style={{ color: "#1237BF", flexGrow: "1" }}
+          className="my-4 text-2xl font-bold tableTitle"
+          style={{ color: "#1237BF", flexGrow: "2" }}
         >
           Orders
         </h1>
+
         <Box
           component="form"
           style={{
+            flexGrow: "1",
             display: "flex",
             alignItems: "center",
-            width: 400,
             border: "1px solid #1237BF",
             borderRadius: "100px",
+            background: "white",
           }}
         >
           <InputBase
@@ -251,7 +265,7 @@ const Order = () => {
           {/* Alternatively, you can use CircularProgress */}
           {/* <CircularProgress /> */}
         </Box>
-      ) : (
+      ) : isMobile ? (
         <>
           <TableContainer component={Paper}>
             <Table aria-label="order table">
@@ -363,6 +377,12 @@ const Order = () => {
             </Button>
           </Box>
         </>
+      ) : (
+        <Box sx={{ mt: 1 }}>
+          {orders.map((order) => (
+            <MobileOrderCard key={order._id} data={order} />
+          ))}
+        </Box>
       )}
     </div>
   );

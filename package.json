@@ -29,6 +29,7 @@
     "react-google-autocomplete": "^2.7.3",
     "react-router-dom": "^6.23.1",
     "react-scripts": "^5.0.1",
+    "sweetalert2": "^11.12.2",
     "web-vitals": "^2.1.4",
     "yup": "^1.4.0"
   },
