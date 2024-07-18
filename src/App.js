@@ -29,6 +29,7 @@ import OrderTracking from "./pages/OrderTracking";
 
 
 function App() {
+  
   return (
     <div className="App">
       <Router>
@@ -48,9 +49,9 @@ function App() {
             path="/login"
             element={
               <>
-                <Header />
+                {/* <Header /> */}
                 <Login />
-                <Footer />
+                {/* <Footer /> */}
               </>
             }
           />
@@ -58,9 +59,9 @@ function App() {
             path="/signup"
             element={
               <>
-                <Header />
+                {/* <Header /> */}
                 <SignUp />
-                <Footer />
+                {/* <Footer /> */}
               </>
             }
           />

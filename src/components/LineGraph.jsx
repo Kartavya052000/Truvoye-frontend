@@ -1,7 +1,5 @@
 import * as React from 'react';
-import axios from 'axios';
-
-import { green, red,blue } from '@mui/material/colors';
+import { blue, red } from '@mui/material/colors';
 import Stack from '@mui/material/Stack';
 import { useYScale, useDrawingArea } from '@mui/x-charts/hooks';
 import { LineChart, areaElementClasses } from '@mui/x-charts/LineChart';
@@ -11,8 +9,8 @@ function ColorSwich({ threshold, color1, color2, id }) {
   const { top, height, bottom } = useDrawingArea();
   const svgHeight = top + bottom + height;
 
-  const scale = useYScale(); // You can provide the axis Id if you have multiple ones
-  const y0 = scale(threshold); // The coordinate of of the origine
+  const scale = useYScale();
+  const y0 = scale(threshold);
   const off = y0 !== undefined ? y0 / svgHeight : 0;
 
   return (
@@ -23,7 +21,7 @@ function ColorSwich({ threshold, color1, color2, id }) {
         x2="0"
         y1="0"
         y2={`${svgHeight}px`}
-        gradientUnits="userSpaceOnUse" // Use the SVG coordinate instead of the component ones.
+        gradientUnits="userSpaceOnUse"
       >
         <stop offset={off} stopColor={color1} stopOpacity={1} />
         <stop offset={off} stopColor={color2} stopOpacity={1} />
@@ -36,7 +34,7 @@ function ColorPalette({ id }) {
   const { top, height, bottom } = useDrawingArea();
   const svgHeight = top + bottom + height;
 
-  const scale = useYScale(); // You can provide the axis Id if you have multiple ones
+  const scale = useYScale();
 
   return (
     <defs>
@@ -46,7 +44,7 @@ function ColorPalette({ id }) {
         x2="0"
         y1="0"
         y2={`${svgHeight}px`}
-        gradientUnits="userSpaceOnUse" // Use the SVG coordinate instead of the component ones.
+        gradientUnits="userSpaceOnUse"
       >
         <stop
           offset={scale(5000) / svgHeight}
@@ -125,22 +123,23 @@ export default function AreaChartFillByValue() {
   const [xData, setXData] = React.useState([]);
 
   React.useEffect(() => {
-    // axios.get('/order/get')
     post("/order/get")
-
       .then(response => {
         const orders = response.data.orders;
-        console.log(response.data.orders,"rrr")
-        const dates = orders.map(order => order.created_at);
         const counts = orders.reduce((acc, order) => {
           const date = order.created_at.split('T')[0];
           acc[date] = (acc[date] || 0) + order.cost;
-return acc;
+          return acc;
         }, {});
-        console.log(counts,"rrrss   ")
 
-        setData(Object.values(counts));
-        setXData(Object.keys(counts));
+        const sortedDates = Object.keys(counts).sort((a, b) => new Date(a) - new Date(b));
+        const sortedData = sortedDates.map(date => counts[date]);
+
+        console.log("Sorted Dates:", sortedDates);
+        console.log("Sorted Data:", sortedData);
+
+        setXData(sortedDates);
+        setData(sortedData);
       })
       .catch(error => {
         console.error('Error fetching data:', error);
@@ -148,9 +147,9 @@ return acc;
   }, []);
 
   return (
-    <Stack direction="column" width="100%" spacing={1} sx={{backgroundColor:'white',minHeight:"325px",borderRadius:"10px"}}>
-        <div className="graph_text">Total Earnings</div>
-        <div className='line_under'></div>
+    <Stack direction="column" width="100%" spacing={1} sx={{ backgroundColor: 'white', minHeight: "325px", borderRadius: "10px" }}>
+      <div className="graph_text">Total Earnings</div>
+      <div className='line_under'></div>
       <LineChart
         xAxis={[{ data: xData, scaleType: 'point' }]}
         yAxis={[{ min: 0, max: Math.max(...data) }]}
@@ -158,14 +157,12 @@ return acc;
         height={200}
         margin={{ top: 20, bottom: 30, left: 75 }}
         sx={{
-            padding:"1rem",
-            // backgroundColor: 'white', // Set the background color to white
-            [`& .${areaElementClasses.root}`]: {
-                fill: 'url(#swich-color-id-2)',
-            },
+          padding: "1rem",
+          [`& .${areaElementClasses.root}`]: {
+            fill: 'url(#swich-color-id-2)',
+          },
         }}
         grid={{ horizontal: true }}
-
       >
         <ColorPalette id="swich-color-id-2" />
         <rect x={0} y={0} width={5} height="100%" fill="url(#swich-color-id-2)" />

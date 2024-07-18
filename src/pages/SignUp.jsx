@@ -24,6 +24,8 @@ import AlertMessage from "../components/AlertMessage";
 import BoyImg from '../Assets/imagesB/Boy.png';
 import { Boy } from "@mui/icons-material";
 
+
+
 const validationSchema = yup.object({
   email: yup
     .string("Enter your email")
@@ -104,8 +106,8 @@ const SignUp = () => {
     <div className="signUp">
       <Container maxWidth="x-lg" sx={{ height: "100vh" }}>
         <Grid container spacing={2}>
-          <Grid item xs={6}><img src={BoyImg} alt="Banner-illustration"/></Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6} sx={{mx:"auto"}}><Box sx={{mx:"auto"}}><img src={BoyImg} alt="Banner-illustration" /></Box></Grid>
+          <Grid item xs={12} md={6}>
             <Box
               display="flex"
               justifyContent="center"
@@ -115,7 +117,7 @@ const SignUp = () => {
             >
               <form
                 style={{
-                  width: "60%",
+                  width: "80%",
                   margin: "auto",
                   border: "1px solid #1237BF",
                   borderRadius: "30px",
@@ -132,14 +134,15 @@ const SignUp = () => {
                   Well, Hello There !
                 </Typography>
 
-                <Box>
-                  <Grid container spacing={2}>
-                    <Grid item xs={6}>
-                      <TextField
+                <FormControl fullWidth>
+  <Typography variant="caption" component="h2" sx={{ color: "#1237BF", fontSize: 14, fontWeight: "bold", textAlign:"left"}}>
+Firstname
+  </Typography>
+  <TextField
                         margin="dense"
+                        fullWidth
                         id="firstName"
                         name="firstName"
-                        label="First Name"
                         size="small"
                         value={formik.values.firstName}
                         onChange={formik.handleChange}
@@ -150,15 +153,18 @@ const SignUp = () => {
                         }
                         helperText={
                           formik.touched.firstName && formik.errors.firstName
-                        }
-                      />
-                    </Grid>
-                    <Grid item xs={6}>
-                      <TextField
+                        }/>
+</FormControl>
+
+                    <FormControl fullWidth>
+  <Typography variant="caption" component="h2" sx={{ color: "#1237BF", fontSize: 14, fontWeight: "bold", textAlign:"left"}}>
+Lastname
+  </Typography>
+  <TextField
                         margin="dense"
+                        fullWidth
                         id="lastName"
                         name="lastName"
-                        label="Last Name"
                         size="small"
 
                         value={formik.values.lastName}
@@ -173,16 +179,18 @@ const SignUp = () => {
                         }
 
                       />
-                    </Grid>
-                  </Grid>
-                </Box>
+</FormControl>   
 
-                <TextField
+<FormControl fullWidth>
+  <Typography variant="caption" component="h2" sx={{ color: "#1237BF", fontSize: 14, fontWeight: "bold", textAlign:"left"}}>
+Email
+  </Typography>
+  <TextField
                   margin="dense"
                   fullWidth
                   id="email"
                   name="email"
-                  label="Email"
+      
                   size="small"
                   className="Signup-box"
                   value={formik.values.email}
@@ -191,6 +199,10 @@ const SignUp = () => {
                   error={formik.touched.email && Boolean(formik.errors.email)}
                   helperText={formik.touched.email && formik.errors.email}
                 />
+</FormControl>   
+
+
+               
 
                 <FormControl
                   margin="dense"
@@ -200,12 +212,11 @@ const SignUp = () => {
                     formik.errors.password && Boolean(formik.errors.password)
                   }
                 >
-                  <InputLabel
-                    htmlFor="outlined-adornment-password"
-                    size="small"
-                  >
-                    Password
-                  </InputLabel>
+                    <Typography variant="caption" component="h2" sx={{ color: "#1237BF", fontSize: 14, fontWeight: "bold", textAlign:"left"}}>
+Password
+  </Typography>
+                    
+                  
                   <OutlinedInput
                     id="outlined-adornment-password"
                     type={showPassword ? "text" : "password"}
@@ -222,7 +233,6 @@ const SignUp = () => {
                       </InputAdornment>
                     }
                     name="password"
-                    label="Password"
                     size="small"
                     margin="normal"
                     value={formik.values.password}
@@ -248,9 +258,9 @@ const SignUp = () => {
                     Boolean(formik.errors.confirmPassword)
                   }
                 >
-                  <InputLabel htmlFor="confirmPassword" size="small">
-                    Confirm Password
-                  </InputLabel>
+                  <Typography variant="caption" component="h2" sx={{ color: "#1237BF", fontSize: 14, fontWeight: "bold", textAlign:"left"}}>
+Confirm Password
+  </Typography>
                   <OutlinedInput
                     id="confirmPassword"
                     type={showPassword ? "text" : "password"}
@@ -267,7 +277,7 @@ const SignUp = () => {
                       </InputAdornment>
                     }
                     name="confirmPassword"
-                    label="Confirm Password"
+                    
                     size="small"
                     margin="normal"
                     value={formik.values.confirmPassword}

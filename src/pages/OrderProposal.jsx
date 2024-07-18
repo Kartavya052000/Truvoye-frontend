@@ -77,7 +77,7 @@ const handleUpdateEstimate = (value)=>{
 
 }
   const handleOrderSubmission = () =>{
-    alert("order is submitted")
+    // alert("order is submitted")
   }
   return (
     <div>

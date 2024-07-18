@@ -207,8 +207,37 @@ const Topbar = () => {
             )} */}
           </>
         )}
+
+        {showHamburger && !dashboard && token && (
+          <>
+            <div className="hamburger-menu">
+              <div
+                className={`hamburger-icon ${isOpenDriver ? "open" : ""}`}
+                onClick={toggleMenuDriver}
+              >
+                <div className="bar1"></div>
+                <div className="bar2"></div>
+                <div className="bar3"></div>
+              </div>
+              {/* <div className={`menu ${isOpenDriver ? 'open' : ''}`}>
+            <Link to="/driver/pickup">Pickup</Link>
+            <Link to="/driver/jobsheet">Job Sheet</Link>
+          </div> */}
+            </div>
+            {/* {!token && 
+         <div className="auth-buttons">
+         <Link to="/login" className="btn login-btn">Login</Link>
+         <Link to="/signup" className="btn signup-btn">Sign Up</Link>
+       </div>
+} */}
+          </>
+        )}
       </div>
-      {isOpen ? <Sidebar show={true} navItems={navItems} /> : ""}
+      {isOpen ? (
+        <Sidebar show={true} navItems={navItems} triggerEvent={triggerEvent} />
+      ) : (
+        ""
+      )}
       {isOpenDriver ? <Sidebar show={true} navItems={navItemsDriver} /> : ""}
       {/* <div >
    </div> */}

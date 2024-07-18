@@ -57,6 +57,9 @@
       display: flex;
       justify-content: center;
     }
+    .sidebar_text{
+      font-size: 1rem;
+    }
   }
   .sidebar-content .active-link {
     color: blue;
@@ -80,6 +83,9 @@
   height: 4px; /* Thickness of the underline */
   background-color: #F9A33F; /* Solid color for the underline */
   border-radius: 15px; /* Rounded border radius */
+}
+.sidebar_text{
+  font-size: 20px;
 }
 
 

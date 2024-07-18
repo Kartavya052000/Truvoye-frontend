@@ -10,7 +10,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@mui/icons-material": "^5.16.0",
-    "@mui/material": "^5.16.0",
+    "@mui/material": "^5.16.1",
     "@mui/system": "^5.16.0",
     "@mui/x-charts": "^7.9.0",
     "@react-google-maps/api": "^2.19.3",
@@ -29,6 +29,7 @@
     "react-google-autocomplete": "^2.7.3",
     "react-router-dom": "^6.23.1",
     "react-scripts": "^5.0.1",
+    "sweetalert2": "^11.12.2",
     "web-vitals": "^2.1.4",
     "yup": "^1.4.0"
   },
