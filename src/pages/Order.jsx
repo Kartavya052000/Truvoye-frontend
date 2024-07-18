@@ -132,7 +132,7 @@ const Order = () => {
       setLimit(8);
       console.log("Limit is set to 8")
     } else {
-      setLimit(1000);
+      setLimit(8);
     }
   }, [isMobile]);
 
@@ -181,6 +181,7 @@ const Order = () => {
         <TableRow key={order._id}>
           <TableCell component="th" scope="row">
             {order._id.slice(-10).toUpperCase()}
+            {console.log("you are been called many time")}
           </TableCell>
           <TableCell align="right">
             <StatusBadge status={order.order_status}></StatusBadge>

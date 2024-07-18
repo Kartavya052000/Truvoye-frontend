@@ -51,12 +51,16 @@ const MapComponent = ({ start, end }) => {
 
   const updateDriverLocation = useCallback(
     throttle((index) => {
-        if (routePoints[index]) {
+        if (routePoints[index] && map) {
             setDriverLocation(routePoints[index]);
             const { lat, lng } = routePoints[index];
-            map.panTo(new window.google.maps.LatLng(lat, lng))
+            try{
+              map.panTo(new window.google.maps.LatLng(lat, lng))
+            }catch (error) {
+              console.log("Probably late throttle trigger ====> " + error)
+            }
         }
-    }, 3500),
+    }, 500),
     [routePoints] // Dependencies for the callback
 );
 

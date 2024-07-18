@@ -439,7 +439,7 @@ const EditDriver = () => {
 
   return (
     <div className="edit-driver">
-      <Container maxWidth="lg" sx={{ height: "100vh" }}>
+      <Container maxWidth="lg">
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Box
@@ -450,7 +450,7 @@ const EditDriver = () => {
             >
               <form
                 style={{
-                  width: "50%",
+                  width: { xs: '100%', sm: '80%', md : '60%', lg : '50%' },
                   margin: "auto",
                   border: "1px solid #000000",
                   borderRadius: "30px",

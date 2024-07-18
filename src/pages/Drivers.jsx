@@ -15,6 +15,8 @@ import {
   InputBase,
   IconButton,
   TextField,
+  Fab,
+  useMediaQuery,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { post } from "../api/api";
@@ -23,6 +25,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import { debounce } from "lodash";
 import ChoiceDialog from "../components/ChoiceDialog";
 import loadingGif from "../Assets/imagesG/TruckAnimationTruvoey.gif";
+import AddIcon from "@mui/icons-material/Add";
+import MobileDriverCard from "../components/MobileDriverCard";
 
 const Drivers = () => {
   const [drivers, setDrivers] = useState([]);
@@ -33,6 +37,7 @@ const Drivers = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const isMobile = useMediaQuery("(min-width:600px)");
 
   useEffect(() => {
     const fetchDrivers = async () => {
@@ -57,7 +62,10 @@ const Drivers = () => {
           const response = error.response;
 
           console.log(response);
-        }).finally(() => {setLoading(false);});
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     };
 
     const indexOfFirstRecord = (currentPage - 1) * limit;
@@ -118,15 +126,33 @@ const Drivers = () => {
   const choiceOptions = ["edit", "Deactivate"];
 
   return (
-    <div>
-      <Grid item xs={12}>
-        <Grid
-          container
-          justifyContent="space-between"
-          alignItems="center"
-          sx={{ m: 2 }}
-        >
-          <Grid item>
+    <Box>
+      <Fab
+        sx={{
+          display: { sm: "none" },
+          position: "absolute",
+          bottom: 0,
+          right: 0,
+          margin: 2,
+        }}
+        color="primary"
+        aria-label="add"
+        component={Link}
+        to="/dashboard/add-driver"
+      >
+        <AddIcon />
+      </Fab>
+      {/* md={6} */}
+
+      <Grid container sx={{ pb: 2 }}>
+        <Grid item xs={4} sx={{ display: { xs: "none", sm: "initial" } }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              height: "100%", // Optional, ensures the Box takes the full height of the parent
+            }}
+          >
             <Typography
               variant="h5"
               component="h2"
@@ -134,43 +160,51 @@ const Drivers = () => {
             >
               Drivers
             </Typography>
-          </Grid>
-          <Grid Item></Grid>
-          <Grid Item>
-            <Box
-              component="form"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                width: 400,
-                border: "1px solid #1237BF",
-                borderRadius: "100px",
-              }}
-            >
-              <InputBase
-                onChange={handleSearchChange}
-                sx={{
-                  ml: 2,
-                  flex: 1,
-                }}
-                placeholder="Search Order"
-                inputProps={{ "aria-label": "search order" }}
-              />
-              <IconButton
-                type="button"
-                sx={{ color: "black" }}
-                aria-label="search"
-              >
-                <SearchIcon />
-              </IconButton>
-            </Box>
-          </Grid>
-
-          <Grid item>
-            <Button
+          </Box>
+        </Grid>
+        <Grid Item xs={12} sm={4}>
+          <Box
+            component="form"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              border: "1px solid #1237BF",
+              borderRadius: "100px",
+            }}
+          >
+            <InputBase
+              onChange={handleSearchChange}
               sx={{
-                alignItems: "right",
-                marginRight: 6,
+                ml: 2,
+                flex: 1,
+              }}
+              placeholder="Search Driver"
+              inputProps={{ "aria-label": "search order" }}
+            />
+            <IconButton
+              type="button"
+              sx={{ color: "black" }}
+              aria-label="search"
+            >
+              <SearchIcon />
+            </IconButton>
+          </Box>
+        </Grid>
+
+        <Grid item xs={4} sx={{ display: { xs: "none", sm: "initial" } }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              height: "100%",
+              alignItems: "center",
+              pr: 2,
+              pl: 2,
+            }}
+          >
+            <Button
+              size="large"
+              sx={{
                 background: "#1237BF",
                 color: "white",
               }}
@@ -180,169 +214,175 @@ const Drivers = () => {
             >
               Add Driver
             </Button>
-          </Grid>
-        </Grid>
-
-        {loading ? (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "60vh", // Adjust this height as per your layout
-            }}
-          >
-            <img
-              style={{ maxWidth: "300px" }}
-              src={loadingGif}
-              alt="Loading..."
-            />
-            {/* Alternatively, you can use CircularProgress */}
-            {/* <CircularProgress /> */}
           </Box>
-        ) : (
-          <>
-            <TableContainer component={Paper}>
-              <Table aria-label="drivers table">
-                <TableHead
-                  className="drivers-tablehead"
-                  sx={{
-                    borderBottomColor: "#F9A33F",
-                    border: "1px solid #F9A33F",
-                  }}
-                >
-                  <TableRow class>
-                    <TableCell
-                      sx={{
-                        color: "#1237BF",
-                        fontWeight: "bold",
-                        borderBottomColor: "#F9A33F",
-                      }}
-                    >
-                      Name
+        </Grid>
+      </Grid>
+
+      {loading ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "60vh", // Adjust this height as per your layout
+          }}
+        >
+          <img
+            style={{ maxWidth: "300px" }}
+            src={loadingGif}
+            alt="Loading..."
+          />
+          {/* Alternatively, you can use CircularProgress */}
+          {/* <CircularProgress /> */}
+        </Box>
+      ) : isMobile ? (
+        <>
+          <TableContainer component={Paper}>
+            <Table aria-label="drivers table">
+              <TableHead
+                className="drivers-tablehead"
+                sx={{
+                  borderBottomColor: "#F9A33F",
+                  border: "1px solid #F9A33F",
+                }}
+              >
+                <TableRow class>
+                  <TableCell
+                    sx={{
+                      color: "#1237BF",
+                      fontWeight: "bold",
+                      borderBottomColor: "#F9A33F",
+                    }}
+                  >
+                    Name
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      color: "#1237BF",
+                      fontWeight: "bold",
+                      borderBottomColor: "#F9A33F",
+                    }}
+                  >
+                    Address
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      color: "#1237BF",
+                      fontWeight: "bold",
+                      borderBottomColor: "#F9A33F",
+                    }}
+                  >
+                    Email
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      color: "#1237BF",
+                      fontWeight: "bold",
+                      borderBottomColor: "#F9A33F",
+                    }}
+                  >
+                    Phone
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      color: "#1237BF",
+                      fontWeight: "bold",
+                      borderBottomColor: "#F9A33F",
+                    }}
+                  >
+                    Truck Plate
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      color: "#1237BF",
+                      fontWeight: "bold",
+                      borderBottomColor: "#F9A33F",
+                    }}
+                  >
+                    Driver License
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      color: "#1237BF",
+                      fontWeight: "bold",
+                      borderBottomColor: "#F9A33F",
+                    }}
+                  >
+                    Options
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {drivers.map((driver) => (
+                  <TableRow key={driver._id}>
+                    <TableCell>{driver.username}</TableCell>
+                    <TableCell>
+                      {driver.address.formatted_address.substring(0, 20)}
                     </TableCell>
-                    <TableCell
-                      sx={{
-                        color: "#1237BF",
-                        fontWeight: "bold",
-                        borderBottomColor: "#F9A33F",
-                      }}
-                    >
-                      Address
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        color: "#1237BF",
-                        fontWeight: "bold",
-                        borderBottomColor: "#F9A33F",
-                      }}
-                    >
-                      Email
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        color: "#1237BF",
-                        fontWeight: "bold",
-                        borderBottomColor: "#F9A33F",
-                      }}
-                    >
-                      Phone
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        color: "#1237BF",
-                        fontWeight: "bold",
-                        borderBottomColor: "#F9A33F",
-                      }}
-                    >
-                      Truck Plate
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        color: "#1237BF",
-                        fontWeight: "bold",
-                        borderBottomColor: "#F9A33F",
-                      }}
-                    >
-                      Driver License
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        color: "#1237BF",
-                        fontWeight: "bold",
-                        borderBottomColor: "#F9A33F",
-                      }}
-                    >
-                      Options
+                    <TableCell>{driver.email}</TableCell>
+                    <TableCell>{driver.phone}</TableCell>
+                    <TableCell>{driver.truckLicensePlateNumber}</TableCell>
+                    <TableCell>{driver.driverLicense}</TableCell>
+                    <TableCell>
+                      <ChoiceDialog
+                        options={choiceOptions}
+                        onChange={(choice) => {
+                          onOptionSelected(choice, driver?._id);
+                        }}
+                      />
                     </TableCell>
                   </TableRow>
-                </TableHead>
-                <TableBody>
-                  {drivers.map((driver) => (
-                    <TableRow key={driver._id}>
-                      <TableCell>{driver.username}</TableCell>
-                      <TableCell>
-                        {driver.address.formatted_address.substring(0, 20)}
-                      </TableCell>
-                      <TableCell>{driver.email}</TableCell>
-                      <TableCell>{driver.phone}</TableCell>
-                      <TableCell>{driver.truckLicensePlateNumber}</TableCell>
-                      <TableCell>{driver.driverLicense}</TableCell>
-                      <TableCell>
-                        <ChoiceDialog
-                          options={choiceOptions}
-                          onChange={(choice) => {
-                            onOptionSelected(choice, driver?._id);
-                          }}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
 
-            <Box
-              sx={{ display: "flex", borderTop: "solid 1px #F9A33F", pt: 2 }}
+          <Box sx={{ display: "flex", borderTop: "solid 1px #F9A33F", pt: 2 }}>
+            <Button
+              variant="contained"
+              onClick={handlePrevious}
+              disabled={currentPage === 1}
             >
-              <Button
-                variant="contained"
-                onClick={handlePrevious}
-                disabled={currentPage === 1}
-              >
-                Previous
-              </Button>
-              <Typography align="center" sx={{ flexGrow: "1" }}>
-                Page {currentPage} of {totalPages}
-              </Typography>
+              Previous
+            </Button>
+            <Typography align="center" sx={{ flexGrow: "1" }}>
+              Page {currentPage} of {totalPages}
+            </Typography>
 
-              <TextField
-                type="number"
-                size="small"
-                defaultValue={limit}
-                inputProps={{
-                  min: 1,
-                  step: 10,
-                  style: { maxWidth: "50px" },
-                }}
-                onChange={onLimitChange}
-                variant="outlined"
-                sx={{
-                  mr: 2,
-                }}
-              />
-              <Button
-                variant="contained"
-                onClick={handleNext}
-                disabled={currentPage === totalPages}
-              >
-                Next
-              </Button>
-            </Box>
-          </>
-        )}
-      </Grid>
-    </div>
+            <TextField
+              type="number"
+              size="small"
+              defaultValue={limit}
+              inputProps={{
+                min: 1,
+                step: 10,
+                style: { maxWidth: "50px" },
+              }}
+              onChange={onLimitChange}
+              variant="outlined"
+              sx={{
+                mr: 2,
+              }}
+            />
+            <Button
+              variant="contained"
+              onClick={handleNext}
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </Button>
+          </Box>
+        </>
+      ) : (
+        drivers.map((driver) => (
+          <MobileDriverCard
+            key={driver._id}
+            data={driver}
+            onOptionSelected={onOptionSelected}
+          />
+        ))
+      )}
+    </Box>
   );
 };
 

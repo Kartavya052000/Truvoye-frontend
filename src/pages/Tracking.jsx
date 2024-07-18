@@ -13,10 +13,18 @@ import { post } from "../api/api";
 import drivers from "../Assets/imagesV/Truck.svg"; // Import Link from React Router
 import { Link, useNavigate } from "react-router-dom";
 import AlertMessage from "../components/AlertMessage";
-import { Box, Button, IconButton, InputBase, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  InputBase,
+  TextField,
+  useMediaQuery,
+} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { debounce } from "lodash";
 import loadingGif from "../Assets/imagesG/TruckAnimationTruvoey.gif";
+import MobileTrackingCard from "../components/MobileTrackingCard";
 
 const Tracking = () => {
   const [orders, setOrders] = useState([]);
@@ -29,6 +37,7 @@ const Tracking = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [totalOrders, setTotalOrders] = useState([]);
   const [orderStatus, setOrderStatus] = useState(null);
+  const isMobile = useMediaQuery("(min-width:600px)");
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -129,19 +138,28 @@ const Tracking = () => {
 
   return (
     <div>
-      <Box sx={{ display: "flex", alignItems: "center" }}>
-        <h1
-          className="my-4 text-2xl font-bold"
-          style={{ color: "#1237BF", flexGrow: "1" }}
+      <Box sx={{ display: "flex", alignItems: "center", mt: 1, mb: 3 }}>
+        <Typography
+          className="my-4 text-2xl font-bold "
+          variant="h4"
+          component="h1"
+          sx={{
+            flexGrow: 1,
+            color: "#1237BF",
+            paddingLeft: 1,
+            paddingRight: 1,
+            textAlign: { xs: "center", sm: "left" },
+            display: { xs: "none", sm: "block" },
+          }}
         >
-          Orders Tracking
-        </h1>
+          Order Tracking
+        </Typography>
         <Box
           component="form"
           style={{
+            flexGrow: "1",
             display: "flex",
             alignItems: "center",
-            width: 400,
             border: "1px solid #1237BF",
             borderRadius: "100px",
           }}
@@ -177,7 +195,7 @@ const Tracking = () => {
           {/* Alternatively, you can use CircularProgress */}
           {/* <CircularProgress /> */}
         </Box>
-      ) : (
+      ) : isMobile ? (
         <>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="order table">
@@ -323,6 +341,15 @@ const Tracking = () => {
             </Button>
           </Box>
         </>
+      ) : (
+        <Box sx={{ mt: 1 }}>
+          {orders.map((order) => (
+            <MobileTrackingCard
+              key={order._id}
+              data={order} 
+            />
+          ))}
+        </Box>
       )}
     </div>
   );
