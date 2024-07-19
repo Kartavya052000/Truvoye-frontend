@@ -221,7 +221,11 @@ const Login = () => {
                   <AlertMessage alertMessage={dialogAlertMessage} />
                 </Dialog>
         <Grid container spacing={2}>
-        <Grid item xs={12} md={6} sx={{mx:"auto"}}><Box sx={{mx:"auto"}}><img src={Truck} alt="Truck-illustration" fullWidth/></Box></Grid>
+        <Grid item xs={12} md={6} sx={{ mx: "auto" }}>
+  <Box sx={{ mx: "auto", display: { xs: 'none', sm: 'none', md: 'block' } }}>
+    <img src={Truck} alt="Truck-illustration" style={{ width: '100%' }} />
+  </Box>
+</Grid>
       
 
 <Grid item xs={12} md={6} justifyContent="center">
