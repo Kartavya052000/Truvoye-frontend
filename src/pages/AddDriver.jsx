@@ -124,19 +124,15 @@ const AddDriver = () => {
   });
 
   return (
-    <div className="add-driver">
-      <Container maxWidth="lg" sx={{ height: "100vh" }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
             <Box
               display="flex"
               justifyContent="center"
               alignItems="center"
-              minHeight="80vh"
+              height="100%"
             >
               <form
                 style={{
-                  width: "100%",
+                  width: { xs: '100%', sm: '80%', md : '60%', lg : '50%' },
                   maxWidth: "600px",
                   margin: "auto",
                   border: "1px solid #000000",
@@ -281,10 +277,7 @@ const AddDriver = () => {
                 <AlertMessage alertMessage={alertMessage} />
               </form>
             </Box>
-          </Grid>
-        </Grid>
-      </Container>
-    </div>
+
   );
 };
 

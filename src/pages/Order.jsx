@@ -15,14 +15,16 @@ import {
   InputBase,
   TextField,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import StatusBadge from "../components/StatusBadge";
 import SearchIcon from "@mui/icons-material/Search";
-import { debounce, last } from "lodash";
+import { debounce } from "lodash";
 import details from "../Assets/imagesV/Details.svg";
 import loadingGif from "../Assets/imagesG/TruckAnimationTruvoey.gif";
-import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
 import SortDialog from "../components/SortDialog";
+import MobileOrderCard from "../components/MobileOrderCard";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const sortOptions = [
   { value: "latest", label: "Latest Order" },
@@ -41,6 +43,8 @@ const Order = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [totalOrders, setTotalOrders] = useState([]);
   const [orderStatus, setOrderStatus] = useState(null);
+  const isMobile = useMediaQuery("(min-width:600px)");
+  const [dataLength, setDataLength] = useState(0);
 
   const [selectedSort, setSelectedSort] = useState("latest");
 
@@ -78,8 +82,8 @@ const Order = () => {
           " what is search query " +
           searchQuery +
           "and what is limit" +
-          limit
-          + " What is status " +
+          limit +
+          " What is status " +
           orderStatus
       );
       setLoading(true);
@@ -101,6 +105,8 @@ const Order = () => {
         setOrders(newOrders);
 
         setTotalPages(Math.ceil(response.data.total / limit));
+
+        setDataLength(response.data.total);
       } catch (error) {
         console.error("Error fetching orders:", error);
       } finally {
@@ -123,6 +129,15 @@ const Order = () => {
       fetchOrders(searchQuery, currentPage, orderStatus);
     }
   }, [searchQuery, limit, currentPage, orderStatus, fetchOrders]);
+
+  useEffect(() => {
+    if (isMobile) {
+      setLimit(8);
+      console.log("Limit is set to 8");
+    } else {
+      setLimit(8);
+    }
+  }, [isMobile]);
 
   const debouncedSearch = useCallback(
     debounce((value) => {
@@ -152,9 +167,14 @@ const Order = () => {
   };
 
   const handleNext = () => {
+    console.log(
+      "I have been summon from the infinite scroll current page " + currentPage
+    );
     if (currentPage < totalPages) {
+      console.log("Are this condition is mate : currentPage < totalPages")
       setCurrentPage((prevPage) => prevPage + 1);
     }
+    console.log("After increment  " + currentPage);
   };
 
   const handlePrevious = () => {
@@ -195,22 +215,24 @@ const Order = () => {
   );
 
   return (
-    <div>
+    <div id="scrollableDiv" style={{ height: "100%", overflow: "auto" }}>
       <Box sx={{ display: "flex", alignItems: "center" }}>
         <h1
-          className="my-4 text-2xl font-bold"
-          style={{ color: "#1237BF", flexGrow: "1" }}
+          className="my-4 text-2xl font-bold tableTitle"
+          style={{ color: "#1237BF", flexGrow: "2" }}
         >
           Orders
         </h1>
+
         <Box
           component="form"
           style={{
+            flexGrow: "1",
             display: "flex",
             alignItems: "center",
-            width: 400,
             border: "1px solid #1237BF",
             borderRadius: "100px",
+            background: "white",
           }}
         >
           <InputBase
@@ -234,6 +256,8 @@ const Order = () => {
         />
       </Box>
 
+      {/* {isMobile ? (loading ? (<Box>loading</Box>) : (<Box>Desktop</Box>)) : (<Box>Mobile</Box>)} */}
+
       {loading ? (
         <Box
           sx={{
@@ -251,7 +275,7 @@ const Order = () => {
           {/* Alternatively, you can use CircularProgress */}
           {/* <CircularProgress /> */}
         </Box>
-      ) : (
+      ) : isMobile ? (
         <>
           <TableContainer component={Paper}>
             <Table aria-label="order table">
@@ -363,6 +387,19 @@ const Order = () => {
             </Button>
           </Box>
         </>
+      ) : (
+        <InfiniteScroll
+          style={{padding:"1rem"}}
+          dataLength={dataLength}
+          next={handleNext}
+          hasMore={!(currentPage === totalPages)}
+          loader={<h4>Loading...</h4>}
+          scrollableTarget={"scrollableDiv"}
+        >
+          {totalOrders.map((order) => (
+            <MobileOrderCard key={order._id} data={order} />
+          ))}
+        </InfiniteScroll>
       )}
     </div>
   );

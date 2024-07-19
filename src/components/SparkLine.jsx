@@ -15,15 +15,16 @@ export default function SparkLine() {
       try {
         const orderResponse = await post('/order/get');
         const orders = orderResponse.data.orders;
-        
+        console.log(orders,"orders")
         const orderCounts = orders.reduce((acc, order) => {
           const date = order.created_at.split('T')[0];
           acc[date] = (acc[date] || 0) + 1;
           return acc;
         }, {});
+console.log(orders,"OOO")
 
         const driverResponse = await post('/driver/get?active=false');
-        const drivers = driverResponse.data;
+        const drivers = driverResponse.data.drivers;
 
         const driverCounts = drivers.reduce((acc, driver) => {
           const date = driver.createdAt.split('T')[0];
@@ -48,7 +49,8 @@ export default function SparkLine() {
     <Stack direction="column" width="100%" spacing={1}
     sx={{
       backgroundColor: 'white',
-      maxHeight:"325px" // Set the background color to white
+      maxHeight:"325px", // Set the background color to white
+      borderRadius:"10px"
     }}>
             <div className="graph_text">Orders & Drivers</div>
         <div className='line_under'></div>
@@ -61,6 +63,7 @@ export default function SparkLine() {
         ]}
         height={320}
         margin={{ top: 20, bottom: 30, left: 75 }}
+        grid={{ horizontal: true }}
        
       />
     </Stack>

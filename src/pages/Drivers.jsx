@@ -1,117 +1,389 @@
 //correct: version :2
-import React, { useEffect, useState } from 'react';
-import { Button, Grid, Typography, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper } from '@mui/material';
-import { Link } from 'react-router-dom';
-import { post } from '../api/api';
-import '../styles/Drivers.css'
+import React, { useCallback, useEffect, useState } from "react";
+import {
+  Button,
+  Grid,
+  Typography,
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Paper,
+  Box,
+  InputBase,
+  IconButton,
+  TextField,
+  Fab,
+  useMediaQuery,
+} from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
+import { post } from "../api/api";
+import "../styles/Drivers.css";
+import SearchIcon from "@mui/icons-material/Search";
+import { debounce } from "lodash";
+import ChoiceDialog from "../components/ChoiceDialog";
+import loadingGif from "../Assets/imagesG/TruckAnimationTruvoey.gif";
+import AddIcon from "@mui/icons-material/Add";
+import MobileDriverCard from "../components/MobileDriverCard";
 
 const Drivers = () => {
   const [drivers, setDrivers] = useState([]);
+  const [limit, setLimit] = useState(8);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [totalDrivers, setTotalDrivers] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const isMobile = useMediaQuery("(min-width:600px)");
 
   useEffect(() => {
-    fetchDrivers();
-  }, []);
+    const fetchDrivers = async () => {
+      let param = { query: searchQuery, limit, page: currentPage };
+      setLoading(true);
+      post("/driver/get/", {}, param)
+        .then((response) => {
+          console.log(response);
+          const newDrivers = response.data.drivers;
+          setTotalDrivers((prevDrivers) =>
+            prevDrivers.length > 0
+              ? [...prevDrivers, ...newDrivers]
+              : newDrivers
+          );
 
-  const fetchDrivers = async () => {
-    post("/driver/get?active=false")
-      .then((response) => {
-        setDrivers(response.data);
-        console.log("Drivers fetched successfully:", response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching drivers:", error);
-      });
+          setDrivers(newDrivers);
+
+          setTotalPages(Math.ceil(response.data.total / limit));
+        })
+        .catch((error) => {
+          console.error("Error submitting data:", error);
+          const response = error.response;
+
+          console.log(response);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    };
+
+    const indexOfFirstRecord = (currentPage - 1) * limit;
+    const indexOfLastRecord = indexOfFirstRecord + limit;
+    if (totalDrivers.length >= indexOfLastRecord) {
+      const currentRecords = totalDrivers.slice(
+        indexOfFirstRecord,
+        indexOfLastRecord
+      );
+      setDrivers(currentRecords);
+    } else {
+      fetchDrivers();
+    }
+  }, [searchQuery, limit, currentPage]);
+
+  const debouncedSearch = useCallback(
+    debounce((value) => {
+      setSearchQuery(value);
+      setDrivers([]); // Clear orders when new search is made
+      setTotalDrivers([]);
+    }, 500),
+    []
+  );
+
+  const handleSearchChange = (e) => {
+    debouncedSearch(e.target.value);
   };
 
-  return (
-    <div>
-      
-      <Grid item xs={12}>
-        {/* <Typography
-          variant="h5"
-          component="h2"
-          sx={{ textAlign: "left", m: 3 , color: "#1237BF"}}
-        >
-          Drivers
-        </Typography>
+  const handlePrevious = (e) => {};
+  const handleNext = (e) => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
 
-        <Button
-        sx={{ mt: 1, mb: 4, alignItems: "right" }}
+  const debouncedLimit = useCallback(
+    debounce((value) => {
+      setLimit(value);
+      setCurrentPage(1);
+      setDrivers([]); // Clear orders when new limit is set
+      setTotalDrivers([]);
+    }, 500),
+    []
+  );
+
+  const onLimitChange = (e) => {
+    debouncedLimit(Number(e.target.value));
+  };
+
+  const onOptionSelected = (option, driverId) => {
+    alert("what is selected option : " + option + " Driver id : " + driverId);
+    if (option === "edit") {
+      navigate(`/dashboard/edit-driver/${driverId} `);
+    } else if (option === "deactivate") {
+    }
+  };
+
+  const choiceOptions = ["edit", "Deactivate"];
+
+  return (
+    <Box>
+      <Fab
+        sx={{
+          display: { sm: "none" },
+          position: "absolute",
+          bottom: 0,
+          right: 0,
+          margin: 2,
+        }}
         color="primary"
-        variant="contained"
+        aria-label="add"
         component={Link}
         to="/dashboard/add-driver"
       >
-        Add Driver
-      </Button> */}
-       <Grid container justifyContent="space-between" alignItems="center" sx={{ m: 2 }}>
-      <Grid item>
-        <Typography
-          variant="h5"
-          component="h2"
-          sx={{ textAlign: 'left', color: '#1237BF' }}
-        >
-          Drivers
-        </Typography>
-      </Grid>
-      <Grid item>
-        <Button
-          sx={{ alignItems: 'right', marginRight: 6 , background: '#1237BF', color: 'white'}}
-          
-          variant="contained"
-          component={Link}
-          to="/dashboard/add-driver"
-        >
-          Add Driver
-        </Button>
-      </Grid>
-    </Grid>
+        <AddIcon />
+      </Fab>
+      {/* md={6} */}
 
-        <TableContainer  component={Paper}>
-          <Table  aria-label="drivers table">
-            <TableHead className='drivers-tablehead' sx={{borderBottomColor:'#F9A33F' ,border: '1px solid #F9A33F'}}>
-              <TableRow class>
-              <TableCell sx={{ color: '#1237BF', fontWeight: 'bold', borderBottomColor:'#F9A33F' }}>Name</TableCell>
-              <TableCell sx={{ color: '#1237BF', fontWeight: 'bold', borderBottomColor:'#F9A33F' }}>Address</TableCell>
-                <TableCell sx={{ color: '#1237BF', fontWeight: 'bold' , borderBottomColor:'#F9A33F'}}>Email</TableCell>
-                <TableCell sx={{ color: '#1237BF', fontWeight: 'bold', borderBottomColor:'#F9A33F' }}>Phone</TableCell>
-                <TableCell sx={{ color: '#1237BF' , fontWeight: 'bold', borderBottomColor:'#F9A33F'}}>Truck Plate</TableCell>
-                <TableCell sx={{ color: '#1237BF', fontWeight: 'bold', borderBottomColor:'#F9A33F' }}>Driver License</TableCell>
-                <TableCell sx={{ color: '#1237BF', fontWeight: 'bold' , borderBottomColor:'#F9A33F'}}>Options</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {drivers.map((driver) => (
-                <TableRow key={driver._id}>
-                  <TableCell>{driver.username}</TableCell>
-                  <TableCell>{driver.address.formatted_address.substring(0, 20)}</TableCell>
-                  <TableCell>{driver.email}</TableCell>
-                  <TableCell>{driver.phone}</TableCell>
-                  <TableCell>{driver.truckLicensePlateNumber}</TableCell>
-                  <TableCell>{driver.driverLicense}</TableCell>
-                  <TableCell >
-                    <Button sx={{ background: '#1237BF' }}
-                      color="primary"
-                      variant="contained"
-                      component={Link}
-                      to={`/dashboard/edit-driver/${driver._id}`}
-                    >
-                      Edit
-                    </Button>
-                  </TableCell>
-                </TableRow >
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        
+      <Grid container sx={{ pb: 2 }}>
+        <Grid item xs={4} sx={{ display: { xs: "none", sm: "initial" } }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              height: "100%", // Optional, ensures the Box takes the full height of the parent
+            }}
+          >
+            <Typography
+              variant="h5"
+              component="h2"
+              sx={{ textAlign: "left", color: "#1237BF" }}
+            >
+              Drivers
+            </Typography>
+          </Box>
+        </Grid>
+        <Grid Item xs={12} sm={4}>
+          <Box
+            component="form"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              border: "1px solid #1237BF",
+              borderRadius: "100px",
+            }}
+          >
+            <InputBase
+              onChange={handleSearchChange}
+              sx={{
+                ml: 2,
+                flex: 1,
+              }}
+              placeholder="Search Driver"
+              inputProps={{ "aria-label": "search order" }}
+            />
+            <IconButton
+              type="button"
+              sx={{ color: "black" }}
+              aria-label="search"
+            >
+              <SearchIcon />
+            </IconButton>
+          </Box>
+        </Grid>
+
+        <Grid item xs={4} sx={{ display: { xs: "none", sm: "initial" } }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              height: "100%",
+              alignItems: "center",
+              pr: 2,
+              pl: 2,
+            }}
+          >
+            <Button
+              size="large"
+              sx={{
+                background: "#1237BF",
+                color: "white",
+              }}
+              variant="contained"
+              component={Link}
+              to="/dashboard/add-driver"
+            >
+              Add Driver
+            </Button>
+          </Box>
+        </Grid>
       </Grid>
-    </div>
+
+      {loading ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "60vh", // Adjust this height as per your layout
+          }}
+        >
+          <img
+            style={{ maxWidth: "300px" }}
+            src={loadingGif}
+            alt="Loading..."
+          />
+          {/* Alternatively, you can use CircularProgress */}
+          {/* <CircularProgress /> */}
+        </Box>
+      ) : isMobile ? (
+        <>
+          <TableContainer component={Paper}>
+            <Table aria-label="drivers table">
+              <TableHead
+                className="drivers-tablehead"
+                sx={{
+                  borderBottomColor: "#F9A33F",
+                  border: "1px solid #F9A33F",
+                }}
+              >
+                <TableRow class>
+                  <TableCell
+                    sx={{
+                      color: "#1237BF",
+                      fontWeight: "bold",
+                      borderBottomColor: "#F9A33F",
+                    }}
+                  >
+                    Name
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      color: "#1237BF",
+                      fontWeight: "bold",
+                      borderBottomColor: "#F9A33F",
+                    }}
+                  >
+                    Address
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      color: "#1237BF",
+                      fontWeight: "bold",
+                      borderBottomColor: "#F9A33F",
+                    }}
+                  >
+                    Email
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      color: "#1237BF",
+                      fontWeight: "bold",
+                      borderBottomColor: "#F9A33F",
+                    }}
+                  >
+                    Phone
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      color: "#1237BF",
+                      fontWeight: "bold",
+                      borderBottomColor: "#F9A33F",
+                    }}
+                  >
+                    Truck Plate
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      color: "#1237BF",
+                      fontWeight: "bold",
+                      borderBottomColor: "#F9A33F",
+                    }}
+                  >
+                    Driver License
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      color: "#1237BF",
+                      fontWeight: "bold",
+                      borderBottomColor: "#F9A33F",
+                    }}
+                  >
+                    Options
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {drivers.map((driver) => (
+                  <TableRow key={driver._id}>
+                    <TableCell>{driver.username}</TableCell>
+                    <TableCell>
+                      {driver.address.formatted_address.substring(0, 20)}
+                    </TableCell>
+                    <TableCell>{driver.email}</TableCell>
+                    <TableCell>{driver.phone}</TableCell>
+                    <TableCell>{driver.truckLicensePlateNumber}</TableCell>
+                    <TableCell>{driver.driverLicense}</TableCell>
+                    <TableCell>
+                      <ChoiceDialog
+                        options={choiceOptions}
+                        onChange={(choice) => {
+                          onOptionSelected(choice, driver?._id);
+                        }}
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+
+          <Box sx={{ display: "flex", borderTop: "solid 1px #F9A33F", pt: 2 }}>
+            <Button
+              variant="contained"
+              onClick={handlePrevious}
+              disabled={currentPage === 1}
+            >
+              Previous
+            </Button>
+            <Typography align="center" sx={{ flexGrow: "1" }}>
+              Page {currentPage} of {totalPages}
+            </Typography>
+
+            <TextField
+              type="number"
+              size="small"
+              defaultValue={limit}
+              inputProps={{
+                min: 1,
+                step: 10,
+                style: { maxWidth: "50px" },
+              }}
+              onChange={onLimitChange}
+              variant="outlined"
+              sx={{
+                mr: 2,
+              }}
+            />
+            <Button
+              variant="contained"
+              onClick={handleNext}
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </Button>
+          </Box>
+        </>
+      ) : (
+        drivers.map((driver) => (
+          <MobileDriverCard
+            key={driver._id}
+            data={driver}
+            onOptionSelected={onOptionSelected}
+          />
+        ))
+      )}
+    </Box>
   );
 };
 
 export default Drivers;
-
-
-
-

@@ -1,6 +1,6 @@
 import React from "react";
-import '../styles/Login.css'
-import loginIllustration from '../Assets/imagesB/Boy.png';
+import "../styles/Login.css";
+import loginIllustration from "../Assets/imagesB/Boy.png";
 import { Link } from "react-router-dom";
 
 // import { makeStyles } from '@material-ui/core/styles';
@@ -31,20 +31,13 @@ import DialogTitle from "@mui/material/DialogTitle";
 import AlertMessage from "../components/AlertMessage";
 import { NavLink } from "react-router-dom";
 import { post } from "../api/api";
-import { useCookies } from 'react-cookie';
-import { Tabs } from '@mui/material';
-import ButtonGroup from '@mui/material/ButtonGroup';
+import { useCookies } from "react-cookie";
+import {  Tabs } from "@mui/material";
+import ButtonGroup from "@mui/material/ButtonGroup";
 import ButtonGroupComponent from "../components/ButtonGroupComponent";
+import { margin, padding } from "@mui/system";
 
 
-// const useStyles = makeStyles({
-//   button: {
-//     "&.active": {
-//       backgroundColor:'#1237BF',
-//       color:'white'
-//     },
-//   },
-// });
 
 
 
@@ -94,7 +87,7 @@ const Login = () => {
 
   const handleForgotPasswordDialogClose = () => {
     setIsForgotPasswordDialogOpen(false);
-    setDialogAlertMessage([])
+    setDialogAlertMessage([]);
   };
 
   const onForgotPasswordDialogSubmit = (event) => {
@@ -103,7 +96,7 @@ const Login = () => {
     const formJson = Object.fromEntries(formData.entries());
     const email = formJson.email;
 
-    post("auth/forget-password", {email : email})
+    post("auth/forget-password", { email: email })
       .then((response) => {
         console.log("DATA FROM Forget password ", response);
         if (response.status === 200) {
@@ -117,74 +110,80 @@ const Login = () => {
         const response = error.response;
 
         if (response.status === 404) {
-          setDialogAlertMessage(["error", "User not found related to that email"]);
+          setDialogAlertMessage([
+            "error",
+            "User not found related to that email",
+          ]);
         } else {
-          setDialogAlertMessage(["error", "Something Went Wrong contact support"]);
+          setDialogAlertMessage([
+            "error",
+            "Something Went Wrong contact support",
+          ]);
         }
       });
-
 
     //  navigate("/forgotpassword");
   };
 
-  
   // TODO : get the state of the check from here
   const formik = useFormik({
     initialValues: {},
     validationSchema: validationSchema,
-      onSubmit: (values) => {
-        post("auth/login", values)
-          .then((response) => {
-            console.log("DATA FROM LOGIN ", response);
-            if (response.status === 201) {
-              setCookie('token', response.data.token, { path: '/' }); 
-              
-              navigate("/dashboard"); 
-              setAlertMessage(["success", "User logged in successfully"]);
-              
-            } else if (response.status === 200) {
-              setAlertMessage(["error", response.data.message]);
-            } else {
-              setAlertMessage(["error", "Something Went Wrong contact support"]);
-            }
-          })
-          .catch((error) => {
-            console.error("Error submitting data:", error);
-            const response = error.response;
+    onSubmit: (values) => {
+      post("auth/login", values)
+        .then((response) => {
+          console.log("DATA FROM LOGIN ", response);
+          if (response.status === 201) {
+            setCookie("token", response.data.token, { path: "/" });
 
-            console.log(response);
-            if (response.status === 404) {
-              setAlertMessage(["error", "Incorrect password or email"]);
-            } else {
-              setAlertMessage(["error", "Something Went Wrong contact support"]);
-            }
-          });
-      },
+            navigate("/dashboard/analytics");
+            setAlertMessage(["success", "User logged in successfully"]);
+          } else if (response.status === 200) {
+            setAlertMessage(["error", response.data.message]);
+          } else {
+            setAlertMessage(["error", "Something Went Wrong contact support"]);
+          }
+        })
+        .catch((error) => {
+          console.error("Error submitting data:", error);
+          const response = error.response;
+
+          console.log(response);
+          if (response.status === 404) {
+            setAlertMessage(["error", "Incorrect password or email"]);
+          } else {
+            setAlertMessage(["error", "Something Went Wrong contact support"]);
+          }
+        });
+    },
   });
   const buttons = [
     { name: "Manager", link: "/", active: true },
     { name: "Driver", link: "/driver/login", active: false },
   ];
-  
 
   return (
     <div className="login">
+      
       {/* <div className="left-column">
       <img src={loginIllustration} alt="login-illustration"/>
       </div> */}
+
+      {/* <Container maxWidth="x-lg" sx={{ height: "100vh" }}> */}
+      <Container maxWidth="x-lg" sx={{ height: "100vh" }}>
       
-        {/* <Container maxWidth="x-lg" sx={{ height: "100vh" }}> */}
-        <Container maxWidth="x-lg" sx={{ height: "100vh" }}>
-          <Grid container spacing={2}>
-            <Grid item xs={6}><img src={loginIllustration} alt="Banner-illustration"/></Grid>
-            <Grid item xs={6}>
-              <div className="wrapper_login_buttons">
-            {/* <ButtonGroup size="large" aria-label="Large button group" className = "Buttongrp"sx={{ display: "flex", justifyContent: "center", alignItems: "center", borderRadius: "50px" }}>
+        <Grid container spacing={2} className="form-fields">
+          <Grid item xs={12} md={6} className="banner-illustration" >
+            <img src={loginIllustration} alt="Banner-illustration" />
+          </Grid>
+          <Grid item xs={12} md={6}sx={{placeItems:"center"}}>
+            <div className="wrapper_login_buttons">
+              {/* <ButtonGroup size="large" aria-label="Large button group" className = "Buttongrp"sx={{ display: "flex", justifyContent: "center", alignItems: "center", borderRadius: "50px" }}>
               {buttons}
             </ButtonGroup> */}
-              <ButtonGroupComponent buttons={buttons} activeButton="Manager" />
+              <ButtonGroupComponent buttons={buttons} activeButton="Manager"/>
 
-            <Box
+              <Box
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
@@ -198,64 +197,66 @@ const Login = () => {
                     onSubmit: (event) => {
                       onForgotPasswordDialogSubmit(event);
                     },
-                    sx:{
+                    sx: {
                       width: "400px",
                       height: "210px",
-                    }
+                    },
                   }}
-                 
                 >
-<DialogTitle
-  sx={{
-    color: '#1237BF',
-    fontSize: 27,
-    fontFamily: 'Outfit',
-    fontWeight: '600',
-    wordWrap: 'break-word',
-  }}
->
-  Forgot Password
-</DialogTitle>
+                  <DialogTitle
+                    sx={{
+                      color: "#1237BF",
+                      fontSize: 27,
+                      fontFamily: "Outfit",
+                      fontWeight: "600",
+                      wordWrap: "break-word",
+                    }}
+                  >
+                    Forgot Password
+                  </DialogTitle>
                   <DialogContent>
-                  <DialogContentText
-  sx={{
-    color: '#1237BF',
-    fontSize: 20,
-    fontFamily: 'Outfit',
-    fontWeight: '700',
-    wordWrap: 'break-word'
-  }}
->
-  Enter Email
-</DialogContentText>
+                    <DialogContentText
+                      sx={{
+                        color: "#1237BF",
+                        fontSize: 20,
+                        fontFamily: "Outfit",
+                        fontWeight: "700",
+                        wordWrap: "break-word",
+                      }}
+                    >
+                      Enter Email
+                    </DialogContentText>
 
-<OutlinedInput
-  autoFocus
-  required
-  fullWidth
-  id="email"
-  name="email"
-  type="email"
-  placeholder="Email Address"
-  sx={{
-    border: '1px solid #1237BF',
-    borderRadius: '25px',
-    height: '45px',  // Adjust height to reduce overall height
-    padding: 0,      // Remove padding
-  }}
-/>
-
-
+                    <OutlinedInput
+                      autoFocus
+                      required
+                      fullWidth
+                      id="email"
+                      name="email"
+                      type="email"
+                      placeholder="Email Address"
+                      sx={{
+                        border: "1px solid #1237BF",
+                        borderRadius: "25px",
+                        height: "45px", // Adjust height to reduce overall height
+                        padding: 0, // Remove padding
+                      }}
+                    />
                   </DialogContent>
                   <DialogActions>
-                    <Button onClick={handleForgotPasswordDialogClose} className="btn login-btn">
+                    <Button
+                      onClick={handleForgotPasswordDialogClose}
+                      className="btn login-btn"
+                    >
                       Cancel
                     </Button>
                     {/* <Link to="/signup" >Sign Up</Link> */}
 
-                    <Button type="submit" className="btn signup-btn">Send</Button>
+                    <Button type="submit" className="btn signup-btn">
+                      Send
+                    </Button>
                   </DialogActions>
-        
+
                   <AlertMessage alertMessage={dialogAlertMessage} />
                 </Dialog>
                 <form
@@ -272,29 +273,30 @@ const Login = () => {
                   <Typography
                     variant="h5"
                     component="h1"
-                    sx={{ textAlign: "center", m: 3, color: '#1237BF' }}
-                    
+                    sx={{ textAlign: "center", m: 3, color: "#1237BF" }}
                   >
                     Welcome Back !
                   </Typography>
-                  <TextField
-                    fullWidth
-                    id="email"
-                    name="email"
-                    label="Username"
-                    size="small"
-                    margin="normal"
-                    InputProps={{
-                      style: {
-                        borderRadius: "50px",
-                      }
-                    }}
-                    value={formik.values.email}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={formik.touched.email && Boolean(formik.errors.email)}
-                    helperText={formik.touched.email && formik.errors.email}
-                  />
+
+                  <FormControl fullWidth>
+  <Typography variant="caption" component="h2" sx={{ color: "#1237BF", fontSize: 14, fontWeight: "bold", textAlign:"left"}}>
+    Username
+  </Typography>
+  <TextField
+    fullWidth
+    id="email"
+    name="email"
+    labelPlacement="top"
+    size="small"
+    margin="normal"
+    value={formik.values.email}
+    onChange={formik.handleChange}
+    onBlur={formik.handleBlur}
+    error={formik.touched.email && Boolean(formik.errors.email)}
+    helperText={formik.touched.email && formik.errors.email}
+  />
+</FormControl>
+                  
                   <Typography
                     align="right"
                     variant="caption"
@@ -304,6 +306,10 @@ const Login = () => {
                   >
                     Forgot Password ?
                   </Typography>
+
+            
+  
+
                   <FormControl
                     fullWidth
                     variant="outlined"
@@ -311,13 +317,9 @@ const Login = () => {
                       formik.errors.password && Boolean(formik.errors.password)
                     }
                   >
-                    <InputLabel
-                      htmlFor="outlined-adornment-password"
-                      size="small"
-                      
-                    >
-                      Password
-                    </InputLabel>
+                     <Typography variant="caption" component="h2" sx={{ color: "#1237BF", fontSize: 14, fontWeight: "bold", textAlign:"left"}}>
+    Password
+  </Typography>
                     <OutlinedInput
                       id="outlined-adornment-password"
                       type={showPassword ? "text" : "password"}
@@ -334,14 +336,13 @@ const Login = () => {
                         </InputAdornment>
                       }
                       name="password"
-                      label="Password"
+                      
                       size="small"
                       margin="normal"
                       value={formik.values.password}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      sx={{borderRadius:"50px"}}
-                     
+                      
                     />
                     {formik.touched.password && formik.errors.password && (
                       <FormHelperText error>
@@ -349,7 +350,7 @@ const Login = () => {
                       </FormHelperText>
                     )}
                   </FormControl>
-                 
+
                   <Box
                     sx={{
                       display: "flex",
@@ -375,11 +376,11 @@ const Login = () => {
                     />
                   </Box>
                   <Button
-                    sx={{ mt: 1, mb: 4 , bgcolor:"#1237BF", width:"70%"}}
+                    sx={{ mt: 1, mb: 4, bgcolor: "#1237BF", width: "70%" }}
                     color="primary"
                     variant="contained"
                     type="submit"
-                  >
+                    >
                     Login
                   </Button>
                   <Typography variant="caption" component="h2" align="center">
@@ -392,7 +393,7 @@ const Login = () => {
                       <Typography
                         variant="caption"
                         component="h2"
-                        sx={{ fontWeight: "700",color:"#1237BF" }}
+                        sx={{ fontWeight: "700", color: "#1237BF" }}
                       >
                         Sign Up
                       </Typography>
@@ -400,15 +401,12 @@ const Login = () => {
                   </Typography>
                   <AlertMessage alertMessage={alertMessage} />
                 </form>
-        
               </Box>
-              </div>
-            </Grid>
+            </div>
           </Grid>
-        </Container>
-       
-      </div>
-    
+        </Grid>
+      </Container>
+    </div>
   );
 };
 

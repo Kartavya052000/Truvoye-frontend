@@ -25,9 +25,11 @@ import JobSheet from "./pages/driver/JobSheet";
 import OTPVerification from "./pages/driver/OTPVerification";
 import Map from "./components/Map";
 import Pickup from "./pages/driver/Pickup";
+import OrderTracking from "./pages/OrderTracking";
 
 
 function App() {
+
   return (
     <div className="App">
       <Router>
@@ -47,9 +49,9 @@ function App() {
             path="/login"
             element={
               <>
-                <Header />
+                {/* <Header /> */}
                 <Login />
-                <Footer />
+                {/* <Footer /> */}
               </>
             }
           />
@@ -57,9 +59,9 @@ function App() {
             path="/signup"
             element={
               <>
-                <Header />
+                {/* <Header /> */}
                 <SignUp />
-                <Footer />
+                {/* <Footer /> */}
               </>
             }
           />
@@ -94,19 +96,18 @@ function App() {
             <Route path="add-driver" element={<AddDriver />} />
             <Route path="edit-driver/:id" element={<EditDriver />} />
             <Route path="order-details/:id" element={<OrderDetails />}/>
-            <Route path="order-tracking/:id" element={<Map />}/>
+            <Route path="order-tracking/:id" element={<OrderTracking />}/>
             
           </Route>
+          <Route path="/driver/login" element={<DriverLogin />} />
 
           {/* Dashboard Routes */}
           <Route path="/driver/*" element={<DriverLayout />}>
             <Route path="home" element={<DriverHomepage />} />
-            <Route path="login" element={<DriverLogin />}/>
             <Route path="reset-password/:token" element={<DriverResetPassword />}/>
             <Route path="jobsheet" element={<JobSheet />}/>
             <Route path="pickup" element={<Pickup />}/>
             <Route path="jobsheet/otp-verification/:orderId" element={<OTPVerification />}/>
-            {/* <Route path="another-page" element={<AnotherDashboardPage />} /> */}
             {/* Add more dashboard routes here */}
           </Route>
         </Routes>
