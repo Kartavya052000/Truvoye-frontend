@@ -234,7 +234,7 @@ const Topbar = () => {
         )}
       </div>
       {isOpen ? (
-        <Sidebar show={true} navItems={navItems} triggerEvent={triggerEvent} />
+        <Sidebar show={true} navItems={navItems}  />
       ) : (
         ""
       )}

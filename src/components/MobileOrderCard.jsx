@@ -7,6 +7,7 @@ const MobileOrderCard = ({ data }) => {
   const navigate = useNavigate();
 
   const truncateStart = (str, maxLength) => {
+    if (!str) return;
     if (str.length > maxLength) {
       return `${str.substring(str.length - maxLength).toUpperCase()}`;
     } else {
@@ -42,7 +43,7 @@ const MobileOrderCard = ({ data }) => {
         sx={{  mb: 2, borderRadius: "16px", cursor: "pointer" }}
         onClick={() => {
 
-          navigate(`/dashboard/order-details/${data._id}`);
+          navigate(`/dashboard/order-details/${data?._id}`);
         }}
       >
         <Grid container>
@@ -68,7 +69,7 @@ const MobileOrderCard = ({ data }) => {
                     color: "#000000",
                   }}
                 >
-                  {truncateStart(data._id, 8)}
+                  {truncateStart(data?._id, 8)}
                 </span>
               </Typography>
 
@@ -100,7 +101,7 @@ const MobileOrderCard = ({ data }) => {
                     wordWrap: "break-word",
                   }}
                 >
-                  {getOrderStatus(data.order_status)}
+                  {getOrderStatus(data?.order_status)}
                 </span>
               </Typography>
 
@@ -124,7 +125,7 @@ const MobileOrderCard = ({ data }) => {
                     wordWrap: "break-word", // Allow word wrapping
                   }}
                 >
-                  {formatDate(data.created_at)}
+                  {formatDate(data?.created_at)}
                 </span>
               </Typography>
 
@@ -156,7 +157,7 @@ const MobileOrderCard = ({ data }) => {
                     wordWrap: "break-word", // Allow word wrapping
                   }}
                 >
-                  {data.receiver_address.address_name}
+                  {data?.receiver_address?.address_name}
                 </span>
               </Typography>
             </Box>
@@ -170,7 +171,7 @@ const MobileOrderCard = ({ data }) => {
               justifyContent: "center",
             }}
           >
-            <Link to={`/dashboard/order-details/${data._id}`}>
+            <Link to={`/dashboard/order-details/${data?._id}`}>
               <img className="details" src={details} alt="details-icon" />
             </Link>
           </Grid>

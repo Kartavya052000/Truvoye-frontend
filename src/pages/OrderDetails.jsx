@@ -142,7 +142,11 @@ const OrderDetails = () => {
     post("/orderDetails/assign-order", data)
       .then((response) => {
         // setSelectedDriver(driver);   //i think this is not required ?
-        window.location.reload();
+        // window.location.reload();
+        const newOrder = response.data.order;
+        console.log(newOrder)
+        setOrderDetails((order) => {order.order_status = 1; console.log(order)});
+        // setCurrentPage(-1)
         // setOpenModal(true); // Open modal when checkbox is clicked
       })
       .catch((error) => {

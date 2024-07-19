@@ -24,6 +24,7 @@ import details from "../Assets/imagesV/Details.svg";
 import loadingGif from "../Assets/imagesG/TruckAnimationTruvoey.gif";
 import SortDialog from "../components/SortDialog";
 import MobileOrderCard from "../components/MobileOrderCard";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const sortOptions = [
   { value: "latest", label: "Latest Order" },
@@ -43,6 +44,7 @@ const Order = () => {
   const [totalOrders, setTotalOrders] = useState([]);
   const [orderStatus, setOrderStatus] = useState(null);
   const isMobile = useMediaQuery("(min-width:600px)");
+  const [dataLength, setDataLength] = useState(0);
 
   const [selectedSort, setSelectedSort] = useState("latest");
 
@@ -103,6 +105,8 @@ const Order = () => {
         setOrders(newOrders);
 
         setTotalPages(Math.ceil(response.data.total / limit));
+
+        setDataLength(response.data.total);
       } catch (error) {
         console.error("Error fetching orders:", error);
       } finally {
@@ -113,7 +117,6 @@ const Order = () => {
   );
 
   useEffect(() => {
-    console.log("This function should be called ")
     const indexOfFirstRecord = (currentPage - 1) * limit;
     const indexOfLastRecord = indexOfFirstRecord + limit;
     if (totalOrders.length >= indexOfLastRecord) {
@@ -130,7 +133,7 @@ const Order = () => {
   useEffect(() => {
     if (isMobile) {
       setLimit(8);
-      console.log("Limit is set to 8")
+      console.log("Limit is set to 8");
     } else {
       setLimit(8);
     }
@@ -164,9 +167,14 @@ const Order = () => {
   };
 
   const handleNext = () => {
+    console.log(
+      "I have been summon from the infinite scroll current page " + currentPage
+    );
     if (currentPage < totalPages) {
+      console.log("Are this condition is mate : currentPage < totalPages")
       setCurrentPage((prevPage) => prevPage + 1);
     }
+    console.log("After increment  " + currentPage);
   };
 
   const handlePrevious = () => {
@@ -181,7 +189,6 @@ const Order = () => {
         <TableRow key={order._id}>
           <TableCell component="th" scope="row">
             {order._id.slice(-10).toUpperCase()}
-            {console.log("you are been called many time")}
           </TableCell>
           <TableCell align="right">
             <StatusBadge status={order.order_status}></StatusBadge>
@@ -208,7 +215,7 @@ const Order = () => {
   );
 
   return (
-    <div>
+    <div id="scrollableDiv" style={{ height: "100%", overflow: "auto" }}>
       <Box sx={{ display: "flex", alignItems: "center" }}>
         <h1
           className="my-4 text-2xl font-bold tableTitle"
@@ -248,6 +255,8 @@ const Order = () => {
           onChange={handleSortChange}
         />
       </Box>
+
+      {/* {isMobile ? (loading ? (<Box>loading</Box>) : (<Box>Desktop</Box>)) : (<Box>Mobile</Box>)} */}
 
       {loading ? (
         <Box
@@ -379,11 +388,18 @@ const Order = () => {
           </Box>
         </>
       ) : (
-        <Box sx={{ mt: 1 }}>
-          {orders.map((order) => (
+        <InfiniteScroll
+          style={{padding:"1rem"}}
+          dataLength={dataLength}
+          next={handleNext}
+          hasMore={!(currentPage === totalPages)}
+          loader={<h4>Loading...</h4>}
+          scrollableTarget={"scrollableDiv"}
+        >
+          {totalOrders.map((order) => (
             <MobileOrderCard key={order._id} data={order} />
           ))}
-        </Box>
+        </InfiniteScroll>
       )}
     </div>
   );
