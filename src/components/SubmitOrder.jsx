@@ -278,7 +278,7 @@ const getCurrentDate = () => {
             content: 'custom-content'
           }
         });
-        navigate("/dashboard/order-proposal")
+        navigate("/dashboard/orders")
       })
       .catch((error) => {
         console.error("Error submitting data:", error);

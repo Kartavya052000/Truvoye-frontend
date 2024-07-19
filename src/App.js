@@ -29,7 +29,7 @@ import OrderTracking from "./pages/OrderTracking";
 
 
 function App() {
-  
+
   return (
     <div className="App">
       <Router>
@@ -99,16 +99,15 @@ function App() {
             <Route path="order-tracking/:id" element={<OrderTracking />}/>
             
           </Route>
+          <Route path="/driver/login" element={<DriverLogin />} />
 
           {/* Dashboard Routes */}
           <Route path="/driver/*" element={<DriverLayout />}>
             <Route path="home" element={<DriverHomepage />} />
-            <Route path="login" element={<DriverLogin />}/>
             <Route path="reset-password/:token" element={<DriverResetPassword />}/>
             <Route path="jobsheet" element={<JobSheet />}/>
             <Route path="pickup" element={<Pickup />}/>
             <Route path="jobsheet/otp-verification/:orderId" element={<OTPVerification />}/>
-            {/* <Route path="another-page" element={<AnotherDashboardPage />} /> */}
             {/* Add more dashboard routes here */}
           </Route>
         </Routes>
