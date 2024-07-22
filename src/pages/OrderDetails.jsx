@@ -93,6 +93,8 @@ const OrderDetails = () => {
               setDrivers([response.data]);
               setTotalPages(1);
             }
+          // setLoading(false);
+
         })
         .catch((error) => {
           console.error("Error submitting data:", error);
@@ -144,8 +146,13 @@ const OrderDetails = () => {
         // setSelectedDriver(driver);   //i think this is not required ?
         // window.location.reload();
         const newOrder = response.data.order;
-        console.log(newOrder)
+        // console.log(newOrder)
         setOrderDetails((order) => {order.order_status = 1; console.log(order)});
+
+      //   setTimeout(()=>{
+      //  setLoading(false)
+      //   },2000)
+        // alert(loading)
         // setCurrentPage(-1)
         // setOpenModal(true); // Open modal when checkbox is clicked
       })

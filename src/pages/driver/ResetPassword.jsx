@@ -61,7 +61,7 @@ const ResetPassword = () => {
               setTimeout(onLoginClick, 3000);
             } else if (response.status === 201){
                 setAlertMessage(["success","Welcome"]);
-                navigate("/driver/home");
+                navigate("/driver/jobsheet");
             } else {
               setAlertMessage([
                 "error",
