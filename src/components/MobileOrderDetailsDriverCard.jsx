@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import details from "../Assets/imagesV/Details.svg";
 
-const MobileOrderDetailsDriverCard = ({ data , handleAssignCheckboxChange}) => {
+const MobileOrderDetailsDriverCard = ({ data ,orderDetails, handleAssignCheckboxChange}) => {
   const truncateStart = (str, maxLength) => {
     if (str.length > maxLength) {
       return `${str.substring(str.length - maxLength).toUpperCase()}`;
@@ -240,7 +240,10 @@ const MobileOrderDetailsDriverCard = ({ data , handleAssignCheckboxChange}) => {
             //   justifyContent: "center",
             }}
           >
-            <Button variant="outlined" onClick={handleAssignCheckboxChange(data)}>Assign</Button>
+                      {orderDetails.order_status === 0 && (
+                        <Button variant="outlined" onClick={handleAssignCheckboxChange(data)}>Assign</Button>
+
+)}
 
           </Grid>
         </Grid>
