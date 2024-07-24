@@ -62,13 +62,14 @@ const ProposalButton = styled(Button)({
 
 const Proposal = () => {
   return (
-    <Container>
-      <Typography variant="h3" sx={{ color: '#1237BF', textAlign: 'left', fontSize: '39px', fontWeight: 'bolder', marginTop: '2rem' }}>
-        Proposal
-      </Typography>
+    <Container sx={{ marginBottom: '6rem' }}>
+      
       <Box sx={{ display: 'flex', width: '100%', flexDirection: { xs: 'column', md: 'row' } }}>
         
         <LeftContainer>
+        <Typography variant="h3" sx={{ color: '#1237BF', textAlign: 'left', fontSize: '2rem', fontWeight: 'bolder', marginTop: '2rem', marginBottom: '2rem'  }}>
+        Proposal
+      </Typography>
           <Typography variant="body1" sx={{ color: 'black', textAlign: 'left', fontSize: '15px', fontWeight: 'normal' }}>
           Our commitment is to make your business deliver smiles, one mile at a time, with every shipment."
           </Typography>

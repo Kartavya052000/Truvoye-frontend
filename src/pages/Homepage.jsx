@@ -12,9 +12,9 @@ import theme from '../theme';
 
 const Homepage = () => {
   return (
-    <div sx={{m: 0, p:0}}>
+    <div className='homepage-wrapper'>
       <ThemeProvider theme={theme}>
-        <Container>
+        <Container sx={{m: 0, p:0, marginRight: '0', maxWidth: '3000px !important'}}>
       {/* <h1>Homepage</h1> */}
       <Banner />
       <About />

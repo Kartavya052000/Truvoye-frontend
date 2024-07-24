@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, Button, TextField } from '@mui/material';
+import { Box, Typography, Button, TextField} from '@mui/material';
 import { styled } from '@mui/system';
 
 const Container = styled(Box)({
@@ -25,7 +25,8 @@ const LeftContainer = styled(Box)({
   alignItems: 'flex-start',
   
   marginRight: '4rem',
-  marginTop: '2rem',
+  marginTop: '6rem',
+  height: '100%',
   '@media (max-width: 740px)': {
     width: '100%',
     marginTop: '1rem',
@@ -65,35 +66,44 @@ const ContactButton = styled(Button)({
 
 const Contact = () => {
   return (
-    <Container>
-      <Typography variant="h2" sx={{ display: 'flex', color: '#1237BF', textAlign: 'left', fontSize: '39px', fontWeight: 'bolder', maxWidth: '100%',  marginTop: '4rem' }}>
-        Contact Us
-      </Typography>
+    <Container sx={{ marginLeft: '4rem' }}>
+      
       <Box sx={{ display: 'flex', width: '100%', flexDirection: { xs: 'column', md: 'row' } }}>
         <LeftContainer>
+        <Typography variant="h2" sx={{ display: 'flex', color: '#1237BF', textAlign: 'left', fontSize: '2rem', fontWeight: 'bolder', maxWidth: '100%', marginBottom: '1rem'  }}>
+        Contact Us
+      </Typography>
           <Typography variant="body1" sx={{ color: 'black', textAlign: 'left', fontSize: '15px', fontWeight: 'normal' }}>
           Want to know more about the product and services? Just fill out the form and we will get back to you with the answers. 
           </Typography>
           </LeftContainer>
 
           <RightContainer>
-           
+
+          
           <TextField
             fullWidth
             label="Full Name"
-            variant="outlined"
+            InputProps={{
+              style: { borderRadius: '24px' }
+            }}
             sx={{ marginTop: '1rem' }}
+
           />
           <TextField
             fullWidth
             label="Email"
-            variant="outlined"
+            InputProps={{
+              style: { borderRadius: '24px' }
+            }}
             sx={{ marginTop: '1rem' }}
           />
           <TextField
             fullWidth
             label="What can we help you with?"
-            variant="outlined"
+            InputProps={{
+              style: { borderRadius: '24px' }
+            }}
             multiline
             rows={4}
             sx={{ marginTop: '1rem' }}
