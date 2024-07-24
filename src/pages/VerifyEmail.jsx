@@ -25,7 +25,7 @@ const VerifyEmail = () => {
         // const cookieToken = document.cookie.split(';').find(cookie => cookie.trim().startsWith('token='));
         // console.log("Cookie Token:", cookieToken);
 
-        navigate("/dashboard"); 
+        navigate("/dashboard/analytics"); 
         setData(response);
       })
       .catch((error) => {

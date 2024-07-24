@@ -276,7 +276,9 @@ const getCurrentDate = () => {
             // icon: 'custom-icon',
             title: 'custom-title',
             content: 'custom-content'
-          }
+          },
+          timer: 2000 // close after 2 seconds
+
         });
         navigate("/dashboard/orders")
       })

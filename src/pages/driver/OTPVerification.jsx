@@ -9,6 +9,7 @@ import { WarningAmberRounded } from "@mui/icons-material";
 import { post } from "../../api/api";
 import { useNavigate, useParams } from "react-router-dom";
 import AlertMessage from "../../components/AlertMessage";
+import Swal from "sweetalert2";
 
 const OTPVerification = () => {
   const [otp, setOtp] = useState(["", "", "", ""]);
@@ -66,7 +67,26 @@ const OTPVerification = () => {
           if (response.status === 201) {
             console.log(response);
 
-            setAlertMessage(["success", "OTP Verified Delivery Confirmed"]);
+            // setAlertMessage(["success", "OTP Verified Delivery Confirmed"]);
+            Swal.fire({
+              title: "OTP Verified Delivery Confirmed",
+              icon: "success",
+              iconColor: "blue",
+              showConfirmButton: false,
+              customClass: {
+                // icon: 'custom-icon',
+                title: 'custom-title',
+                content: 'custom-content'
+              },
+              timer: 2000, // close after 2 seconds
+              width: '360px', // Set the width
+              didRender: () => {
+                // Set the height using custom CSS
+                const swalContainer = Swal.getPopup();
+                if (swalContainer) {
+                  swalContainer.style.height = '300px'; // Set the height
+                }
+              }    });
             setTimeout(()=>{
 navigate("/driver/jobsheet")
             },2000)

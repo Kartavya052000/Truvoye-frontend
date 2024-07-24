@@ -26,6 +26,7 @@ import OTPVerification from "./pages/driver/OTPVerification";
 import Map from "./components/Map";
 import Pickup from "./pages/driver/Pickup";
 import OrderTracking from "./pages/OrderTracking";
+import ProtectedRoute from "./ProtectedRoute"; // Import the ProtectedRoute component
 
 
 function App() {
@@ -87,6 +88,8 @@ function App() {
           />
 
           {/* Dashboard Routes */}
+          <Route element={<ProtectedRoute />}>
+
           <Route path="/dashboard/*" element={<DashboardLayout />}>
             <Route path="order-proposal" element={<OrderProposal />} />
             <Route path="analytics" element={<Analytics />} />
@@ -99,9 +102,13 @@ function App() {
             <Route path="order-tracking/:id" element={<OrderTracking />}/>
             
           </Route>
+          </Route>
+
           <Route path="/driver/login" element={<DriverLogin />} />
 
           {/* Dashboard Routes */}
+          <Route element={<ProtectedRoute />}>
+
           <Route path="/driver/*" element={<DriverLayout />}>
             <Route path="home" element={<DriverHomepage />} />
             <Route path="reset-password/:token" element={<DriverResetPassword />}/>
@@ -109,6 +116,7 @@ function App() {
             <Route path="pickup" element={<Pickup />}/>
             <Route path="jobsheet/otp-verification/:orderId" element={<OTPVerification />}/>
             {/* Add more dashboard routes here */}
+          </Route>
           </Route>
         </Routes>
       </Router>

@@ -14,6 +14,8 @@ import { post } from "../api/api";
 import AlertMessage from "../components/AlertMessage";
 import { useCookies } from 'react-cookie';
 import Autocomplete from 'react-google-autocomplete';
+import Swal from "sweetalert2";
+
 
 const textFieldStyle = {
   width: '100%',
@@ -102,8 +104,21 @@ const AddDriver = () => {
         .then((response) => {
           console.log("DATA FROM ADD DRIVER", response);
           if (response.status === 201) {
-            setAlertMessage(["success", "Driver added successfully"]);
+            // setAlertMessage(["success", "Driver added successfully"]);
             console.log("driver added successfully")
+            Swal.fire({
+              title: "Driver successfully added",
+              icon: "success",
+              iconColor: "blue",
+              showConfirmButton: false,
+              customClass: {
+                // icon: 'custom-icon',
+                title: 'custom-title',
+                content: 'custom-content'
+              },
+              timer: 2000 // close after 2 seconds
+    
+            });
             navigate("/dashboard/drivers");
           } else {
             setAlertMessage(["error", "Something went wrong, contact support"]);
@@ -147,6 +162,7 @@ const AddDriver = () => {
                   component="h1"
                   sx={{ textAlign: "center", m: 1, color: '#1237BF' }}
                 >
+                 
                   Add New Driver
                 </Typography>
 

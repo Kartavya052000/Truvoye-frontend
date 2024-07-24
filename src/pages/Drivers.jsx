@@ -27,6 +27,7 @@ import ChoiceDialog from "../components/ChoiceDialog";
 import loadingGif from "../Assets/imagesG/TruckAnimationTruvoey.gif";
 import AddIcon from "@mui/icons-material/Add";
 import MobileDriverCard from "../components/MobileDriverCard";
+import plus from '../Assets/imagesV/add.svg';
 
 const Drivers = () => {
   const [drivers, setDrivers] = useState([]);
@@ -212,6 +213,7 @@ const Drivers = () => {
               component={Link}
               to="/dashboard/add-driver"
             >
+               <img src={plus} alt="plus" style={{ width: '10%', height: '10%', margin: '5px' }} />
               Add Driver
             </Button>
           </Box>

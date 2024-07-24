@@ -75,9 +75,12 @@ const OrderDetails = () => {
       }
 
       setLoading(true);
+      // alert("hit1")
+
       post(apiUrl, {}, param)
         .then((response) => {
           if (order)
+            // alert("hit2")
             if (order?.order_status === 0) {
               const newDrivers = response.data.drivers;
               setTotalDrivers((prevDrivers) =>
@@ -93,6 +96,8 @@ const OrderDetails = () => {
               setDrivers([response.data]);
               setTotalPages(1);
             }
+          setLoading(false);
+
         })
         .catch((error) => {
           console.error("Error submitting data:", error);
@@ -142,10 +147,16 @@ const OrderDetails = () => {
     post("/orderDetails/assign-order", data)
       .then((response) => {
         // setSelectedDriver(driver);   //i think this is not required ?
-        // window.location.reload();
+        window.location.reload();
         const newOrder = response.data.order;
-        console.log(newOrder)
+        // console.log(newOrder)
         setOrderDetails((order) => {order.order_status = 1; console.log(order)});
+
+      //   setTimeout(()=>{
+      //  setLoading(false)
+      //  alert("hit")
+      //   },2000)
+        // alert(loading)
         // setCurrentPage(-1)
         // setOpenModal(true); // Open modal when checkbox is clicked
       })
@@ -476,6 +487,7 @@ const OrderDetails = () => {
               <MobileOrderDetailsDriverCard
                 key={driver._id}
                 data={driver}
+                orderDetails={orderDetails}
                 handleAssignCheckboxChange={handleAssignCheckboxChange}
               />
             ))}
