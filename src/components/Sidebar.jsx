@@ -44,7 +44,7 @@ import React, { useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import '../styles/Sidebar.css'
 
-const Sidebar = ({ show, navItems }) => {
+const Sidebar = ({ show, navItems,triggerEvent }) => {
   const location = useLocation();
 
   useEffect(() => {
@@ -65,7 +65,7 @@ const Sidebar = ({ show, navItems }) => {
         <ul className='nav-list'>
           {navItems &&navItems.map(item => (
             <li className='sidebar-content' key={item.path}>
-              <Link to={item.path} className={getNavLinkClass(item.path)}>
+              <Link to={item.path} className={getNavLinkClass(item.path)} onClick={triggerEvent}>
                 <img className='sidebar-icons' src={getIcon(item.path, item.activeIcon, item.defaultIcon)} alt={`${item.name}-icon`} />
                 <span>{item.name}</span>
               </Link>
