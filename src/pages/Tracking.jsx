@@ -150,6 +150,7 @@ const Tracking = () => {
             paddingRight: 1,
             textAlign: { xs: "center", sm: "left" },
             display: { xs: "none", sm: "block" },
+            fontWeight:"600"
           }}
         >
           Order Tracking
