@@ -288,14 +288,14 @@ const getCurrentDate = () => {
       });
   };
 
-  return (
+  return(
     <Formik
       initialValues={{
-        pickupDate: '',
-        sendersName: '',
-        sendersEmail: '',
-        receiversName: '',
-        receiversEmail: '',
+        pickupDate: '2024-07-03',
+        sendersName: 'Khushal',
+        sendersEmail: 'khushal@gmail.com',
+        receiversName: 'Kartavya',
+        receiversEmail: 'Kartavyabhayana1@gmail.com',
       }}
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
@@ -312,7 +312,7 @@ const getCurrentDate = () => {
                 >
                   <Box
                     sx={{
-                      width: { xs: '100%', sm: '80%', md : '60%', lg : '50%' },
+                      width: { xs: '100%', sm: '80%', md: '60%', lg: '50%' },
                       margin: "auto",
                       border: "1px solid #000000",
                       borderRadius: "30px",
@@ -327,84 +327,62 @@ const getCurrentDate = () => {
                     >
                       Submit Order
                     </Typography>
-
+  
                     <div style={formItemStyle}>
                       <label htmlFor="pickupDate" style={labelStyle}>Pickup Date</label>
-                      <input
+                      <Field
                         name="pickupDate"
-                        as={TextField}
+                        as="input"
                         type="date"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        onChange={handleChange}
                         style={textFieldStyle}
                       />
                       <ErrorMessage name="pickupDate" component="div" className="error" />
                     </div>
-
+  
                     <div style={formItemStyle}>
                       <label htmlFor="sendersName" style={labelStyle}>Sender's Name</label>
-                      <input
+                      <Field
                         name="sendersName"
-                        as={TextField}
-                        label="Sender's Name"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        onChange={handleChange}
+                        as="input"
+                        type="text"
                         style={textFieldStyle}
                       />
                       <ErrorMessage name="sendersName" component="div" className="error" />
                     </div>
-
+  
                     <div style={formItemStyle}>
                       <label htmlFor="sendersEmail" style={labelStyle}>Sender's Email</label>
-                      <input
+                      <Field
                         name="sendersEmail"
-                        as={TextField}
+                        as="input"
                         type="email"
-                        label="Sender's Email"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        onChange={handleChange}
                         style={textFieldStyle}
                       />
                       <ErrorMessage name="sendersEmail" component="div" className="error" />
                     </div>
-
+  
                     <div style={formItemStyle}>
                       <label htmlFor="receiversName" style={labelStyle}>Receiver's Name</label>
-                      <input
+                      <Field
                         name="receiversName"
-                        as={TextField}
-                        label="Receiver's Name"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        onChange={handleChange}
+                        as="input"
+                        type="text"
                         style={textFieldStyle}
                       />
                       <ErrorMessage name="receiversName" component="div" className="error" />
                     </div>
-
+  
                     <div style={formItemStyle}>
                       <label htmlFor="receiversEmail" style={labelStyle}>Receiver's Email</label>
-                      <input
+                      <Field
                         name="receiversEmail"
-                        as={TextField}
+                        as="input"
                         type="email"
-                        label="Receiver's Email"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        onChange={handleChange}
                         style={textFieldStyle}
                       />
                       <ErrorMessage name="receiversEmail" component="div" className="error" />
                     </div>
-
+  
                     <Grid container justifyContent="space-between" alignItems="center">
                       <Button
                         sx={{ mt: 3, color: "#1237BF", background: 'white', border: '2px solid #1237BFB2', borderRadius: '8px' }}

@@ -143,7 +143,10 @@ const driverpage =location.pathname.includes("dashboard/drivers")
     setAnchorEl(null);
   };
 
-  
+  const triggerEvent = () =>{
+    setIsOpen(!isOpen);
+
+  }
 
   return (
     <>
@@ -203,8 +206,8 @@ const driverpage =location.pathname.includes("dashboard/drivers")
           </>
         )}
       </div>
-      {isOpen ? <Sidebar show={true} navItems={navItems} /> : ""}
-      {isOpenDriver ? <Sidebar show={true} navItems={navItemsDriver} /> : ""}
+      {isOpen ? <Sidebar triggerEvent={triggerEvent} show={true} navItems={navItems} /> : "" }
+      {isOpenDriver ? <Sidebar triggerEvent= {triggerEvent} show={true} navItems={navItemsDriver} /> : ""}
     </>
   );
 };

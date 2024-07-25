@@ -17,11 +17,21 @@ const Homepage = () => {
         <Container sx={{m: 0, p:0, marginRight: '0', maxWidth: '3000px !important'}}>
       {/* <h1>Homepage</h1> */}
       <Banner />
-      <About />
-      <TierModel />
-      <TeamMembers />
-      <Proposal />
-      <Contact />
+      <section id="about-us">
+            <About />
+          </section>
+          <section id="tier-models">
+            <TierModel />
+          </section>
+          <section id="team-members">
+            <TeamMembers />
+          </section>
+          <section id="proposal">
+            <Proposal />
+          </section>
+          <section id="contact-us">
+            <Contact />
+          </section>
       </Container>
 
       </ThemeProvider>

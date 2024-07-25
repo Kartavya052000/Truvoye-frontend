@@ -157,7 +157,7 @@ const Drivers = () => {
             <Typography
               variant="h5"
               component="h2"
-              sx={{ textAlign: "left", color: "#1237BF" }}
+              sx={{ textAlign: "left", color: "#1237BF", fontWeight:"600"}}
             >
               Drivers
             </Typography>
