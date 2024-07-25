@@ -294,8 +294,8 @@ const getCurrentDate = () => {
         pickupDate: '2024-07-03',
         sendersName: 'Khushal',
         sendersEmail: 'khushal@gmail.com',
-        receiversName: 'Kartaviya',
-        receiversEmail: 'kartaviya00@mylangara.ca',
+        receiversName: 'Kartavya',
+        receiversEmail: 'Kartavyabhayana1@gmail.com',
       }}
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
