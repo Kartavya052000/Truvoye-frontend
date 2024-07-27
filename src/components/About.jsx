@@ -5,13 +5,11 @@ import { styled } from '@mui/system';
 
 const Container = styled(Box)({
   display: 'grid',
-  flexDirection: 'row',
-  alignSelf: 'flex-start',
   '@media (max-width: 740px)': {
     display: 'grid',
     width: '100%',
     marginTop: '2rem',
-    padding: '0 1rem 0 1rem',
+    padding: '0 2rem 0 2rem',
   },
 });
 
@@ -42,6 +40,7 @@ const LeftContainer = styled(Box)({
     display: 'flex',
     width: '100%',
     marginLeft: 0,
+    marginTop: '0rem',
   },
 });
 
@@ -59,7 +58,12 @@ const AboutButton = styled(Button)({
 
 const About = () => {
   return (
-    <Container sx={{marginBottom: '4rem'}}>
+    <Container sx={{marginBottom: '4rem',
+    '@media (max-width: 740px)': {
+      marginBottom: '1rem',
+     
+    }
+    }}>
 
 <Typography
         variant="h2"
@@ -74,6 +78,9 @@ const About = () => {
           marginBottom: '1rem',
           marginLeft:  '2rem',
           marginTop: { xs: '2rem', md: '0' },
+          '@media (max-width: 740px)': {
+            marginLeft: '0rem',
+          }
         }}
       >
         About us
@@ -81,7 +88,12 @@ const About = () => {
      
       <Box sx={{ display: 'flex', width: '100%', flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center' }}>
         <LeftContainer>
-          <img src={illustration} alt="Banner illustration" style={{ width: '100%', height: '100%' }} />
+          <img src={illustration} alt="Banner illustration" style={{ width: '100%',
+           height: '100%',
+           '@media (max-width: 740px)': {
+           margin: '0px',
+           padding: '0px',
+          } }} />
         </LeftContainer>
         <RightContainer>
         
@@ -97,7 +109,18 @@ const About = () => {
           >
             About 53% of product owners abandoned the purchasing process due to excessively long shipping times and lack of proper systems to administer their needs. Our Web App is one stop shop for all your onboarding, tracking and business proposal needs. Take that worry off your hands and step into a whole new era of simplified logistic experience.
           </Typography>
-          <AboutButton>Get Started</AboutButton>
+          <AboutButton sx={{
+            textTransform: 'capitalize',
+            cursor: 'pointer',
+            '&:hover': {
+              background: '#F9A33F',
+              color: 'white',
+            },
+            '&:active': {
+              background: '#1237BF',
+              color: 'white',
+            },
+          }}>Get Started</AboutButton>
         </RightContainer>
       </Box>
     </Container>

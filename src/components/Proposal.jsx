@@ -7,31 +7,36 @@ const Container = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
+ 
   '@media (max-width: 740px)': {
     width: '100%',
     marginTop: '2rem',
     padding: '0 1rem 0 1rem',
+    display: 'grid'
   
   },
 });
 
 const LeftContainer = styled(Box)({
-  width: '50%',
+  width: '50%%',
   display: 'flex',
   flexDirection: 'column',
   textAlign: 'left',
   justifyContent: 'center',
   alignItems: 'flex-start',
-  marginLeft: '4rem',
+  margin: '0rem',
   marginTop: '2rem',
+  
   '@media (max-width: 740px)': {
     width: '100%',
     marginTop: '1rem',
-    marginLeft: 0,
-    order: 1,
+    marginLeft: '2rem',
+    order: 2,
     
   },
 });
+
+
 const RightContainer = styled(Box)({
   width: '50%',
   display: 'flex',
@@ -41,7 +46,7 @@ const RightContainer = styled(Box)({
   '@media (max-width: 740px)': {
     width: '100%',
     marginTop: '1rem',
-    marginLeft: '0rem',
+    marginLeft: '1rem',
     flexDirection: 'column-reverse',
   },
 });
@@ -62,23 +67,55 @@ const ProposalButton = styled(Button)({
 
 const Proposal = () => {
   return (
-    <Container sx={{ marginBottom: '6rem' }}>
+    <Container sx={{ marginBottom: '6rem' ,
+    '@media (max-width: 740px)': {
+      display: 'grid',
+      maxWidth: '100vw',
+     
+      marginRight: '2rem',
       
-      <Box sx={{ display: 'flex', width: '100%', flexDirection: { xs: 'column', md: 'row' } }}>
+      
+    }}}>
+      
+      <Box sx={{ display: 'flex', maxWidth: '100%', flexDirection: { xs: 'column', md: 'row' } }}>
         
-        <LeftContainer>
-        <Typography variant="h3" sx={{ color: '#1237BF', textAlign: 'left', fontSize: '2rem', fontWeight: 'bolder', marginTop: '2rem', marginBottom: '2rem'  }}>
+        
+        <Typography variant="h3" sx={{ color: '#1237BF', textAlign: 'left', fontSize: '2rem', fontWeight: 'bolder', marginTop: '2rem', marginBottom: '2rem', marginLeft: { xs: '1rem', md: '2rem' } 
+        }}>
         Proposal
       </Typography>
-          <Typography variant="body1" sx={{ color: 'black', textAlign: 'left', fontSize: '15px', fontWeight: 'normal' }}>
-          Our commitment is to make your business deliver smiles, one mile at a time, with every shipment."
-          </Typography>
-          <ProposalButton>
-            Download Proposal
-          </ProposalButton>
-        </LeftContainer>
+          
+      
+       <LeftContainer>
+        <Typography variant="body1" sx={{ color: 'black', textAlign: 'left', fontSize: '15px', fontWeight: 'normal', marginLeft: 0, marginRight : '2rem'
+         
+        }}>
+         Our commitment is to make your business deliver smiles, one mile at a time, with every shipment."
+         </Typography>
+         <ProposalButton
+         sx={{
+           textTransform: 'capitalize',
+           cursor: 'pointer',
+           '&:hover': {
+             background: '#F9A33F',
+             color: 'white',
+           },
+           '&:active': {
+             background: '#1237BF',
+             color: 'white',
+           },
+         }}>
+           Download Proposal
+         </ProposalButton>
+</LeftContainer>
 
-        <RightContainer>
+        <RightContainer sx={{'@media (max-width: 740px)': {
+        display: 'flex',
+        order: 1,
+        
+        
+      }}}
+        >
           <img src={illustration} alt="Banner illustration" />
         </RightContainer>
       </Box>

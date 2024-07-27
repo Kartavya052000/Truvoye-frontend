@@ -14,7 +14,7 @@ const Homepage = () => {
   return (
     <div className='homepage-wrapper'>
       <ThemeProvider theme={theme}>
-        <Container sx={{m: 0, p:0, marginRight: '0', maxWidth: '3000px !important'}}>
+        <Container sx={{m: 0, p:0, marginRight: '0', maxWidth: '100vw !important'}}>
       {/* <h1>Homepage</h1> */}
       <Banner />
       <section id="about-us">

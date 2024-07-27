@@ -70,7 +70,7 @@ const Header = () => {
   };
 
   return (
-    <>
+    <div className='header-wrapper'>
       <header className="header">
         <button
           className="menu-button"
@@ -153,7 +153,7 @@ const Header = () => {
           </li>
         </ul>
       </nav>
-    </>
+    </div>
   );
 };
 
