@@ -3,6 +3,7 @@ import { Box, Typography, Button } from '@mui/material';
 import illustration from '../Assets/imagesV/Proposal.svg'; 
 import { styled } from '@mui/system';
 import { get } from "../api/api";
+import axios from 'axios';
 
 const Container = styled(Box)({
   display: 'flex',
@@ -65,31 +66,28 @@ const handleDownload = async () => {
   console.log("Download button clicked");
 
   try {
-    const response = await get('/download-proposal', {
-      responseType: 'blob', // Important: Specify responseType as 'blob' to handle binary data
-      headers: {
-        'Accept': 'application/pdf', // Ensure the server knows you expect a PDF
-      },
-    });
+      const filename = 'Truvoye-proposal.pdf'; // Replace with your file name
+      const response = await axios.get(`http://localhost:4000/api/download/${filename}`, {
+          responseType: 'blob' // Important to specify the response type
+      });
 
-    if (response.status !== 200) {
-      throw new Error('Network response was not ok');
-    }
+      if (response.status !== 200) {
+          throw new Error('Network response was not ok');
+      }
 
-    console.log("Starting download...");
+      console.log("Starting download...");
 
-    const blob = new Blob([response.data], { type: 'application/pdf' }); // Convert the response data to a Blob
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', 'Truvoye-project-proposal.pdf'); // Desired file name
-    document.body.appendChild(link);
-    link.click();
-    link.parentNode.removeChild(link);
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'Truvoye-project-proposal.pdf'); // Desired file name
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
   } catch (error) {
-    console.error('There was an error downloading the file:', error);
+      console.error('There was an error downloading the file:', error);
   }
-};
+}
 
 //for testing only:-
 const handleTest = async () => {
