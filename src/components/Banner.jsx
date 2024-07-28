@@ -4,6 +4,7 @@ import React from 'react';
 import { Box, Typography, Button,  } from '@mui/material';
 import illustration from '../Assets/imagesV/banner.png';
 import { styled } from '@mui/system';
+import axios from 'axios';
 
 
 const Container = styled(Box)({
@@ -63,7 +64,32 @@ const BannerButton = styled(Button)({
   lineHeight: '150%',
   alignSelf: 'flex-start',
 });
+const handleDownload = async () => {
+  // console.log("Download button clicked");
 
+  try {
+      const filename = 'Truvoye-proposal.pdf'; // Replace with your file name
+      const response = await axios.get(`http://localhost:4000/api/download/${filename}`, {
+          responseType: 'blob' // Important to specify the response type
+      });
+
+      if (response.status !== 200) {
+          throw new Error('Network response was not ok');
+      }
+
+      console.log("Starting download...");
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'Truvoye-project-proposal.pdf'); // Desired file name
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+  } catch (error) {
+      console.error('There was an error downloading the file:', error);
+  }
+}
 const Banner = () => {
   return (
     <Container>
@@ -75,7 +101,7 @@ const Banner = () => {
           <Typography variant="body1" sx={{ color: 'black', textAlign: 'left', fontSize: '15px', fontWeight: 'normal' }}>
             Streamline your logistics with our cutting-edge management solutions. Reduce costs, improve efficiency, and ensure timely deliveries. Experience seamless operations & real-time tracking to make your business future-proof. Simplify logistics today!
           </Typography>
-          <BannerButton>
+          <BannerButton  onClick={ handleDownload}>
             Download Proposal
           </BannerButton>
           </LeftContainer>
