@@ -10,6 +10,7 @@ import  notificationIcon  from '../Assets/imagesV/Notification.svg';
 import DarkModeToggle from './DarkModeToggle';
 import Sidebar from './Sidebar';
 import { Cookies } from 'react-cookie';
+import {triggerEvent} from 'react';
 
 
 // -----icons---
