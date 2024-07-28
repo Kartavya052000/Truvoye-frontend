@@ -2,8 +2,11 @@ import { Box, Button, Grid, Paper, Typography } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
 import details from "../Assets/imagesV/Details.svg";
+import ChoiceDialog from "./ChoiceDialog";
 
-const MobileOrderDetailsDriverCard = ({ data ,orderDetails, handleAssignCheckboxChange}) => {
+const MobileDriverCard = ({ data, onOptionSelected }) => {
+  const choiceOptions = ["edit", "Deactivate"];
+
   const truncateStart = (str, maxLength) => {
     if (str.length > maxLength) {
       return `${str.substring(str.length - maxLength).toUpperCase()}`;
@@ -37,13 +40,11 @@ const MobileOrderDetailsDriverCard = ({ data ,orderDetails, handleAssignCheckbox
       <Paper
         elevation={3}
         square={false}
-        sx={{  mb: 2, borderRadius: "16px", cursor: "pointer" }}
-        onClick={handleAssignCheckboxChange(data)}
+        sx={{ mb: 2, borderRadius: "16px", cursor: "pointer" }}
       >
         <Grid container>
-          <Grid item xs={9}>
+          <Grid item xs={10}>
             <Box sx={{ pl: 2, pt: 1, pb: 1 }}>
-
               <Typography
                 variant="subtitle1"
                 component="h2"
@@ -117,7 +118,7 @@ const MobileOrderDetailsDriverCard = ({ data ,orderDetails, handleAssignCheckbox
                     fontFamily: "Outfit", // Specify the font family
                   }}
                 >
-                  Email : {" "}
+                  Email :{" "}
                 </b>
                 <span
                   style={{
@@ -149,7 +150,7 @@ const MobileOrderDetailsDriverCard = ({ data ,orderDetails, handleAssignCheckbox
                     fontFamily: "Outfit", // Specify the font family
                   }}
                 >
-                  Phone : {" "}
+                  Phone :{" "}
                 </b>
                 <span
                   style={{
@@ -181,7 +182,7 @@ const MobileOrderDetailsDriverCard = ({ data ,orderDetails, handleAssignCheckbox
                     fontFamily: "Outfit", // Specify the font family
                   }}
                 >
-                  Truck Plate : {" "}
+                  Truck Plate :{" "}
                 </b>
                 <span
                   style={{
@@ -213,7 +214,7 @@ const MobileOrderDetailsDriverCard = ({ data ,orderDetails, handleAssignCheckbox
                     fontFamily: "Outfit", // Specify the font family
                   }}
                 >
-                  Driver License : {" "}
+                  Driver License :{" "}
                 </b>
                 <span
                   style={{
@@ -227,24 +228,24 @@ const MobileOrderDetailsDriverCard = ({ data ,orderDetails, handleAssignCheckbox
                   {data.driverLicense}
                 </span>
               </Typography>
-
             </Box>
           </Grid>
           <Grid
             item
-            xs={3}
+            xs={2}
             sx={{
               display: "flex",
-              alignItems: "flex-end",
-              p:2
-            //   justifyContent: "center",
+              alignItems: "center",
+              p: 2,
+              //   justifyContent: "center",
             }}
           >
-                      {orderDetails.order_status === 0 && (
-                        <Button variant="outlined" onClick={handleAssignCheckboxChange(data)}>Assign</Button>
-
-)}
-
+            <ChoiceDialog
+              options={choiceOptions}
+              onChange={(choice) => {
+                onOptionSelected(choice, data?._id);
+              }}
+            />
           </Grid>
         </Grid>
       </Paper>
@@ -252,4 +253,4 @@ const MobileOrderDetailsDriverCard = ({ data ,orderDetails, handleAssignCheckbox
   );
 };
 
-export default MobileOrderDetailsDriverCard;
+export default MobileDriverCard;

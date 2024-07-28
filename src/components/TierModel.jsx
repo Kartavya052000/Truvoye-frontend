@@ -13,7 +13,8 @@ const cardData = [
   },
   {
     title: "PREMIUM",
-    description: "$60/month",
+    description: "$399",
+    description2: 'per month',
     quote1: "Upto 80 drivers onboarding capability.",
     quote2: "80 order proposal creation ability.",
     quote3: "Upto 80 order assigning feature of drivers.",
@@ -22,7 +23,8 @@ const cardData = [
   },
   {
     title: "ELITE",
-    description: "$150/month",
+    description: "$999",
+    description2: 'per month',
     quote1: 'Unlimited drivers onboarding capability.',
     quote2: 'Unlimited order proposal creation ability.',
     quote3: 'Unlimited order assigning feature of drivers.',
@@ -34,16 +36,15 @@ const cardData = [
 
 const TierModel = () => {
   return (
-    <Container sx = {{  marginBottom: '12rem'}}>
+    <Container sx = {{  marginBottom: '12rem', m:0, p:0, marginLeft: '2rem'}}>
      <Typography variant="h2" sx={{
       display: 'flex', 
       color: '#1237BF', 
       textAlign: 'left', 
-      fontSize: '39px', 
+      fontSize: '2rem', 
       fontWeight: 'bolder', 
-      marginLeft: '0px', 
       maxWidth: '100%' , 
-      marginBottom: '4rem',
+      marginBottom: '2rem',
       '@media (max-width: 740px)': {
         width: '100%',
         marginTop: '2rem',
@@ -57,9 +58,10 @@ const TierModel = () => {
       <Box sx={{ display: 'flex',
        justifyContent: 'space-between', 
        alignItems: 'center', 
-      
-       gap: '2rem',
-       flexWrap: 'wrap', // Enable wrapping for flex items
+       marginBottom: '12rem',
+       gap: '5rem',
+       flexWrap: 'wrap', 
+       marginLeft: '2rem',
         '@media (max-width: 600px)': {
           
           flexDirection: 'column',
@@ -67,17 +69,20 @@ const TierModel = () => {
       
         }, }}>
         {cardData.map((card, index) => (
-          <Card key={index} sx={{  width: '320px', height: '384px', border: '2px solid #1237BF' , borderRadius: '24px',  backgroundColor: index === 2 ? '#1237BFB2' : 'transparent' , padding: '10px' }}>
+          <Card key={index} sx={{  width: '320px', height: '384px', border: '2px solid #1237BF' , borderRadius: '28px',  backgroundColor: index === 2 ? '#1237BFB2' : 'transparent' , padding: '10px' }}>
             <CardContent>
-              <Typography sx={{ fontSize: '1rem',fontWeight: 'bold', color: '#F9A33F', textAlign: 'center', marginBottom: '10px' }} color="text.secondary" gutterBottom>
+              <Typography sx={{ fontSize: '1rem',fontWeight: 'bold', color: '#F9A33F', textAlign: 'center', marginBottom: '10px', p:0, m:0 }}>
                 {card.title}
               </Typography>
 
-              <Typography sx={{ fontSize: '1.5rem',fontWeight: 'bold', color: '#F9A33F', textAlign: 'center', marginBottom: '20px' }} color="text.secondary" gutterBottom>
+              <Typography sx={{ fontSize: '1.5rem',fontWeight: 'bold', color: '#F9A33F', textAlign: 'center', marginBottom: '20px', p:0, m:0  }}>
               {card.description}
               </Typography>
+              <Typography  sx={{ fontSize: '1.5rem',fontWeight: 'bold', color: '#F9A33F', textAlign: 'center', marginBottom: '20px', p:0, m:0 }}>
+              {card.description2 && <span style={{ color: '#F9A33F', fontSize: '1rem', fontWeight: 'bold' }}>{card.description2}</span>}
+              </Typography>
               
-              <Typography variant="body2" sx={{ fontSize: '1rem',fontWeight: 'normal'}} >
+              <Typography variant="body2" sx={{ fontSize: '1rem',fontWeight: 'normal', p:0, m:0 }} >
                 
                 <ul style={{ color: index === 2 ? 'white' : 'black' }}>
                   {card.quote1 && <li>{card.quote1}</li>}

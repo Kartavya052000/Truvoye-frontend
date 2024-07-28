@@ -10,13 +10,15 @@ import axios from 'axios';
 const Container = styled(Box)({
   display: 'flex',
   flexDirection: 'row',
+  paddingLeft: '2rem',
+  paddingright: '2rem',
   '@media (max-width: 740px)': {
     flexDirection: 'column-reverse',
     width: '100%',
     overflowX: 'hidden',
     // marginLeft: '2rem',
     // marginRight: '2rem',
-    padding: '0 1rem 0 1rem',
+    //padding: '0 1rem 0 1rem',
     
   },
   fontFamily: '"Outfit", sans-serif',
@@ -45,7 +47,6 @@ const RightContainer = styled(Box)({
   justifyContent: 'center',
   alignItems: 'center',
   marginTop: '6rem',
-  //marginRight: '-2rem',
   '@media (max-width: 740px)': {
     width: '100%',
     //marginLeft: '2rem',
@@ -92,10 +93,10 @@ const handleDownload = async () => {
 }
 const Banner = () => {
   return (
-    <Container>
+    <Container sx={{marginBottom: '12rem'}}>
      
         <LeftContainer>
-          <Typography variant="h3" sx={{ color: '#1237BF', textAlign: 'left', fontSize: '25px', fontWeight: 'bolder' }}>
+          <Typography variant="h3" sx={{ color: '#1237BF', textAlign: 'left', fontSize: '2rem', fontWeight: 'bolder', marginBottom: '1rem' }}>
             Logistics Management Platform
           </Typography>
           <Typography variant="body1" sx={{ color: 'black', textAlign: 'left', fontSize: '15px', fontWeight: 'normal' }}>

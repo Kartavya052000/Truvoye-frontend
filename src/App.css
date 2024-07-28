@@ -58,31 +58,14 @@ grid-template-columns: 1fr 1fr;
   font-size: 2rem;
   font-weight: bold;
 }
-.signup-btn {
-  border-radius: 8px !important;
-  background: #1237BF !important;
-  color: white !important;
-}
-.login-btn{
-  border: 1px solid #1237BF !important;
-  background: #FFF !important;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) !important;
-  color: #1237BF !important;
-}
+
 /* Customize the icon color */
 .swal-icon--success {
   color: blue;
 }
 
 /* Customize the title text color */
-.custom-title {
-  color: #1237BF !important; /* Change to your desired color */
-}
 
-/* Customize the content text color */
-.custom-content {
-  color: #1237BF !important; /* Change to your desired color */
-}
 
 
 /* Mobile responsiveness for graphs */
@@ -96,4 +79,11 @@ grid-template-columns: 1fr 1fr;
   .logo-text{
     display: none;
     }
+}
+
+
+
+/* //sparkline box css */
+.spark_text{
+  font-size: 1rem;
 }

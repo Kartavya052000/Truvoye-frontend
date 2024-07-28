@@ -1,13 +1,13 @@
-import { Box, Grid, Paper, Typography } from "@mui/material";
+import { Avatar, Box, Button, Grid, Paper, Typography } from "@mui/material";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import details from "../Assets/imagesV/Details.svg";
+import { blue, green, red } from "@mui/material/colors";
 
-const MobileOrderCard = ({ data }) => {
+const MobileTrackingCard = ({ data }) => {
   const navigate = useNavigate();
 
   const truncateStart = (str, maxLength) => {
-    if (!str) return;
     if (str.length > maxLength) {
       return `${str.substring(str.length - maxLength).toUpperCase()}`;
     } else {
@@ -15,64 +15,35 @@ const MobileOrderCard = ({ data }) => {
     }
   };
 
-  const getOrderStatus = (orderStatus) => {
-    switch (orderStatus) {
-      case 0:
-        return "Un Assigned";
-      case 1:
-        return "Assigned";
-      case 2:
-        return "In Progress";
-      case 3:
-        return "Completed";
-      default:
-        return "No Status";
-    }
-  };
-
-  const formatDate = (dateString) => {
+  function formatDateString(dateString) {
     const date = new Date(dateString);
-    return date.toLocaleDateString(); // This will output just the date part
-  };
+
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const year = date.getFullYear();
+
+    let hours = date.getHours();
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const ampm = hours >= 12 ? "PM" : "AM";
+
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    const strHours = String(hours).padStart(2, "0");
+
+    return `${month}/${day}/${year} ${strHours}:${minutes} ${ampm}`;
+  }
+
   // sx={{border : "solid" ,mb:3, borderRadius: "30px" , cursor: "pointer"}}  onClick={() => onOrderButtonClick(data.id)}
   return (
     <div className="job-sheet-order">
       <Paper
         elevation={3}
         square={false}
-        sx={{  mb: 2, borderRadius: "16px", cursor: "pointer" }}
-        onClick={() => {
-
-          navigate(`/dashboard/order-details/${data?._id}`);
-        }}
+        sx={{ mb: 2, borderRadius: "16px", cursor: "pointer" }}
       >
         <Grid container>
           <Grid item xs={10}>
             <Box sx={{ pl: 2, pt: 1, pb: 1 }}>
-              <Typography
-                variant="h6"
-                component="h2"
-                sx={{
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  color: "#1237BF",
-                  fontSize: 18,
-                  fontFamily: "Outfit",
-                  fontWeight: 700,
-                  wordWrap: "break-word",
-                }}
-              >
-                <b>Order ID : </b>
-                <span
-                  style={{
-                    color: "#000000",
-                  }}
-                >
-                  {truncateStart(data?._id, 8)}
-                </span>
-              </Typography>
-
               <Typography
                 variant="subtitle1"
                 component="h2"
@@ -90,7 +61,7 @@ const MobileOrderCard = ({ data }) => {
                     fontFamily: "Outfit",
                   }}
                 >
-                  Order Status :{" "}
+                  OrderID :{" "}
                 </b>
                 <span
                   style={{
@@ -101,7 +72,7 @@ const MobileOrderCard = ({ data }) => {
                     wordWrap: "break-word",
                   }}
                 >
-                  {getOrderStatus(data?.order_status)}
+                  {truncateStart(data._id, 10)}
                 </span>
               </Typography>
 
@@ -114,7 +85,7 @@ const MobileOrderCard = ({ data }) => {
                     fontFamily: "Outfit", // Specify the font family
                   }}
                 >
-                  Order Date :{" "}
+                  Start Journey :{" "}
                 </b>
                 <span
                   style={{
@@ -125,7 +96,7 @@ const MobileOrderCard = ({ data }) => {
                     wordWrap: "break-word", // Allow word wrapping
                   }}
                 >
-                  {formatDate(data?.created_at)}
+                  {formatDateString(data.pickup_date)}
                 </span>
               </Typography>
 
@@ -146,18 +117,22 @@ const MobileOrderCard = ({ data }) => {
                     fontFamily: "Outfit", // Specify the font family
                   }}
                 >
-                  Destination : {" "}
+                  Tracking Link :{" "}
                 </b>
                 <span
                   style={{
-                    color: "#000000", // Set the text color
+                    color: "#F9A33F", // Set the text color
                     fontSize: 14, // Adjust font size if necessary
                     fontFamily: "Outfit", // Specify the font family
                     fontWeight: 500, // Set font weight (Note: Use numeric value for inline styles)
                     wordWrap: "break-word", // Allow word wrapping
+                    textDecoration: "underline",
+                  }}
+                  onClick={() => {
+                    alert("This is a Future feature, Coming Soon");
                   }}
                 >
-                  {data?.receiver_address?.address_name}
+                  Share Link
                 </span>
               </Typography>
             </Box>
@@ -171,9 +146,20 @@ const MobileOrderCard = ({ data }) => {
               justifyContent: "center",
             }}
           >
-            <Link to={`/dashboard/order-details/${data?._id}`}>
-              <img className="details" src={details} alt="details-icon" />
-            </Link>
+            {data.order_status === 2 ? (
+              <Link to={`/dashboard/order-tracking/${data._id}`}>
+                <Avatar sx={{ bgcolor: "#1237BF" }}>&gt;</Avatar>
+              </Link>
+            ) : (
+              <Avatar
+                sx={{ bgcolor: "#D24A4A" }}
+                onClick={() => {
+                  console.log("Not assigned yet");
+                }}
+              >
+                &gt;
+              </Avatar>
+            )}
           </Grid>
         </Grid>
       </Paper>
@@ -181,4 +167,4 @@ const MobileOrderCard = ({ data }) => {
   );
 };
 
-export default MobileOrderCard;
+export default MobileTrackingCard;

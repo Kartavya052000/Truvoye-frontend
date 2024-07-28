@@ -24,7 +24,7 @@ const RightContainer = styled(Box)({
   justifyContent: 'center',
   alignItems: 'flex-start',
   marginLeft: '4rem',
-  marginTop: '4rem',
+  marginTop: '2rem',
   '@media (max-width: 740px)': {
     width: '100%',
     marginTop: '1rem',
@@ -37,7 +37,7 @@ const LeftContainer = styled(Box)({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  marginTop: '4rem',
+  marginTop: '2rem',
   '@media (max-width: 740px)': {
     display: 'flex',
     width: '100%',
@@ -60,26 +60,31 @@ const AboutButton = styled(Button)({
 const About = () => {
   return (
     <Container sx={{marginBottom: '4rem'}}>
-      <Typography
+
+<Typography
         variant="h2"
         sx={{
           display: 'flex',
           color: '#1237BF',
           textAlign: 'left',
           //fontSize: { xs: '25px', md: '39px' },
-          fontSize:'39px' ,
+          fontSize:'2rem' ,
           fontWeight: 'bolder',
           maxWidth: '100%',
+          marginBottom: '1rem',
+          marginLeft:  '2rem',
           marginTop: { xs: '2rem', md: '0' },
         }}
       >
         About us
       </Typography>
+     
       <Box sx={{ display: 'flex', width: '100%', flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center' }}>
         <LeftContainer>
           <img src={illustration} alt="Banner illustration" style={{ width: '100%', height: '100%' }} />
         </LeftContainer>
         <RightContainer>
+        
           <Typography
             variant="body1"
             sx={{

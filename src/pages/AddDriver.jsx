@@ -14,6 +14,8 @@ import { post } from "../api/api";
 import AlertMessage from "../components/AlertMessage";
 import { useCookies } from 'react-cookie';
 import Autocomplete from 'react-google-autocomplete';
+import Swal from "sweetalert2";
+
 
 const textFieldStyle = {
   width: '100%',
@@ -102,8 +104,21 @@ const AddDriver = () => {
         .then((response) => {
           console.log("DATA FROM ADD DRIVER", response);
           if (response.status === 201) {
-            setAlertMessage(["success", "Driver added successfully"]);
+            // setAlertMessage(["success", "Driver added successfully"]);
             console.log("driver added successfully")
+            Swal.fire({
+              title: "Driver successfully added",
+              icon: "success",
+              iconColor: "blue",
+              showConfirmButton: false,
+              customClass: {
+                // icon: 'custom-icon',
+                title: 'custom-title',
+                content: 'custom-content'
+              },
+              timer: 2000 // close after 2 seconds
+    
+            });
             navigate("/dashboard/drivers");
           } else {
             setAlertMessage(["error", "Something went wrong, contact support"]);
@@ -124,19 +139,15 @@ const AddDriver = () => {
   });
 
   return (
-    <div className="add-driver">
-      <Container maxWidth="lg" sx={{ height: "100vh" }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
             <Box
               display="flex"
               justifyContent="center"
               alignItems="center"
-              minHeight="80vh"
+              height="100%"
             >
               <form
                 style={{
-                  width: "100%",
+                  width: { xs: '100%', sm: '80%', md : '60%', lg : '50%' },
                   maxWidth: "600px",
                   margin: "auto",
                   border: "1px solid #000000",
@@ -151,6 +162,7 @@ const AddDriver = () => {
                   component="h1"
                   sx={{ textAlign: "center", m: 1, color: '#1237BF' }}
                 >
+                 
                   Add New Driver
                 </Typography>
 
@@ -281,10 +293,7 @@ const AddDriver = () => {
                 <AlertMessage alertMessage={alertMessage} />
               </form>
             </Box>
-          </Grid>
-        </Grid>
-      </Container>
-    </div>
+
   );
 };
 

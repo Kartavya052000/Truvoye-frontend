@@ -51,25 +51,28 @@ const MapComponent = ({ start, end }) => {
 
   const updateDriverLocation = useCallback(
     throttle((index) => {
-        if (routePoints[index]) {
+        if (routePoints[index] && map) {
             setDriverLocation(routePoints[index]);
             const { lat, lng } = routePoints[index];
-            map.panTo(new window.google.maps.LatLng(lat, lng))
+            try{
+              map.panTo(new window.google.maps.LatLng(lat, lng))
+            }catch (error) {
+              console.log("Probably late throttle trigger ====> " + error)
+            }
         }
-    }, 3500),
+    }, 500),
     [routePoints] // Dependencies for the callback
-);
+  );
 
   useEffect(() => {
     if (map && routePoints.length > 0) {
-
       const interval = setInterval(() => {
         if (currentIndex < routePoints.length - 1) {
           setPolylinePath([
             routePoints[currentIndex],
             routePoints[currentIndex + 1],
           ]);
-          updateDriverLocation(currentIndex)
+          updateDriverLocation(currentIndex);
           setCurrentIndex((currentIndex) => currentIndex + 1);
         } else {
           clearInterval(interval);
@@ -80,11 +83,12 @@ const MapComponent = ({ start, end }) => {
     }
   }, [map, routePoints, currentIndex, updateDriverLocation]);
 
-
-
   useEffect(() => {
     if (polylinePath.length > 1) {
-      const distanceToDestination = getDistanceBetweenPoints(polylinePath[0], polylinePath[1]);
+      const distanceToDestination = getDistanceBetweenPoints(
+        polylinePath[0],
+        polylinePath[1]
+      );
       if (distanceToDestination < 1000) {
         setZoom(15); // Zoom in when close to destination
       } else if (distanceToDestination < 5000) {
@@ -125,11 +129,11 @@ const MapComponent = ({ start, end }) => {
       const interval = setInterval(() => {
         offset += 1;
         if (offset > 100) {
-          clearInterval(interval); 
+          clearInterval(interval);
           return;
         }
         const icons = line.get("icons");
-        icons[0].offset = `${offset}%`; 
+        icons[0].offset = `${offset}%`;
         line.set("icons", icons);
       }, 3);
 
@@ -157,16 +161,14 @@ const MapComponent = ({ start, end }) => {
           />
         )}
 
-        {polylinePath.length > 1 && (
-          <Polyline
-          />
-        )}
+        {polylinePath.length > 1 && <Polyline />}
       </GoogleMap>
     </LoadScript>
   );
 };
 
 // Helper function to calculate distance between two points
+
 function getDistanceBetweenPoints(point1, point2) {
   const lat1 = point1.lat;
   const lng1 = point1.lng;

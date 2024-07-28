@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { post } from "../../api/api";
 import AlertMessage from "../../components/AlertMessage";
 import { Alert } from "@mui/material";
+import Swal from "sweetalert2";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -167,10 +168,29 @@ export default function BasicTabs() {
                 response.data.order,
               ]);
 
-              setAlertMessage([
-                "success",
-                "Order tracking started successfully",
-              ]);
+              // setAlertMessage([
+              //   "success",
+              //   "Order tracking started successfully",
+              // ]);
+              Swal.fire({
+                title: "Order tracking started successfully",
+                icon: "success",
+                iconColor: "blue",
+                showConfirmButton: false,
+                customClass: {
+                  // icon: 'custom-icon',
+                  title: 'custom-title',
+                  content: 'custom-content'
+                },
+                timer: 2000, // close after 2 seconds
+                width: '360px', // Set the width
+                didRender: () => {
+                  // Set the height using custom CSS
+                  const swalContainer = Swal.getPopup();
+                  if (swalContainer) {
+                    swalContainer.style.height = '300px'; // Set the height
+                  }
+                }    });
             }
           })
           .catch((error) => {
@@ -189,10 +209,10 @@ export default function BasicTabs() {
             if (response.status === 201) {
               console.log(response);
 
-              setAlertMessage([
-                "success",
-                "OTP sent to recipient successfully",
-              ]);
+              // setAlertMessage([
+              //   "success",
+              //   "OTP sent to recipient successfully",
+              // ]);
 
               setTimeout(() => {
                 navigate(`otp-verification/${orderDetails._id}`);
@@ -262,10 +282,10 @@ export default function BasicTabs() {
             <b>Order ID:</b> {orderDetails._id}
           </Typography>
           <Typography variant="subtitle1" component="h2">
-            <b>Sender Name:</b> {orderDetails?.client?.senders_name ?? "NA"}
+            <b>Sender Name:</b> {orderDetails?.client_info?.senders_name ?? "NA"}
           </Typography>
           <Typography variant="subtitle1" component="h2" gutterBottom mb={4}>
-            <b>Receiver Name:</b> {orderDetails?.client?.receivers_name ?? "NA"}
+            <b>Receiver Name:</b> {orderDetails?.client_info?.receivers_name ?? "NA"}
           </Typography>
 
           <Typography variant="subtitle1" component="h2">
