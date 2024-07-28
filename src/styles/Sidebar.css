@@ -67,6 +67,7 @@
   }
   .sidebar-content .active-link span {
   position: relative !important; /* Ensure relative positioning for the pseudo-element */
+  /* font-size: 1.3rem; */
 }
 .sidebar-content a {
   display: flex;
@@ -87,5 +88,18 @@
 .sidebar_text{
   font-size: 20px;
 }
+.sidebar-content .sidebar-icons {
+  width: 26px; /* Adjust size as needed */
+  height: 26px; /* Adjust size as needed */
+}
+
+.sidebar-content  span {
+  font-size: 21px; /* Adjust size as needed */
+  font-weight: bold; /* Optional: make the text bold */
+  margin-left: 10px; 
+}
+
+
+
 
 
