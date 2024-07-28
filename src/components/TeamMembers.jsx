@@ -56,41 +56,59 @@ const teamMembersData = [
 
 const TeamMembers = () => {
   return (
-    <Container sx={{marginBottom: '2rem', m:0, p:0 , marginLeft: '2rem'}}>
-      <Typography variant="h2" sx={{ display: 'flex', color: '#1237BF', textAlign: 'left', fontSize: '2rem', fontWeight: 'bolder', marginLeft: '0', maxWidth: '100%', marginBottom: '4rem' }}>
-        Team Members
-      </Typography>
+    
+    <>
+      <Typography variant="h2" sx={{ display: 'flex', color: '#1237BF', textAlign: 'left', fontSize: '2rem', fontWeight: 'bolder', marginLeft: '2rem', maxWidth: '100%', marginBottom: '4rem',
+      '@media (max-width: 740px)': {
+        marginLeft: '2rem'}
+     }}>
+          Team Members
+        </Typography>
+      <Container sx={{marginBottom: '2rem', m:0,  maxWidth: '2000px !important',
+        marginLeft: '2rem',
+        marginRight: '2rem',
+        '@media (max-width: 740px)': {
+          display: 'grid',
+          margin: '0px'}
 
-      <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '1rem', marginRight: '0rem'}}>
-        {teamMembersData.map((member, index) => (
-          <Card key={index} sx={{ width: '250px',height: '400px', borderRadius: '20px', border: '2px solid #1237BF' }}>
-            <CardMedia
-              component="img"
-              height="250px"
-              image={member.image}
-              alt={member.name}
-              sx={{ borderRadius: '20px', padding : '0.5rem', objectFit:"cover", }}
-            />
-            <CardContent sx={{ textAlign: 'center', padding: '0' }}>
-              <Typography variant="h6" component="div" sx={{ fontWeight: 'bold', fontSize: '1rem' }}>
-                {member.name}
-              </Typography>
-              <Typography sx={{ mb: 1.5, fontSize: '.6rem',  fontWeight: 'bold' }} >
-                {member.position}
-              </Typography>
-              <Typography variant="body2" sx={{ padding: '0px .6rem', textAlign: 'left', fontSize: '10px'}} >
-                {member.description}
-              </Typography>
-              <Typography sx={{ textAlign: 'center'}}>
-              <a href={member.linkedinUrl} target="_blank" rel="noopener noreferrer">
-                <img src={linkedin} alt="linkedin" style={{ width: '5%', height: '5%' }} />
-              </a>
-              </Typography>
-            </CardContent>
-          </Card>
-        ))}
-      </Box>
-    </Container>
+    }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '1rem', marginRight: '0rem'}}>
+          {teamMembersData.map((member, index) => (
+            <Card key={index} sx={{ width: '20%',height: '24%', borderRadius: '20px', border: '2px solid #1237BF',
+            '@media (max-width: 740px)': {
+              display: 'grid',
+              margin: '0px',
+              padding: '0px',
+              width: '22rem',
+              height: '32rem'} }}>
+              <CardMedia
+                component="img"
+                height="250px"
+                image={member.image}
+                alt={member.name}
+                sx={{ borderRadius: '20px', padding : '0.5rem', objectFit:"cover", }}
+              />
+              <CardContent sx={{ textAlign: 'center', padding: '0' }}>
+                <Typography variant="h6" component="div" sx={{ fontWeight: 'bold', fontSize: '1rem' }}>
+                  {member.name}
+                </Typography>
+                <Typography sx={{ mb: 1.5, fontSize: '.6rem',  fontWeight: 'bold' }} >
+                  {member.position}
+                </Typography>
+                <Typography variant="body2" sx={{ padding: '0px .6rem', textAlign: 'left', fontSize: '10px'}} >
+                  {member.description}
+                </Typography>
+                <Typography sx={{ textAlign: 'center'}}>
+                <a href={member.linkedinUrl} target="_blank" rel="noopener noreferrer">
+                  <img src={linkedin} alt="linkedin" style={{ width: '5%', height: '5%' }} />
+                </a>
+                </Typography>
+              </CardContent>
+            </Card>
+          ))}
+        </Box>
+      </Container>
+    </>
   );
 };
 

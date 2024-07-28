@@ -65,10 +65,31 @@
  } */
 
  .homepage-wrapper{
-   
-    margin: 0;
-    padding: 0;
-   
+    display: grid;
+    max-width: 100%;
+    margin: 0 auto;
+    overflow-x: hidden;
+    box-sizing: border-box;  
+ }
+
+ img{
+ max-width: 100%;
+ height: auto;
+ }
+
+ @media screen and (min-width: 100px) and (max-width: 640px){
+    .homepage-wrapper{
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 1rem;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 2px solid red;
+        max-width: 100% !important;
+        
+
+     }
+        
  }
 
  
