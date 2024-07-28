@@ -4,11 +4,14 @@
 
 .wrap-graphs {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(4,1fr);
   align-items: center;
   font-size: 2rem;
   font-weight: bold;
   gap: 1rem;
+}
+.second-size{
+  grid-column: span 2 !important;
 }
 .graph_text {
   width: 100%;

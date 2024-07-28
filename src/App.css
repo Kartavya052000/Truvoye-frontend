@@ -80,3 +80,10 @@ grid-template-columns: 1fr 1fr;
     display: none;
     }
 }
+
+
+
+/* //sparkline box css */
+.spark_text{
+  font-size: 1rem;
+}
