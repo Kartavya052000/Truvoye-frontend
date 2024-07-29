@@ -36,68 +36,98 @@ const cardData = [
 
 const TierModel = () => {
   return (
-    <Container sx = {{  marginBottom: '12rem', m:0, p:0, marginLeft: '2rem'}}>
-     <Typography variant="h2" sx={{
-      display: 'flex', 
-      color: '#1237BF', 
-      textAlign: 'left', 
-      fontSize: '2rem', 
-      fontWeight: 'bolder', 
-      maxWidth: '100%' , 
-      marginBottom: '2rem',
-      '@media (max-width: 740px)': {
-        width: '100%',
-        marginTop: '2rem',
+<>
+  <Typography variant="h2" sx={{
+        display: 'flex',
+        color: '#1237BF',
+        textAlign: 'left',
+        fontSize: '2rem',
+        fontWeight: 'bolder',
+        maxWidth: '100%' ,
+        marginLeft: '2rem',
         marginBottom: '2rem',
+        '@media (max-width: 740px)': {
+          width: '100%',
+          marginLeft: '2rem',
+          marginTop: '2rem',
+          marginBottom: '2rem',
+  
+        },
+         }}>
+          Tier Models
+        </Typography>
+  
+      <Container sx = {{  marginBottom: '12rem',
+        maxWidth: '100vw !important',
+        marginLeft: '2rem',
         
-      },
-       }}>
-        Tier Models
-      </Typography>
-      
-      <Box sx={{ display: 'flex',
-       justifyContent: 'space-between', 
-       alignItems: 'center', 
-       marginBottom: '12rem',
-       gap: '5rem',
-       flexWrap: 'wrap', 
-       marginLeft: '2rem',
-        '@media (max-width: 600px)': {
-          
-          flexDirection: 'column',
-          justifyContent: 'center', 
-      
-        }, }}>
-        {cardData.map((card, index) => (
-          <Card key={index} sx={{  width: '320px', height: '384px', border: '2px solid #1237BF' , borderRadius: '28px',  backgroundColor: index === 2 ? '#1237BFB2' : 'transparent' , padding: '10px' }}>
-            <CardContent>
-              <Typography sx={{ fontSize: '1rem',fontWeight: 'bold', color: '#F9A33F', textAlign: 'center', marginBottom: '10px', p:0, m:0 }}>
-                {card.title}
-              </Typography>
-
-              <Typography sx={{ fontSize: '1.5rem',fontWeight: 'bold', color: '#F9A33F', textAlign: 'center', marginBottom: '20px', p:0, m:0  }}>
-              {card.description}
-              </Typography>
-              <Typography  sx={{ fontSize: '1.5rem',fontWeight: 'bold', color: '#F9A33F', textAlign: 'center', marginBottom: '20px', p:0, m:0 }}>
-              {card.description2 && <span style={{ color: '#F9A33F', fontSize: '1rem', fontWeight: 'bold' }}>{card.description2}</span>}
-              </Typography>
-              
-              <Typography variant="body2" sx={{ fontSize: '1rem',fontWeight: 'normal', p:0, m:0 }} >
+        '@media (max-width: 740px)': {
+          marginBottom: '2rem',
+          margin: '0',
+          padding: '0',
+        
+        }
+        }}>
+  
+  
+  
+          <Box sx={{ display: 'flex',
+           justifyContent: 'space-between',
+           alignItems: 'center',
+           marginBottom: '12rem',
+           gap: '3rem',
+           flexWrap: 'wrap',
+           marginLeft: '2rem',
+           
+           marginRight: '2rem',
+            '@media (max-width: 740px)': {
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              marginBottom: '12rem',
+              marginRight: '1rem !important'
+  
+            }, }}>
+            {cardData.map((card, index) => (
+              <Card key={index} sx={{  width: '25%', height: '384px', border: '2px solid #1237BF' , borderRadius: '28px',  backgroundColor: index === 2 ? '#1237BFB2' : 'transparent' , padding: '10px',
+              '@media (max-width: 740px)': {
+                width: '24rem',
+                height: '20rem',
+                '@media (min-width: 100px) and (max-width: 640px)':{
+                  width: 'auto',
+                  height: '23rem',
+                }
                 
-                <ul style={{ color: index === 2 ? 'white' : 'black' }}>
-                  {card.quote1 && <li>{card.quote1}</li>}
-                  {card.quote2 && <li>{card.quote2}</li>}
-                  {card.quote3 && <li>{card.quote3}</li>}
-                  {card.quote4 && <li>{card.quote4}</li>}
-                  {card.quote5 && <li>{card.quote5}</li>}
-                </ul>
-              </Typography>
-            </CardContent>
-            
-          </Card>
-        ))}
-      </Box>
-    </Container>
+              }}}>
+                <CardContent>
+                  <Typography sx={{ fontSize: '1rem',fontWeight: 'bold', color: '#F9A33F', textAlign: 'center', marginBottom: '10px', p:0, m:0 }}>
+                    {card.title}
+                  </Typography>
+                  <Typography sx={{ fontSize: '1.5rem',fontWeight: 'bold', color: '#F9A33F', textAlign: 'center', marginBottom: '20px', p:0, m:0  }}>
+                  {card.description}
+                  </Typography>
+                  <Typography  sx={{ fontSize: '1.5rem',fontWeight: 'bold', color: '#F9A33F', textAlign: 'center', marginBottom: '20px', p:0, m:0 }}>
+                  {card.description2 && <span style={{ color: '#F9A33F', fontSize: '1rem', fontWeight: 'bold' }}>{card.description2}</span>}
+                  </Typography>
+  
+                  <Typography variant="body2" sx={{ fontSize: '1rem',fontWeight: 'normal', p:0, m:0 }} >
+  
+                    <ul style={{ color: index === 2 ? 'white' : 'black' }}>
+                      {card.quote1 && <li>{card.quote1}</li>}
+                      {card.quote2 && <li>{card.quote2}</li>}
+                      {card.quote3 && <li>{card.quote3}</li>}
+                      {card.quote4 && <li>{card.quote4}</li>}
+                      {card.quote5 && <li>{card.quote5}</li>}
+                    </ul>
+                  </Typography>
+                </CardContent>
+  
+              </Card>
+            ))}
+          </Box>
+  
+      </Container>
+</>
   );
 };
 

@@ -66,7 +66,7 @@ const Analytics = () => {
     </div>
     <div className='analytics-container'>
     <div className="wrap-graphs">
-      <LineGraph />
+      <LineGraph/>
       <SparkLine />
       <BarGraph />
       <PieCharts />

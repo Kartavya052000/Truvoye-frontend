@@ -1,6 +1,14 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
 
+.header-wrapper{
+  display: grid;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+
 .header {
   font-family: "Outfit", sans-serif;
   display: flex;
@@ -29,6 +37,8 @@
   flex-grow: 1;
   display: flex;
   justify-content: center;
+  align-items: center;
+  padding-bottom: 1rem;
 }
 
 .nav-list-header {
@@ -37,13 +47,15 @@
 }
 
 .header-nav-item {
+  
   margin: 0 10px;
   color: #000;
-  font-size: 20px;
-  font-weight: 500;
+  font-size: 49px;
+  font-weight: 349;
   font-style: normal;
   line-height: 150%;
   cursor:pointer
+ 
 }
 
 .auth-buttons {
@@ -62,15 +74,19 @@
   border-radius: 8px;
   background: #1237BF;
   color: white;
+  font-weight: 350;
   padding: .3rem;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
+  padding-bottom:.4rem ;
+  padding-top:.4rem ;
 }
 
 .login-btn {
-  border: 1px solid #1237BF;
+  border: 2px solid #1237BF;
   background: #FFF;
   color: #1237BF;
+  font-weight: 350;
   padding: .3rem;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
