@@ -6,7 +6,7 @@ const Container = styled(Box)({
   display: "flex",
   flexDirection: "column",
   position: "relative",
-  marginLeft: "32px",
+  marginLeft: "22px",
 });
 
 const BracketSVG = () => (
@@ -27,12 +27,14 @@ const Label = styled(Typography)({
   fontWeight: "bold",
   color: "#1237BF",
   marginRight: "8px",
+  fontSize:"14px"
 });
 
 const Email = styled(Link)({
   marginLeft: "8px",
-  textDecoration: "none",
+  textDecoration: "underline",
   color: "#000",
+  fontSize:"14px"
 });
 
 const SenderReceiverInfo = ({
@@ -50,12 +52,12 @@ const SenderReceiverInfo = ({
       <Container>
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Label>Sender:</Label>
-          <Typography>{senderName},</Typography>
+          <Typography sx={{fontSize:"14px"}}>{senderName},</Typography>
           <Email href={`mailto:${senderEmail}`}>{senderEmail}</Email>
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", marginTop: "8px" }}>
           <Label>Receiver:</Label>
-          <Typography>{receiverName},</Typography>
+          <Typography sx={{fontSize:"14px"}}>{receiverName},</Typography>
           <Email href={`mailto:${receiverEmail}`}>{receiverEmail}</Email>
         </Box>
       </Container>

@@ -1,9 +1,9 @@
 import React from "react";
-import '../styles/Login.css';
+import "../styles/Login.css";
 import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import { borders } from '@mui/system';
+import { borders } from "@mui/system";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
@@ -21,10 +21,8 @@ import { useNavigate } from "react-router-dom";
 import { post } from "../api/api";
 import config from "../config/config";
 import AlertMessage from "../components/AlertMessage";
-import BoyImg from '../Assets/imagesB/Boy.png';
+import BoyImg from "../Assets/imagesB/Boy.png";
 import { Boy } from "@mui/icons-material";
-
-
 
 const validationSchema = yup.object({
   email: yup
@@ -81,8 +79,7 @@ const SignUp = () => {
               "success",
               "Verification link sent to your registered email",
             ]);
-          }
-          else if (response.status === 200) {
+          } else if (response.status === 200) {
             setAlertMessage(["error", "Email already registered use Login"]);
           } else {
             setAlertMessage(["error", "Something Went Wrong contact support"]);
@@ -96,17 +93,26 @@ const SignUp = () => {
 
           setAlertMessage(["error", "Something Went Wrong contact support"]);
         });
-
-    
-
     },
   });
 
   return (
     <div className="signUp">
-      <Container maxWidth="x-lg" sx={{ height: "100vh" }}>
+      <Container maxWidth="lg" sx={{ height: "100vh" }}>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={6} sx={{mx:"auto"}}><Box sx={{mx:"auto"}}><img src={BoyImg} alt="Banner-illustration" /></Box></Grid>
+          <Grid item xs={12} md={6} sx={{ mx: "auto", display: { xs: "none", sm: "none", md: "initial", lg: "initial" }}}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                flexDirection: "column",
+                alignItems: "center",
+                height:"100%",
+              }}
+            >
+              <img src={BoyImg} alt="Banner-illustration" />
+            </Box>
+          </Grid>
           <Grid item xs={12} md={6}>
             <Box
               display="flex"
@@ -117,11 +123,11 @@ const SignUp = () => {
             >
               <form
                 style={{
-                  width: "80%",
+                  width: "100%",
                   margin: "auto",
                   border: "1px solid #1237BF",
                   borderRadius: "30px",
-                  padding: "48px",
+                  padding: "32px",
                   textAlign: "center",
                 }}
                 onSubmit={formik.handleSubmit}
@@ -129,80 +135,101 @@ const SignUp = () => {
                 <Typography
                   variant="h5"
                   component="h1"
-                  sx={{ textAlign: "center", m: 3, color:"#1237BF" }}
+                  sx={{ textAlign: "center", m: 3, color: "#1237BF", fontWeight:600 }}
                 >
                   Well, Hello There !
                 </Typography>
 
                 <FormControl fullWidth>
-  <Typography variant="caption" component="h2" sx={{ color: "#1237BF", fontSize: 14, fontWeight: "bold", textAlign:"left"}}>
-Firstname
-  </Typography>
-  <TextField
-                        margin="dense"
-                        fullWidth
-                        id="firstName"
-                        name="firstName"
-                        size="small"
-                        value={formik.values.firstName}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        error={
-                          formik.touched.firstName &&
-                          Boolean(formik.errors.firstName)
-                        }
-                        helperText={
-                          formik.touched.firstName && formik.errors.firstName
-                        }/>
-</FormControl>
+                  <Typography
+                    variant="caption"
+                    component="h2"
+                    sx={{
+                      color: "#1237BF",
+                      fontSize: 14,
+                      fontWeight: "bold",
+                      textAlign: "left",
+                    }}
+                  >
+                    Firstname
+                  </Typography>
+                  <TextField
+                    margin="dense"
+                    fullWidth
+                    id="firstName"
+                    name="firstName"
+                    size="small"
+                    value={formik.values.firstName}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={
+                      formik.touched.firstName &&
+                      Boolean(formik.errors.firstName)
+                    }
+                    helperText={
+                      formik.touched.firstName && formik.errors.firstName
+                    }
+                  />
+                </FormControl>
 
-                    <FormControl fullWidth>
-  <Typography variant="caption" component="h2" sx={{ color: "#1237BF", fontSize: 14, fontWeight: "bold", textAlign:"left"}}>
-Lastname
-  </Typography>
-  <TextField
-                        margin="dense"
-                        fullWidth
-                        id="lastName"
-                        name="lastName"
-                        size="small"
+                <FormControl fullWidth>
+                  <Typography
+                    variant="caption"
+                    component="h2"
+                    sx={{
+                      color: "#1237BF",
+                      fontSize: 14,
+                      fontWeight: "bold",
+                      textAlign: "left",
+                    }}
+                  >
+                    Lastname
+                  </Typography>
+                  <TextField
+                    margin="dense"
+                    fullWidth
+                    id="lastName"
+                    name="lastName"
+                    size="small"
+                    value={formik.values.lastName}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={
+                      formik.touched.lastName && Boolean(formik.errors.lastName)
+                    }
+                    helperText={
+                      formik.touched.lastName && formik.errors.lastName
+                    }
+                  />
+                </FormControl>
 
-                        value={formik.values.lastName}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        error={
-                          formik.touched.lastName &&
-                          Boolean(formik.errors.lastName)
-                        }
-                        helperText={
-                          formik.touched.lastName && formik.errors.lastName
-                        }
-
-                      />
-</FormControl>   
-
-<FormControl fullWidth>
-  <Typography variant="caption" component="h2" sx={{ color: "#1237BF", fontSize: 14, fontWeight: "bold", textAlign:"left"}}>
-Email
-  </Typography>
-  <TextField
-                  margin="dense"
-                  fullWidth
-                  id="email"
-                  name="email"
-      
-                  size="small"
-                  className="Signup-box"
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.email && Boolean(formik.errors.email)}
-                  helperText={formik.touched.email && formik.errors.email}
-                />
-</FormControl>   
-
-
-               
+                <FormControl fullWidth>
+                  <Typography
+                    variant="caption"
+                    component="h2"
+                    sx={{
+                      color: "#1237BF",
+                      fontSize: 14,
+                      fontWeight: "bold",
+                      textAlign: "left",
+                    }}
+                  >
+                    Email
+                  </Typography>
+                  <TextField
+                    margin="dense"
+                    fullWidth
+                    id="email"
+                    name="email"
+                    size="small"
+                    className="Signup-box"
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                    helperText={formik.touched.email && formik.errors.email}
+                  />
+                </FormControl>
 
                 <FormControl
                   margin="dense"
@@ -212,11 +239,19 @@ Email
                     formik.errors.password && Boolean(formik.errors.password)
                   }
                 >
-                    <Typography variant="caption" component="h2" sx={{ color: "#1237BF", fontSize: 14, fontWeight: "bold", textAlign:"left"}}>
-Password
-  </Typography>
-                    
-                  
+                  <Typography
+                    variant="caption"
+                    component="h2"
+                    sx={{
+                      color: "#1237BF",
+                      fontSize: 14,
+                      fontWeight: "bold",
+                      textAlign: "left",
+                    }}
+                  >
+                    Password
+                  </Typography>
+
                   <OutlinedInput
                     id="outlined-adornment-password"
                     type={showPassword ? "text" : "password"}
@@ -238,7 +273,6 @@ Password
                     value={formik.values.password}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-
                   />
 
                   {formik.touched.password && formik.errors.password && (
@@ -258,9 +292,18 @@ Password
                     Boolean(formik.errors.confirmPassword)
                   }
                 >
-                  <Typography variant="caption" component="h2" sx={{ color: "#1237BF", fontSize: 14, fontWeight: "bold", textAlign:"left"}}>
-Confirm Password
-  </Typography>
+                  <Typography
+                    variant="caption"
+                    component="h2"
+                    sx={{
+                      color: "#1237BF",
+                      fontSize: 14,
+                      fontWeight: "bold",
+                      textAlign: "left",
+                    }}
+                  >
+                    Confirm Password
+                  </Typography>
                   <OutlinedInput
                     id="confirmPassword"
                     type={showPassword ? "text" : "password"}
@@ -277,7 +320,6 @@ Confirm Password
                       </InputAdornment>
                     }
                     name="confirmPassword"
-                    
                     size="small"
                     margin="normal"
                     value={formik.values.confirmPassword}
@@ -294,7 +336,7 @@ Confirm Password
                 </FormControl>
 
                 <Button
-                  sx={{ mt: 4, mb: 3, bgcolor:"#1237BF", width:"70%"}}
+                  sx={{ mt: 4, mb: 3, bgcolor: "#1237BF", width: "70%", textTransform: "none"}}
                   color="primary"
                   variant="contained"
                   type="submit"
@@ -308,7 +350,7 @@ Confirm Password
                     <Typography
                       variant="caption"
                       component="h2"
-                      sx={{ fontWeight: "700" }}
+                      sx={{ fontWeight: "700", textTransform: "none" }}
                     >
                       Login
                     </Typography>

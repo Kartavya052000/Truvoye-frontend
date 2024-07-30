@@ -187,56 +187,67 @@
 
 // export default SubmitOrder;
 
-import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import { Container, Box, Typography, Grid, Button, TextField } from "@mui/material";
+import React from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import {
+  Container,
+  Box,
+  Typography,
+  Grid,
+  Button,
+  TextField,
+  Divider,
+} from "@mui/material";
 import { post } from "../api/api";
-import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const textFieldStyle = {
-  width: '100%',
-  marginBottom: '16px',
-  padding: '8px',
-  fontSize: '14px',
-  boxSizing: 'border-box',
-  borderRadius: '20px',
-  border: '1px solid #1237BF',
+  marginTop: "8px",
+  marginBottom: "24px",
+  width: "100%",
+  padding: "8px",
+  fontSize: "16px",
+  boxSizing: "border-box",
+  borderRadius: "10px", // Adding border radius
+  border: "1px solid #1237BF", // Adding a border
 };
 
 const formItemStyle = {
-  display: 'block',
-  alignItems: 'start',
-  textAlign: 'left',
+  display: "block",
+  alignItems: "start",
+  textAlign: "left",
 };
 
 const labelStyle = {
-  width: '150px',
-  marginRight: '16px',
-  fontSize: '15px',
-  fontWeight: 'bold',
-  color: '#1237BF',
+  fontSize: "18px",
+  fontWeight: "bold",
+  color: "#1237BF",
 };
 
 const validationSchema = Yup.object().shape({
-  pickupDate: Yup.date().required('Pickup Date is required'),
-  sendersName: Yup.string().required('Sender\'s Name is required'),
-  sendersEmail: Yup.string().email('Invalid email').required('Sender\'s Email is required'),
-  receiversName: Yup.string().required('Receiver\'s Name is required'),
-  receiversEmail: Yup.string().email('Invalid email').required('Receiver\'s Email is required'),
+  pickupDate: Yup.date().required("Pickup Date is required"),
+  sendersName: Yup.string().required("Sender's Name is required"),
+  sendersEmail: Yup.string()
+    .email("Invalid email")
+    .required("Sender's Email is required"),
+  receiversName: Yup.string().required("Receiver's Name is required"),
+  receiversEmail: Yup.string()
+    .email("Invalid email")
+    .required("Receiver's Email is required"),
 });
 
 const SubmitOrder = ({ initialData, handleOrderSubmission }) => {
   const navigate = useNavigate();
-// Function to get the current date in YYYY-MM-DD format
-const getCurrentDate = () => {
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed in JS
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-};
+  // Function to get the current date in YYYY-MM-DD format
+  const getCurrentDate = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed in JS
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
   const handleSubmit = async (values, { setSubmitting }) => {
     const data = {
       pickup_date: values.pickupDate,
@@ -256,12 +267,12 @@ const getCurrentDate = () => {
       receivers_name: values.receiversName,
       receivers_email: values.receiversEmail,
       cost: initialData.cost,
-      distance : initialData.distance,
-      duration : initialData.duration
+      distance: initialData.distance,
+      duration: initialData.duration,
     };
 
-    console.log("Data we sending ===> ")
-    console.log(data)
+    console.log("Data we sending ===> ");
+    console.log(data);
 
     post("/orderDetails/SubmitOrder", data)
       .then((response) => {
@@ -274,13 +285,12 @@ const getCurrentDate = () => {
           showConfirmButton: false,
           customClass: {
             // icon: 'custom-icon',
-            title: 'custom-title',
-            content: 'custom-content'
+            title: "custom-title",
+            content: "custom-content",
           },
-          timer: 2000 // close after 2 seconds
-
+          timer: 2000, // close after 2 seconds
         });
-        navigate("/dashboard/orders")
+        navigate("/dashboard/orders");
       })
       .catch((error) => {
         console.error("Error submitting data:", error);
@@ -288,125 +298,153 @@ const getCurrentDate = () => {
       });
   };
 
-  return(
+  return (
     <Formik
       initialValues={{
-        pickupDate: '2024-07-03',
-        sendersName: 'Khushal',
-        sendersEmail: 'khushal@gmail.com',
-        receiversName: 'Kartavya',
-        receiversEmail: 'Kartavyabhayana1@gmail.com',
+        pickupDate: "2024-07-03",
+        sendersName: "Khushal",
+        sendersEmail: "khushal@gmail.com",
+        receiversName: "Kartavya",
+        receiversEmail: "Kartavyabhayana1@gmail.com",
       }}
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
       {({ isSubmitting, handleChange }) => (
         <Form>
-          <Container maxWidth="lg">
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Box
-                  display="flex"
-                  justifyContent="center"
-                  alignItems="center"
-                >
-                  <Box
-                    sx={{
-                      width: { xs: '100%', sm: '80%', md: '60%', lg: '50%' },
-                      margin: "auto",
-                      border: "1px solid #000000",
-                      borderRadius: "30px",
-                      padding: "48px",
-                      textAlign: "center",
-                    }}
-                  >
-                    <Typography
-                      variant="h5"
-                      component="h1"
-                      sx={{ textAlign: "center", m: 3, color: '#1237BF' }}
-                    >
-                      Submit Order
-                    </Typography>
-  
-                    <div style={formItemStyle}>
-                      <label htmlFor="pickupDate" style={labelStyle}>Pickup Date</label>
-                      <Field
-                        name="pickupDate"
-                        as="input"
-                        type="date"
-                        style={textFieldStyle}
-                      />
-                      <ErrorMessage name="pickupDate" component="div" className="error" />
-                    </div>
-  
-                    <div style={formItemStyle}>
-                      <label htmlFor="sendersName" style={labelStyle}>Sender's Name</label>
-                      <Field
-                        name="sendersName"
-                        as="input"
-                        type="text"
-                        style={textFieldStyle}
-                      />
-                      <ErrorMessage name="sendersName" component="div" className="error" />
-                    </div>
-  
-                    <div style={formItemStyle}>
-                      <label htmlFor="sendersEmail" style={labelStyle}>Sender's Email</label>
-                      <Field
-                        name="sendersEmail"
-                        as="input"
-                        type="email"
-                        style={textFieldStyle}
-                      />
-                      <ErrorMessage name="sendersEmail" component="div" className="error" />
-                    </div>
-  
-                    <div style={formItemStyle}>
-                      <label htmlFor="receiversName" style={labelStyle}>Receiver's Name</label>
-                      <Field
-                        name="receiversName"
-                        as="input"
-                        type="text"
-                        style={textFieldStyle}
-                      />
-                      <ErrorMessage name="receiversName" component="div" className="error" />
-                    </div>
-  
-                    <div style={formItemStyle}>
-                      <label htmlFor="receiversEmail" style={labelStyle}>Receiver's Email</label>
-                      <Field
-                        name="receiversEmail"
-                        as="input"
-                        type="email"
-                        style={textFieldStyle}
-                      />
-                      <ErrorMessage name="receiversEmail" component="div" className="error" />
-                    </div>
-  
-                    <Grid container justifyContent="space-between" alignItems="center">
-                      <Button
-                        sx={{ mt: 3, color: "#1237BF", background: 'white', border: '2px solid #1237BFB2', borderRadius: '8px' }}
-                        variant="contained"
-                        type="button"
-                        onClick={() => console.log('Cancel')}
-                      >
-                        Cancel
-                      </Button>
-                      <Button
-                        sx={{ mt: 3, background: "#1237BF", borderRadius: '8px', padding: '10px 30px' }}
-                        color="primary"
-                        variant="contained"
-                        type="submit"
-                        disabled={isSubmitting}
-                      >
-                        {isSubmitting ? 'Submitting...' : 'Submit Order'}
-                      </Button>
-                    </Grid>
-                  </Box>
-                </Box>
-              </Grid>
-            </Grid>
-          </Container>
+          <Box
+            sx={{
+              width: { xs: "100%", sm: "80%", md: "60%", lg: "40%" },
+              backgroundColor: "white",
+              borderRadius: "20px",
+              textAlign: "right",
+            }}
+          >
+            <Typography
+              variant="h5"
+              component="h1"
+              sx={{
+                textAlign: "left",
+                p: "24px",
+                color: "#1237BF",
+                fontSize: "20px",
+                fontWeight: "700",
+              }}
+            >
+              Submit Order
+            </Typography>
+            <Divider sx={{ bgcolor: "#F9A33F" }} />
+
+            <Box
+              sx={{
+                paddingLeft: "24px",
+                paddingTop: "24px",
+                paddingRight: "24px",
+              }}
+            >
+              <div style={formItemStyle}>
+                <label htmlFor="pickupDate" style={labelStyle}>
+                  Pickup Date
+                </label>
+                <Field
+                  name="pickupDate"
+                  as="input"
+                  type="date"
+                  style={textFieldStyle}
+                />
+                <ErrorMessage
+                  name="pickupDate"
+                  component="div"
+                  className="error"
+                />
+              </div>
+
+              <div style={formItemStyle}>
+                <label htmlFor="sendersName" style={labelStyle}>
+                  Sender's Name
+                </label>
+                <Field
+                  name="sendersName"
+                  as="input"
+                  type="text"
+                  style={textFieldStyle}
+                />
+                <ErrorMessage
+                  name="sendersName"
+                  component="div"
+                  className="error"
+                />
+              </div>
+
+              <div style={formItemStyle}>
+                <label htmlFor="sendersEmail" style={labelStyle}>
+                  Sender's Email
+                </label>
+                <Field
+                  name="sendersEmail"
+                  as="input"
+                  type="email"
+                  style={textFieldStyle}
+                />
+                <ErrorMessage
+                  name="sendersEmail"
+                  component="div"
+                  className="error"
+                />
+              </div>
+
+              <div style={formItemStyle}>
+                <label htmlFor="receiversName" style={labelStyle}>
+                  Receiver's Name
+                </label>
+                <Field
+                  name="receiversName"
+                  as="input"
+                  type="text"
+                  style={textFieldStyle}
+                />
+                <ErrorMessage
+                  name="receiversName"
+                  component="div"
+                  className="error"
+                />
+              </div>
+
+              <div style={formItemStyle}>
+                <label htmlFor="receiversEmail" style={labelStyle}>
+                  Receiver's Email
+                </label>
+                <Field
+                  name="receiversEmail"
+                  as="input"
+                  type="email"
+                  style={textFieldStyle}
+                />
+                <ErrorMessage
+                  name="receiversEmail"
+                  component="div"
+                  className="error"
+                />
+              </div>
+            </Box>
+            <Divider sx={{ bgcolor: "#F9A33F" }} />
+
+            <Button
+              sx={{
+                m: "24px",
+                background: "#1237BF",
+                borderRadius: "8px",
+                padding: "10px 30px",
+                textTransform: "none",
+              }}
+              color="primary"
+              variant="contained"
+              type="submit"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Submitting..." : "Submit Order"}
+            </Button>
+          </Box>
         </Form>
       )}
     </Formik>

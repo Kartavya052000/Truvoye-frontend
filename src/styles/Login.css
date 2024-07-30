@@ -1,5 +1,6 @@
 .login{
     background-color: white;
+    height: 100vh;
 }
 .mui-selected{
     background-color: #1237BFB2 !important;
@@ -31,7 +32,23 @@
     color: white;
   }
 
+  .mobileImage{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display:none;
+  }
 
+@media (max-width: 800px) {
+    .mobileImage{
+        z-index: 0;
+        object-fit: cover;
+        display: block;
+        filter: blur(5px);
+        height: 100vh;
+    }
+}
   /* Media queries */
   @media (max-width: 600px) {
     .left-column {
@@ -56,6 +73,14 @@
     /* position: absolute; */
     /* z-index: -1; */
     /* filter: blur(8px); */
+}
+
+.mobileImage{
+    z-index: 0;
+    object-fit: cover;
+    display: block;
+    filter: blur(5px);
+    height: 100vh;
 }
 }
 .form-fields{
