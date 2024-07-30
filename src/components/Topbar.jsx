@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import "../styles/Topbar.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -29,7 +28,6 @@ import driversActive from "../Assets/imagesV/Truck-active.svg";
 import jobSheet from "../Assets/imagesV/jobSheet.svg";
 import jobSheetActive from "../Assets/imagesV/jobSheetActive.svg";
 
-
 const routeTitles = {
   "order-proposal": "Proposal",
   analytics: "Analytics",
@@ -40,8 +38,9 @@ const routeTitles = {
   "edit-driver": "Edit Driver",
   "order-details": "Order Details",
   "order-tracking": "Order Tracking",
+  "jobsheet": "Job Sheet",
+  "otp-verification" : "OTP"
 };
-
 
 const Topbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -77,7 +76,7 @@ const Topbar = () => {
 
   const showHamburger = location.pathname.includes("driver");
   const dashboard = location.pathname.includes("dashboard");
-const driverpage =location.pathname.includes("dashboard/drivers")
+  const driverpage = location.pathname.includes("dashboard/drivers");
   const handleLogout = () => {
     removeCookie("token", { path: "/" });
     navigate("/");
@@ -144,15 +143,20 @@ const driverpage =location.pathname.includes("dashboard/drivers")
     setAnchorEl(null);
   };
 
-  const triggerEvent = () =>{
+  const triggerEvent = () => {
     setIsOpen(!isOpen);
+  };
 
-  }
+  const triggerDriverMenuEvent = () => {
+    setIsOpenDriver(!isOpen);
+  };
 
   return (
     <>
       <div className="topbar_container">
-        {(!showHamburger || driverpage) && <img src={logo} alt="Logo" className="logo-text" />}
+        {(!showHamburger || driverpage) && (
+          <img src={logo} alt="Logo" className="logo-text" />
+        )}
         {screenWidth < 400 && dashboard && (
           <div className="hamburger-menu">
             <div
@@ -165,8 +169,8 @@ const driverpage =location.pathname.includes("dashboard/drivers")
             </div>
           </div>
         )}
-        
-        {(!showHamburger || driverpage)   && (
+
+        {(!showHamburger || driverpage) && (
           <>
             {!isMobile && (
               <Typography
@@ -204,11 +208,49 @@ const driverpage =location.pathname.includes("dashboard/drivers")
                 <div className="bar3"></div>
               </div>
             </div>
+
+            <>
+
+              <Typography
+                component="h1"
+                variant="h6"
+                sx={{ width: "100%", textAlign: "center" }}
+              >
+                {title}
+              </Typography>
+     
+
+            <div className="icons">
+              <IconButton onClick={handleMenuClick}>
+                <img src={profileIcon} alt="Profile" />
+              </IconButton>
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleMenuClose}
+              >
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              </Menu>
+            </div>
+          </>
+
           </>
         )}
       </div>
-      {isOpen ? <Sidebar triggerEvent={triggerEvent} show={true} navItems={navItems} /> : "" }
-      {isOpenDriver ? <Sidebar triggerEvent= {triggerEvent} show={true} navItems={navItemsDriver} /> : ""}
+      {isOpen ? (
+        <Sidebar triggerEvent={triggerEvent} show={true} navItems={navItems} />
+      ) : (
+        ""
+      )}
+      {isOpenDriver ? (
+        <Sidebar
+          triggerEvent={triggerDriverMenuEvent}
+          show={true}
+          navItems={navItemsDriver}
+        />
+      ) : (
+        ""
+      )}
     </>
   );
 };

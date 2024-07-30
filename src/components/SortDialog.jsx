@@ -7,15 +7,18 @@ import {
   FormControlLabel, 
   Radio, 
   RadioGroup, 
-  Typography 
+  Typography, 
+  Icon
 } from '@mui/material';
 import TuneRoundedIcon from '@mui/icons-material/TuneRounded';
+import filter from '../Assets/imagesV/filter.svg'
 
 const SortDialog = ({ 
   options = [], 
   selectedValue, 
   onChange, 
-  icon: IconComponent = TuneRoundedIcon 
+  icon: IconComponent = TuneRoundedIcon,
+  iconSX = {}
 }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -41,7 +44,8 @@ const SortDialog = ({
         onClick={handleClick}
         sx={{color:"black"}}
       >
-        <IconComponent />
+        {/* <IconComponent sx={iconSX} /> */}
+        <Icon > <img style={iconSX} src={filter} alt="filter order" /> </Icon>
       </IconButton>
       <Menu
         id="sort-menu"

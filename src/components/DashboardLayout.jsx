@@ -1,6 +1,6 @@
 // components/DashboardLayout.js
 import React, { useEffect, useState } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useMatch } from 'react-router-dom';
 import Topbar from './Topbar';
 import Sidebar from './Sidebar';
 import '../styles/DashboardLayout.css';
@@ -25,6 +25,11 @@ const DashboardLayout = () => {
 
   // Check if the current route is '/dashboard/analytics'
   const isDashboardAnalytics = location.pathname === '/dashboard/analytics';
+const isOrderProposal = location.pathname === '/dashboard/order-proposal';
+const isOrderTracking = location.pathname === '/dashboard/tracking';
+  const match = useMatch('/dashboard/order-details/:id');
+  const isOrderDetails = !!match;
+
   useEffect(() => {
     const handleResize = () => {
       setScreenWidth(window.innerWidth);
@@ -75,7 +80,7 @@ const DashboardLayout = () => {
 
      {screenWidth >400 && <Sidebar navItems={navItems} />} 
       <div className="dashboard-main-content">
-        <div className={`dashboard-content ${isDashboardAnalytics ? 'remove-bg' : ''}`}>
+        <div className={`dashboard-content ${isDashboardAnalytics || isOrderDetails || isOrderProposal || isOrderTracking ? 'remove-bg' : ''}`}>
           <Outlet /> {/* This will render the matched child route */}
           
         </div>

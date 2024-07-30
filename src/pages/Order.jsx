@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import {
   Box,
   Button,
+  Icon,
   IconButton,
   InputBase,
   TextField,
@@ -25,6 +26,13 @@ import loadingGif from "../Assets/imagesG/TruckAnimationTruvoey.gif";
 import SortDialog from "../components/SortDialog";
 import MobileOrderCard from "../components/MobileOrderCard";
 import InfiniteScroll from "react-infinite-scroll-component";
+import filter from "../Assets/imagesV/filter.svg"
+
+const filterIcon = (
+  <Icon>
+    <img alt="filter" src={filter} />
+  </Icon>
+);
 
 const sortOptions = [
   { value: "latest", label: "Latest Order" },
@@ -171,7 +179,7 @@ const Order = () => {
       "I have been summon from the infinite scroll current page " + currentPage
     );
     if (currentPage < totalPages) {
-      console.log("Are this condition is mate : currentPage < totalPages")
+      console.log("Are this condition is mate : currentPage < totalPages");
       setCurrentPage((prevPage) => prevPage + 1);
     }
     console.log("After increment  " + currentPage);
@@ -187,24 +195,24 @@ const Order = () => {
     () =>
       orders.map((order) => (
         <TableRow key={order._id}>
-          <TableCell component="th" scope="row">
+          <TableCell component="th" scope="row" sx={{paddingLeft:"24px", fontSize:"16px", pt:"12px", pb:"12px"}}>
             {order._id.slice(-10).toUpperCase()}
           </TableCell>
-          <TableCell align="right">
+          <TableCell align="left" sx={{fontSize:"16px", pt:"12px", pb:"12px"}}>
             <StatusBadge status={order.order_status}></StatusBadge>
           </TableCell>
-          <TableCell align="right">
+          <TableCell align="left" sx={{fontSize:"16px", pt:"12px", pb:"12px"}}>
             {!order?.driver_info
               ? "None"
               : order?.driver_info?.username || "None"}
           </TableCell>
-          <TableCell align="right">
+          <TableCell align="left" sx={{fontSize:"16px", pt:"12px", pb:"12px"}}>
             {new Date(order.pickup_date).toLocaleDateString()}
           </TableCell>
-          <TableCell align="right">
+          <TableCell align="left" sx={{fontSize:"16px", pt:"12px", pb:"12px"}}>
             {order.receiver_address?.address_name}
           </TableCell>
-          <TableCell align="right">
+          <TableCell align="center" sx={{fontSize:"16px", pt:"12px", pb:"12px"}}>
             <Link to={`/dashboard/order-details/${order._id}`}>
               <img className="details" src={details} alt="details-icon" />
             </Link>
@@ -216,13 +224,19 @@ const Order = () => {
 
   return (
     <div id="scrollableDiv" style={{ height: "100%", overflow: "auto" }}>
-      <Box sx={{ display: "flex", alignItems: "center" }}>
-        <h1
+      <Box sx={{ display: "flex", alignItems: "center", padding: "12px 24px" }}>
+        <Typography
+          component="h1"
           className="my-4 text-2xl font-bold tableTitle"
-          style={{ color: "#1237BF", flexGrow: "2" }}
+          style={{
+            color: "#1237BF",
+            flexGrow: "3",
+            fontSize: "24px",
+            fontWeight: "700",
+          }}
         >
           Orders
-        </h1>
+        </Typography>
 
         <Box
           component="form"
@@ -233,6 +247,7 @@ const Order = () => {
             border: "1px solid #1237BF",
             borderRadius: "100px",
             background: "white",
+            padding: "4px 8px"
           }}
         >
           <InputBase
@@ -240,19 +255,28 @@ const Order = () => {
             sx={{
               ml: 2,
               flex: 1,
+              fontSize: "14px",
             }}
             placeholder="Search Order"
             inputProps={{ "aria-label": "search order" }}
           />
-          <IconButton type="button" sx={{ color: "black" }} aria-label="search">
+          <IconButton
+            type="button"
+            sx={{ color: "black", width: "20.373px", height: "21px" }}
+            aria-label="search"
+          >
             <SearchIcon />
           </IconButton>
         </Box>
 
         <SortDialog
+        iconSX={{width: "22px",
+          height: "20px"}}
           options={sortOptions}
           selectedValue={selectedSort}
           onChange={handleSortChange}
+          // icon={filterIcon}
+          // icon={<Icon> <img src={filter} alt="filter order" /> </Icon>}
         />
       </Box>
 
@@ -278,70 +302,91 @@ const Order = () => {
       ) : isMobile ? (
         <>
           <TableContainer component={Paper}>
-            <Table aria-label="order table">
+            <Table
+              aria-label="order table"
+              sx={{
+                [`& .${tableCellClasses.root}`]: {
+                  borderBottom: "none",
+                },
+              }}
+            >
               <TableHead
                 sx={{
                   borderBottomColor: "#F9A33F",
-                  border: "1px solid #F9A33F",
+                  borderTop: "1px solid #F9A33F",
+                  borderBottom: "1px solid #F9A33F",
                 }}
               >
                 <TableRow>
                   <TableCell
                     sx={{
+                      paddingTop:"12px",
+                      paddingBottom:"12px",
+                      fontSize: "22px",
                       color: "#1237BF",
-                      fontWeight: "bold",
-                      borderBottomColor: "#F9A33F",
+                      fontWeight: "500",
+                      paddingLeft:"24px"
                     }}
                   >
                     ID
                   </TableCell>
                   <TableCell
                     sx={{
+                      paddingTop:"12px",
+                      paddingBottom:"12px",
+                      fontSize: "22px",
                       color: "#1237BF",
-                      fontWeight: "bold",
-                      borderBottomColor: "#F9A33F",
+                      fontWeight: "500",
                     }}
-                    align="right"
+                    align="left"
                   >
                     Status
                   </TableCell>
                   <TableCell
                     sx={{
+                      paddingTop:"12px",
+                      paddingBottom:"12px",
+                      fontSize: "22px",
                       color: "#1237BF",
-                      fontWeight: "bold",
-                      borderBottomColor: "#F9A33F",
+                      fontWeight: "500",
                     }}
-                    align="right"
+                    align="left"
                   >
                     Assigned Driver
                   </TableCell>
                   <TableCell
                     sx={{
+                      paddingTop:"12px",
+                      paddingBottom:"12px",
+                      fontSize: "22px",
                       color: "#1237BF",
-                      fontWeight: "bold",
-                      borderBottomColor: "#F9A33F",
+                      fontWeight: "500",
                     }}
-                    align="right"
+                    align="left"
                   >
                     Date
                   </TableCell>
                   <TableCell
                     sx={{
+                      paddingTop:"12px",
+                      paddingBottom:"12px",
+                      fontSize: "22px",
                       color: "#1237BF",
-                      fontWeight: "bold",
-                      borderBottomColor: "#F9A33F",
+                      fontWeight: "500",
                     }}
-                    align="right"
+                    align="left"
                   >
                     Destination
                   </TableCell>
                   <TableCell
                     sx={{
+                      paddingTop:"12px",
+                      paddingBottom:"12px",
+                      fontSize: "22px",
                       color: "#1237BF",
-                      fontWeight: "bold",
-                      borderBottomColor: "#F9A33F",
+                      fontWeight: "500",
                     }}
-                    align="right"
+                    align="center"
                   >
                     Details
                   </TableCell>
@@ -351,15 +396,16 @@ const Order = () => {
             </Table>
           </TableContainer>
 
-          <Box sx={{ display: "flex", borderTop: "solid 1px #F9A33F", pt: 2 }}>
+          <Box sx={{ display: "flex", borderTop: "solid 1px #F9A33F", padding:"12px 24px"}}>
             <Button
+            sx={{padding:"0px 42px", textTransform: "none", fontWeight:"400" }}
               variant="contained"
               onClick={handlePrevious}
               disabled={currentPage === 1}
             >
               Previous
             </Button>
-            <Typography align="center" sx={{ flexGrow: "1" }}>
+            <Typography align="center" sx={{ flexGrow: "1", fontSize:"20px", color:"#1237BF", fontWeight:"700" }}>
               Page {currentPage} of {totalPages}
             </Typography>
 
@@ -379,7 +425,8 @@ const Order = () => {
               }}
             />
             <Button
-              variant="contained"
+              sx={{padding:"0px 42px", textTransform: "none", fontWeight:"400" }}
+              variant="outlined"
               onClick={handleNext}
               disabled={currentPage === totalPages}
             >
@@ -389,7 +436,7 @@ const Order = () => {
         </>
       ) : (
         <InfiniteScroll
-          style={{padding:"1rem"}}
+          style={{ padding: "1rem" }}
           dataLength={dataLength}
           next={handleNext}
           hasMore={!(currentPage === totalPages)}

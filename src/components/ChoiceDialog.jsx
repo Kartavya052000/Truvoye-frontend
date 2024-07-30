@@ -1,12 +1,19 @@
-import { Box, Button, IconButton, Menu } from "@mui/material";
+import { Box, Button, Icon, IconButton, Menu } from "@mui/material";
 import React from "react";
-import SettingsIcon from "@mui/icons-material/Settings";
+// import SettingsIcon from "@mui/icons-material/Settings";
 import Divider from "@mui/material/Divider";
+import SettingsIcon from "../Assets/imagesV/settings.svg"
+
+// const defaultIcon = 
 
 const ChoiceDialog = ({
   options = [],
   onChange,
-  icon: IconComponent = SettingsIcon,
+  icon:  IconComponent = () => (
+    <Icon>
+      <img src={SettingsIcon} alt="filter order" />
+    </Icon>
+  ) ,
 }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -32,7 +39,7 @@ const ChoiceDialog = ({
         onClick={handleClick}
         sx={{ color: "black" }}
       >
-        <IconComponent style={{ color: '#1237BF' }}/>
+        <IconComponent />
       </IconButton>
 
       <Menu
@@ -45,7 +52,7 @@ const ChoiceDialog = ({
         {options.map((option, index) => (
           <Box key={index}>
             <Button
-              sx={{ minWidth: "150px", color: "#1237BF" }}
+              sx={{ minWidth: "150px", color: "#1237BF",textTransform: "none" }}
               onClick={() => {
                 onChoiceClick(option);
               }}

@@ -17,6 +17,7 @@ import {
   TextField,
   Fab,
   useMediaQuery,
+  tableCellClasses,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { post } from "../api/api";
@@ -27,7 +28,17 @@ import ChoiceDialog from "../components/ChoiceDialog";
 import loadingGif from "../Assets/imagesG/TruckAnimationTruvoey.gif";
 import AddIcon from "@mui/icons-material/Add";
 import MobileDriverCard from "../components/MobileDriverCard";
-import plus from '../Assets/imagesV/add.svg';
+import plus from "../Assets/imagesV/add.svg";
+
+const tableHeadCellStyle = {
+  paddingTop: "12px",
+  paddingBottom: "12px",
+  fontSize: "22px",
+  color: "#1237BF",
+  fontWeight: "500",
+};
+
+const tableBodyCell = { fontSize: "16px", pt: "12px", pb: "12px" };
 
 const Drivers = () => {
   const [drivers, setDrivers] = useState([]);
@@ -124,7 +135,7 @@ const Drivers = () => {
     }
   };
 
-  const choiceOptions = ["edit", "Deactivate"];
+  const choiceOptions = ["Edit", "Deactivate"];
 
   return (
     <Box>
@@ -145,7 +156,7 @@ const Drivers = () => {
       </Fab>
       {/* md={6} */}
 
-      <Grid container sx={{ pb: 2 }}>
+      <Grid container sx={{ padding: "12px 24px" }}>
         <Grid item xs={4} sx={{ display: { xs: "none", sm: "initial" } }}>
           <Box
             sx={{
@@ -157,7 +168,7 @@ const Drivers = () => {
             <Typography
               variant="h5"
               component="h2"
-              sx={{ textAlign: "left", color: "#1237BF", fontWeight:"600"}}
+              sx={{ textAlign: "left", color: "#1237BF", fontWeight: "600" }}
             >
               Drivers
             </Typography>
@@ -213,7 +224,11 @@ const Drivers = () => {
               component={Link}
               to="/dashboard/add-driver"
             >
-               <img src={plus} alt="plus" style={{ width: '10%', height: '10%', margin: '5px' }} />
+              <img
+                src={plus}
+                alt="plus"
+                style={{ width: "10%", height: "10%", margin: "5px" }}
+              />
               Add Driver
             </Button>
           </Box>
@@ -240,76 +255,35 @@ const Drivers = () => {
       ) : isMobile ? (
         <>
           <TableContainer component={Paper}>
-            <Table aria-label="drivers table">
+            <Table
+              aria-label="drivers table"
+              sx={{
+                [`& .${tableCellClasses.root}`]: {
+                  borderBottom: "none",
+                },
+              }}
+            >
               <TableHead
                 className="drivers-tablehead"
                 sx={{
+                  borderTop: "1px solid #F9A33F",
+                  borderBottom: "1px solid #F9A33F",
                   borderBottomColor: "#F9A33F",
-                  border: "1px solid #F9A33F",
                 }}
               >
                 <TableRow class>
                   <TableCell
-                    sx={{
-                      color: "#1237BF",
-                      fontWeight: "bold",
-                      borderBottomColor: "#F9A33F",
-                    }}
+                    sx={{ ...tableHeadCellStyle, pl: "24px" }}
+                    align="left"
                   >
                     Name
                   </TableCell>
-                  <TableCell
-                    sx={{
-                      color: "#1237BF",
-                      fontWeight: "bold",
-                      borderBottomColor: "#F9A33F",
-                    }}
-                  >
-                    Address
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      color: "#1237BF",
-                      fontWeight: "bold",
-                      borderBottomColor: "#F9A33F",
-                    }}
-                  >
-                    Email
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      color: "#1237BF",
-                      fontWeight: "bold",
-                      borderBottomColor: "#F9A33F",
-                    }}
-                  >
-                    Phone
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      color: "#1237BF",
-                      fontWeight: "bold",
-                      borderBottomColor: "#F9A33F",
-                    }}
-                  >
-                    Truck Plate
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      color: "#1237BF",
-                      fontWeight: "bold",
-                      borderBottomColor: "#F9A33F",
-                    }}
-                  >
-                    Driver License
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      color: "#1237BF",
-                      fontWeight: "bold",
-                      borderBottomColor: "#F9A33F",
-                    }}
-                  >
+                  <TableCell sx={tableHeadCellStyle}>Address</TableCell>
+                  <TableCell sx={tableHeadCellStyle}>Email</TableCell>
+                  <TableCell sx={tableHeadCellStyle}>Phone</TableCell>
+                  <TableCell sx={tableHeadCellStyle}>Truck Plate</TableCell>
+                  <TableCell sx={tableHeadCellStyle}>Driver License</TableCell>
+                  <TableCell sx={tableHeadCellStyle} align="center">
                     Options
                   </TableCell>
                 </TableRow>
@@ -317,15 +291,21 @@ const Drivers = () => {
               <TableBody>
                 {drivers.map((driver) => (
                   <TableRow key={driver._id}>
-                    <TableCell>{driver.username}</TableCell>
-                    <TableCell>
+                    <TableCell sx={{ ...tableBodyCell, pl: "24px" }}>
+                      {driver.username}
+                    </TableCell>
+                    <TableCell sx={tableBodyCell}>
                       {driver.address.formatted_address.substring(0, 20)}
                     </TableCell>
-                    <TableCell>{driver.email}</TableCell>
-                    <TableCell>{driver.phone}</TableCell>
-                    <TableCell>{driver.truckLicensePlateNumber}</TableCell>
-                    <TableCell>{driver.driverLicense}</TableCell>
-                    <TableCell>
+                    <TableCell sx={tableBodyCell}>{driver.email}</TableCell>
+                    <TableCell sx={tableBodyCell}>{driver.phone}</TableCell>
+                    <TableCell sx={tableBodyCell}>
+                      {driver.truckLicensePlateNumber}
+                    </TableCell>
+                    <TableCell sx={tableBodyCell}>
+                      {driver.driverLicense}
+                    </TableCell>
+                    <TableCell sx={tableBodyCell} align="center">
                       <ChoiceDialog
                         options={choiceOptions}
                         onChange={(choice) => {
@@ -339,15 +319,34 @@ const Drivers = () => {
             </Table>
           </TableContainer>
 
-          <Box sx={{ display: "flex", borderTop: "solid 1px #F9A33F", pt: 2 }}>
+          <Box
+            sx={{
+              display: "flex",
+              borderTop: "solid 1px #F9A33F",
+              padding: "12px 24px",
+            }}
+          >
             <Button
+              sx={{
+                padding: "0px 42px",
+                textTransform: "none",
+                fontWeight: "400",
+              }}
               variant="contained"
               onClick={handlePrevious}
               disabled={currentPage === 1}
             >
               Previous
             </Button>
-            <Typography align="center" sx={{ flexGrow: "1" }}>
+            <Typography
+              align="center"
+              sx={{
+                flexGrow: "1",
+                fontSize: "20px",
+                color: "#1237BF",
+                fontWeight: "700",
+              }}
+            >
               Page {currentPage} of {totalPages}
             </Typography>
 
@@ -367,6 +366,11 @@ const Drivers = () => {
               }}
             />
             <Button
+              sx={{
+                padding: "0px 42px",
+                textTransform: "none",
+                fontWeight: "400",
+              }}
               variant="contained"
               onClick={handleNext}
               disabled={currentPage === totalPages}
