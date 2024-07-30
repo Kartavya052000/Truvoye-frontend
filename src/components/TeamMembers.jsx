@@ -64,7 +64,7 @@ const TeamMembers = () => {
      }}>
           Team Members
         </Typography>
-      <Container sx={{marginBottom: '2rem', m:0,  maxWidth: '2000px !important',
+      <Container sx={{ m:0,marginBottom: '4rem',  maxWidth: '2000px !important',
         marginLeft: '2rem',
         marginRight: '2rem',
         '@media (max-width: 740px)': {

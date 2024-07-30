@@ -84,7 +84,7 @@ const TierModel = () => {
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
-              marginBottom: '12rem',
+              marginBottom: '4rem',
               marginRight: '1rem !important'
   
             }, }}>
@@ -103,7 +103,7 @@ const TierModel = () => {
                   <Typography sx={{ fontSize: '1rem',fontWeight: 'bold', color: '#F9A33F', textAlign: 'center', marginBottom: '10px', p:0, m:0 }}>
                     {card.title}
                   </Typography>
-                  <Typography sx={{ fontSize: '1.5rem',fontWeight: 'bold', color: '#F9A33F', textAlign: 'center', marginBottom: '20px', p:0, m:0  }}>
+                  <Typography sx={{ fontSize: '2rem',fontWeight: 'bold', color: '#F9A33F', textAlign: 'center', marginBottom: '20px', p:0, m:0  }}>
                   {card.description}
                   </Typography>
                   <Typography  sx={{ fontSize: '1.5rem',fontWeight: 'bold', color: '#F9A33F', textAlign: 'center', marginBottom: '20px', p:0, m:0 }}>

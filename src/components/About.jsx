@@ -60,7 +60,7 @@ const About = () => {
   return (
     <Container sx={{marginBottom: '4rem',
     '@media (max-width: 740px)': {
-      marginBottom: '1rem',
+      marginBottom: '4rem',
      
     }
     }}>
@@ -102,7 +102,7 @@ const About = () => {
             sx={{
               color: 'black',
               textAlign: 'left',
-              fontSize: { xs: '15px', md: '18px' },
+              fontSize: { xs: '15px' },
               fontWeight: 'normal',
               lineHeight: '1.5',
             }}

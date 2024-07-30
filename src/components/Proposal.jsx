@@ -298,7 +298,7 @@ const Proposal = () => {
       
     }}}>
 
-<Typography variant="h3" sx={{ color: '#1237BF', textAlign: 'left', fontSize: '2rem', fontWeight: 'bolder', marginTop: '2rem', marginBottom: '2rem', marginLeft: { xs: '1rem', md: '2rem' } , width: '100%', alignSelf: 'center'}}>
+<Typography variant="h3" sx={{ color: '#1237BF', textAlign: 'left', fontSize: '2rem', fontWeight: 'bolder', marginTop: '2rem', marginBottom: '2rem', marginLeft: { xs: '1rem', md: '4rem' } , width: '100%', alignSelf: 'center'}}>
         Proposal
       </Typography>
       
