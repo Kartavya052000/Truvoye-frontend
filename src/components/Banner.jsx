@@ -81,7 +81,8 @@ const handleDownload = async () => {
 
   try {
       const filename = 'Truvoye-proposal.pdf'; // Replace with your file name
-      const response = await axios.get(`http://localhost:4000/api/download/${filename}`, {
+      // const response = await axios.get(`http://localhost:4000/api/download/${filename}`, {
+      const response = await axios.get(`https://truvoye.com/api/download/${filename}`, {
           responseType: 'blob' // Important to specify the response type
       });
 
