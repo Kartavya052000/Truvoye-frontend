@@ -128,10 +128,10 @@ const Drivers = () => {
   };
 
   const onOptionSelected = (option, driverId) => {
-    alert("what is selected option : " + option + " Driver id : " + driverId);
-    if (option === "edit") {
+    if (option === choiceOptions[0]) {
       navigate(`/dashboard/edit-driver/${driverId} `);
     } else if (option === "deactivate") {
+      alert("Stay Tuned Coming soon");
     }
   };
 
