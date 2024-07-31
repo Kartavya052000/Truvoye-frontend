@@ -2,8 +2,6 @@ import React from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import illustration from '../Assets/imagesV/Proposal.svg'; 
 import { styled } from '@mui/system';
-import { get } from "../api/api";
-import axios from 'axios';
 
 const Container = styled(Box)({
   display: 'flex',
@@ -67,44 +65,12 @@ const ProposalButton = styled(Button)({
   alignSelf: 'flex-start',
 });
 
-const handleDownload = async () => {
+//This code is without converting it into a blob:-
+const handleDownload = () => {
   console.log("Download button clicked");
-
-  try {
-      const filename = 'Truvoye-proposal.pdf'; // Replace with your file name
-      // const response = await axios.get(`http://localhost:4000/api/download/${filename}`, {
-        const response = await axios.get(`https://truvoye.com/api/download/${filename}`, {
-          responseType: 'blob' // Important to specify the response type
-      });
-
-      if (response.status !== 200) {
-          throw new Error('Network response was not ok');
-      }
-
-      console.log("Starting download...");
-
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', 'Truvoye-project-proposal.pdf'); // Desired file name
-      document.body.appendChild(link);
-      link.click();
-      link.parentNode.removeChild(link);
-  } catch (error) {
-      console.error('There was an error downloading the file:', error);
-  }
-}
-
-//for testing only:-
-const handleTest = async () => {
-  try {
-    const response = await fetch('/api/test');
-    const text = await response.text();
-    console.log(text); // Should log "Test endpoint is working"
-  } catch (error) {
-    console.error('Test request failed:', error);
-  }
+  window.location.href = 'http://localhost:4000/api/download-proposal';//change the localhost:4000 to your backend database's URL
 };
+
 
 
 
