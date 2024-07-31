@@ -45,7 +45,10 @@ const FooterLink = styled(Link)({
 
 const Footer = () => {
   return (
-    <FooterContainer>
+    <FooterContainer sx={{ '@media (max-width: 740px)': { display: 'grid',
+    marginLeft: '1rem',
+    marginRight: '1rem',
+    justifyContent: 'center'}}}>
       <FooterContent maxWidth="lg">
         <FooterSection>
           <img src={logo} alt="Banner illustration" />

@@ -1,5 +1,5 @@
 import "./App.css";
-import { ThemeProvider } from '@mui/material/styles';
+import { createMuiTheme, ThemeProvider } from '@mui/material/styles';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Homepage from "./pages/Homepage";
@@ -31,7 +31,16 @@ import ProtectedRoute from "./ProtectedRoute"; // Import the ProtectedRoute comp
 
 function App() {
 
+  const THEME = createMuiTheme({
+    typography: {
+     "fontFamily": `"Outfit","Roboto", "Arial", sans-serif`,
+    }
+ });
+
   return (
+    <ThemeProvider theme={THEME}>
+
+
     <div className="App">
       <Router>
         <Routes>
@@ -121,6 +130,7 @@ function App() {
         </Routes>
       </Router>
     </div>
+    </ThemeProvider>
   );
 }
 

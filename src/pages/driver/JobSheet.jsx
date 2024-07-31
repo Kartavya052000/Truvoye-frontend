@@ -18,20 +18,22 @@ import { post } from "../../api/api";
 import AlertMessage from "../../components/AlertMessage";
 import { Alert } from "@mui/material";
 import Swal from "sweetalert2";
+import LoadingDialog from "../../components/LoadingDialog";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
-    <div
+    <Box
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
+      sx={{height:"92%"}}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-    </div>
+      {value === index && <Box sx={{ pt:3, pl:3, pr:3, pb:1, height:"100%" }}>{children}</Box>}
+    </Box>
   );
 }
 
@@ -67,18 +69,18 @@ const formatDate = (dateString) => {
 };
 
 export default function BasicTabs() {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(1);
   const [open, setOpen] = React.useState(false);
   const [orderDetails, setOrderDetails] = React.useState({});
   const [currentOrders, setCurrentOrders] = React.useState([]);
   const [upcomingOrders, setUpcomingOrders] = React.useState([]);
   const [completedOrders, setCompletedOrders] = React.useState([]);
   const [alertMessage, setAlertMessage] = React.useState([]);
+  const [isLoadingDialog, setIsLoadingDialog] = React.useState(false); 
+  const [loadingDialogText, setLoadingDialogText] = React.useState(""); 
 
-  
   // TODO :  GET ME THE DRIVER ID FROM LOGIN HERE
   const driverId = "667a44273149776a7412a59e";
-
 
   React.useEffect(() => {
     post(`driver/getOrders?driverId=${driverId}&orderStatus=2`)
@@ -179,18 +181,21 @@ export default function BasicTabs() {
                 showConfirmButton: false,
                 customClass: {
                   // icon: 'custom-icon',
-                  title: 'custom-title',
-                  content: 'custom-content'
+                  title: "custom-title",
+                  content: "custom-content",
                 },
                 timer: 2000, // close after 2 seconds
-                width: '360px', // Set the width
+                width: "360px", // Set the width
                 didRender: () => {
                   // Set the height using custom CSS
                   const swalContainer = Swal.getPopup();
                   if (swalContainer) {
-                    swalContainer.style.height = '300px'; // Set the height
+                    swalContainer.style.height = "300px"; // Set the height
                   }
-                }    });
+                },
+              });
+
+              setValue(0);
             }
           })
           .catch((error) => {
@@ -204,19 +209,21 @@ export default function BasicTabs() {
         // TODO : send an feedback that started successful
         break;
       case 2:
+        setLoadingDialogText("Requesting OTP...")
+        setIsLoadingDialog(true);
         post(`driver/generateOTP?orderId=${orderDetails._id}`)
           .then((response) => {
             if (response.status === 201) {
               console.log(response);
 
-              // setAlertMessage([
-              //   "success",
-              //   "OTP sent to recipient successfully",
-              // ]);
-
+              setIsLoadingDialog(false);
+              setAlertMessage([
+                "success",
+                "OTP sent to recipient successfully",
+              ]);
               setTimeout(() => {
                 navigate(`otp-verification/${orderDetails._id}`);
-              }, 2000);
+              });
 
               // //Remove order
               // setCurrentOrders((prevCurrentOrders) =>
@@ -256,6 +263,7 @@ export default function BasicTabs() {
 
   return (
     <div>
+      <LoadingDialog loadingText={loadingDialogText} open={isLoadingDialog} />
       <AlertMessage alertMessage={alertMessage} />
       <BootstrapDialog
         onClose={handleClose}
@@ -282,10 +290,12 @@ export default function BasicTabs() {
             <b>Order ID:</b> {orderDetails._id}
           </Typography>
           <Typography variant="subtitle1" component="h2">
-            <b>Sender Name:</b> {orderDetails?.client_info?.senders_name ?? "NA"}
+            <b>Sender Name:</b>{" "}
+            {orderDetails?.client_info?.senders_name ?? "NA"}
           </Typography>
           <Typography variant="subtitle1" component="h2" gutterBottom mb={4}>
-            <b>Receiver Name:</b> {orderDetails?.client_info?.receivers_name ?? "NA"}
+            <b>Receiver Name:</b>{" "}
+            {orderDetails?.client_info?.receivers_name ?? "NA"}
           </Typography>
 
           <Typography variant="subtitle1" component="h2">
@@ -305,7 +315,8 @@ export default function BasicTabs() {
             <b>Pickup Address:</b> {orderDetails?.pickup_address?.address_name}
           </Typography>
           <Typography variant="subtitle1" component="h2">
-            <b>Delivery Address:</b> {orderDetails?.receiver_address?.address_name}
+            <b>Delivery Address:</b>{" "}
+            {orderDetails?.receiver_address?.address_name}
           </Typography>
 
           {orderDetails.order_status === 3 && (
@@ -336,7 +347,7 @@ export default function BasicTabs() {
         )}
       </BootstrapDialog>
 
-      <Box sx={{ width: "100%", height: "90vh" ,background:"#B8C3EC"}}>
+      <Box sx={{ width: "100%", height: "90vh", background: "#B8C3EC" }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
             value={value}

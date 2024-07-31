@@ -103,33 +103,38 @@
 
 // export default OrderEstimateDetails;
 
-
-import React from 'react';
-import { Formik, Form, Field } from 'formik';
-import { TextField, Container, Box, Typography, Grid, Button } from "@mui/material";
+import React from "react";
+import { Formik, Form, Field } from "formik";
+import {
+  TextField,
+  Container,
+  Box,
+  Typography,
+  Grid,
+  Button,
+  Divider,
+} from "@mui/material";
 
 const textFieldStyle = {
-  width: '100%',
-  marginBottom: '16px',
-  padding: '8px',
-  fontSize: '14px',
-  boxSizing: 'border-box',
-  borderRadius: '20px',
-  border: '1px solid #1237BF',
+  marginTop: "8px",
+  width: "100%",
+  padding: "8px",
+  fontSize: "16px",
+  boxSizing: "border-box",
+  borderRadius: "10px", // Adding border radius
+  border: "1px solid #1237BF", // Adding a border
 };
 
 const formItemStyle = {
-  display: 'block',
-  alignItems: 'start',
-  textAlign: 'left',
+  display: "block",
+  alignItems: "start",
+  textAlign: "left",
 };
 
 const labelStyle = {
-  width: '150px',
-  marginRight: '16px',
-  fontSize: '15px',
-  fontWeight: 'bold',
-  color: '#1237BF',
+  fontSize: "18px",
+  fontWeight: "bold",
+  color: "#1237BF",
 };
 
 const OrderEstimateDetails = ({ estimateData, handleUpdateEstimate }) => {
@@ -141,93 +146,101 @@ const OrderEstimateDetails = ({ estimateData, handleUpdateEstimate }) => {
   return (
     <Formik
       initialValues={{
-        distance: estimateData?.distance || '',
-        duration: estimateData?.duration || '',
-        cost: estimateData?.cost || ''
+        distance: estimateData?.distance || "",
+        duration: estimateData?.duration || "",
+        cost: estimateData?.cost || "",
       }}
       onSubmit={handleSubmit}
     >
       {({ isSubmitting }) => (
         <Form>
-          <Container maxWidth="lg">
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Box
-                  display="flex"
-                  justifyContent="center"
-                  alignItems="center"
-                >
-                  <Box
-                    sx={{
-                      width: { xs: '100%', sm: '80%', md : '60%', lg : '50%' },
-                      margin: "auto",
-                      border: "1px solid #000000",
-                      borderRadius: "30px",
-                      padding: "48px",
-                      textAlign: "center",
-                    }}
-                  >
-                    <Typography
-                      variant="h5"
-                      component="h1"
-                      sx={{ textAlign: "center", m: 1, color: '#1237BF', fontWeight: 'bold' }}
-                    >
-                      Order Estimate Details
-                    </Typography>
+          <Box
+            sx={{
+              width: { xs: "100%", sm: "80%", md: "60%", lg: "40%" },
+              backgroundColor: "white",
+              borderRadius: "20px",
+              textAlign: "right",
+            }}
+          >
+            <Typography
+              variant="h5"
+              component="h1"
+              sx={{
+                textAlign: "left",
+                p: "24px",
+                color: "#1237BF",
+                fontSize: "20px",
+                fontWeight: "700",
+              }}
+            >
+              Order Estimate Details
+            </Typography>
 
-                    <div style={formItemStyle}>
-                      <label style={labelStyle} htmlFor="distance">Distance</label>
-                      <input
-                        name="distance"
-                        as={TextField}
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        disabled
-                        style={textFieldStyle}
-                        value={estimateData?.distance}
+            <Divider sx={{ bgcolor: "#F9A33F" }} />
+            <Box sx={{ padding: "24px" }}>
+              <div style={formItemStyle}>
+                <label style={labelStyle} htmlFor="distance">
+                  Distance
+                </label>
+                <input
+                  name="distance"
+                  as={TextField}
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  disabled
+                  style={textFieldStyle}
+                  value={estimateData?.distance}
+                />
+              </div>
 
-                      />
-                    </div>
+              <div style={{...formItemStyle, paddingTop:"24px", paddingBottom:"24px"}}>
+                <label style={labelStyle} htmlFor="duration">
+                  Duration
+                </label>
+                <input
+                  name="duration"
+                  as={TextField}
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  disabled
+                  style={textFieldStyle}
+                  value={estimateData?.duration}
+                />
+              </div>
 
-                    <div style={formItemStyle}>
-                      <label style={labelStyle} htmlFor="duration">Duration</label>
-                      <input
-                        name="duration"
-                        as={TextField}
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        disabled
-                        style={textFieldStyle}
-                        value={estimateData?.duration}
-                      />
-                    </div>
+              <div style={formItemStyle}>
+                <label style={labelStyle} htmlFor="cost">
+                  Cost
+                </label>
+                <Field
+                  type="number"
+                  id="cost"
+                  name="cost"
+                  style={textFieldStyle}
+                />
+              </div>
+            </Box>
 
-                    <div style={formItemStyle}>
-                      <label style={labelStyle}htmlFor="cost">Cost</label>
-                      <Field
-                        type="number"
-                        id="cost"
-                        name="cost"
-                        style={textFieldStyle}
-                      />
-                    </div>
+            <Divider sx={{ bgcolor: "#F9A33F" }} />
 
-                    <Button
-                      sx={{ mt: 3, background: "#1237BF", borderRadius: '8px', padding: '10px 30px' }}
-                      color="primary"
-                      variant="contained"
-                      type="submit"
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting ? 'Updating...' : 'Update Estimate'}
-                    </Button>
-                  </Box>
-                </Box>
-              </Grid>
-            </Grid>
-          </Container>
+            <Button
+              sx={{
+                m: "24px",
+                background: "#1237BF",
+                borderRadius: "8px",
+                padding: "10px 30px",
+                textTransform: "none",
+              }}
+              color="primary"
+              variant="contained"
+              type="submit"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Updating..." : "Update Estimate"}
+            </Button>
+          </Box>
         </Form>
       )}
     </Formik>
