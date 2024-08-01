@@ -13,7 +13,7 @@ const teamMembersData = [
   {
     name: "Bhawleen Kaur",
     position: "Full Stack Developer + Project Manager",
-    description: "She is a full stack developer who believes in learning by doing and solving real-world problems. Hands-on development practice is key to building great solutions.",
+    description: "She is a full stack developer who believes in learning by doing and solving real-world problems. Hands-on development practice is key to building great solutions. She thrives in collaborative environments.",
     image: '/assets/teamHeadshots/bhawleen.jpg',
     linkedinUrl: 'https://www.linkedin.com/in/bhawleen-kaur-deol/'
   },
@@ -48,7 +48,7 @@ const teamMembersData = [
   {
     name: "Vandita Rana",
     position: "UI/UX Designer",
-    description: "She is a UI/UX designer who is passionate about designing and being passionate about brand design and web design.",
+    description: "She is a UI/UX designer who is passionate about designing, focusing on brand design and web design. She excels at creating intuitive and visually appealing user interfaces.",
     image: '/assets/teamHeadshots/vandita.jpg',
     linkedinUrl: 'https://www.linkedin.com/in/vanditarana/'
   }
@@ -64,7 +64,7 @@ const TeamMembers = () => {
      }}>
           Team Members
         </Typography>
-      <Container sx={{marginBottom: '2rem', m:0,  maxWidth: '2000px !important',
+      <Container sx={{ m:0,marginBottom: '4rem',  maxWidth: '2000px !important',
         marginLeft: '2rem',
         marginRight: '2rem',
         '@media (max-width: 740px)': {
