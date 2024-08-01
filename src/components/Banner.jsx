@@ -4,6 +4,7 @@ import React from 'react';
 import { Box, Typography, Button,  } from '@mui/material';
 import illustration from '../Assets/imagesV/banner.png';
 import { styled } from '@mui/system';
+import config from '../config/config';
 
 
 const Container = styled(Box)({
@@ -79,7 +80,8 @@ const BannerButton = styled(Button)({
 
 const handleDownload = () => {
   console.log("Download button clicked");
-  window.location.href = 'http://localhost:4000/api/download-proposal';//change the localhost:4000 to your backend database's URL
+  
+  window.location.href = `${config.BASE_SERVER_URL}/download-proposal`;//change the localhost:4000 to your backend database's URL
 };
 
 
