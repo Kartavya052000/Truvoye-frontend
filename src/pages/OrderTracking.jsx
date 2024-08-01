@@ -40,10 +40,10 @@ const OrderTracking = () => {
   }, [id]);
 
   return (
-    <div className="parent">
+    <Box className="parent" sx={{}}>
       {start && end && orderDetails ? (
-        <Box sx={{ position: 'relative', height: '100vh' }}>
-          <Box sx={{ position: "absolute", top: 0, left: 0, zIndex: 10, background: "#FFF", pr: 2, pb: 2, borderRadius: "0 0 10px 0" }}>
+        <Box sx={{ position: 'relative', height: '100%' }}>
+          <Box sx={{ position: "absolute", top: 0, left: 0, zIndex: 10, background: "#FFF", p:2, borderRadius: "0 0 10px 0" }}>
             {console.log(orderDetails)}
             <Typography variant="h6" component="h1" gutterBottom>
               Order {orderDetails._id.slice(-10).toUpperCase()}
@@ -73,7 +73,7 @@ const OrderTracking = () => {
           />
         </Box>
       )}
-    </div>
+    </Box>
   );
 };
 

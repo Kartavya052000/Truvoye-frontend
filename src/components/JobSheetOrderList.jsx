@@ -1,11 +1,12 @@
 import React from "react";
 import JobSheetOrder from "./JobSheetOrder";
+import { Box } from "@mui/system";
 
 const JobSheetOrderList = ({ data, onOrderButtonClick }) => {
 
   // TODO : Handle empty list put an info graphics when no data 
   return (
-    <div style={{ height: "100%", overflowY: "auto" }}>
+    <Box sx={{ height: "100%", overflowY: "auto" }}>
       {data.map((order) => (
         <JobSheetOrder
           key={order._id}
@@ -13,7 +14,7 @@ const JobSheetOrderList = ({ data, onOrderButtonClick }) => {
           onOrderButtonClick={onOrderButtonClick}
         />
       ))}
-    </div>
+    </Box>
   );
 };
 

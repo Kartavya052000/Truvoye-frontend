@@ -1,5 +1,4 @@
- 
- /* .sidebar{
+/* .sidebar{
     height: 90vh;
     background-color: white;
     width: 13rem;
@@ -44,28 +43,32 @@
    
   }  */
 
-  /* responsive css */
+/* responsive css */
 
-  @media (max-width: 400px) {
-    .sidebar{
-      z-index: 99;
-      /* display: none !important; */
-      height: 52vh !important;
-      width: 100% !important;
-      border-top-right-radius: 0 !important;
-      border-bottom-right-radius: 0 !important;
-      display: flex;
-      justify-content: center;
-    }
-    .sidebar_text{
-      font-size: 1rem;
-    }
+@media (max-width: 400px) {
+  .sidebar {
+    z-index: 99;
+    /* display: none !important; */
+    height: 52vh !important;
+    width: 100% !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    display: flex;
+    justify-content: center;
   }
-  .sidebar-content .active-link {
-    color: blue;
-    font-weight: bold;
+  .sidebar_text {
+    font-size: 1rem;
   }
-  .sidebar-content .active-link span {
+  
+  .nav-list{
+    padding: initial;
+  }
+}
+.sidebar-content .active-link {
+  color: blue;
+  font-weight: bold;
+}
+.sidebar-content .active-link span {
   position: relative !important; /* Ensure relative positioning for the pseudo-element */
   /* font-size: 1.3rem; */
 }
@@ -76,16 +79,16 @@
   gap: 0.2rem;
 }
 .sidebar-content .active-link span::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -4px; /* Adjust as needed */
   left: 0;
   width: 50%; /* Adjust the width of the underline */
   height: 4px; /* Thickness of the underline */
-  background-color: #F9A33F; /* Solid color for the underline */
+  background-color: #f9a33f; /* Solid color for the underline */
   border-radius: 15px; /* Rounded border radius */
 }
-.sidebar_text{
+.sidebar_text {
   font-size: 20px;
 }
 .sidebar-content .sidebar-icons {
@@ -93,13 +96,8 @@
   height: 26px; /* Adjust size as needed */
 }
 
-.sidebar-content  span {
+.sidebar-content span {
   font-size: 21px; /* Adjust size as needed */
   font-weight: bold; /* Optional: make the text bold */
-  margin-left: 10px; 
+  margin-left: 10px;
 }
-
-
-
-
-

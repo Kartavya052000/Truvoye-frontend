@@ -166,7 +166,7 @@ const chartSetting = {
       dataKey: 'value',
       label: 'Orders',
       valueFormatter,
-      color: '#1237BF', // Set the bar color here
+      color: '#42a5f5', // Set the bar color here
     },
   ],
   height: 300,

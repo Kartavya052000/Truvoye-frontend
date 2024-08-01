@@ -16,8 +16,8 @@ const Homepage = () => {
       <ThemeProvider theme={theme}>
         <Container sx={{m: 0, p:0, marginRight: '0', maxWidth: '100vw !important'}}>
       {/* <h1>Homepage</h1> */}
-      <Banner />
-      <section id="about-us">
+        <Banner />
+          <section id="about-us">
             <About />
           </section>
           <section id="tier-models">
