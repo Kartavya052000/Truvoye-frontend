@@ -76,6 +76,14 @@ const BannerButton = styled(Button)({
   alignSelf: 'flex-start',
 });
 
+
+const handleDownload = () => {
+  console.log("Download button clicked");
+  window.location.href = 'http://localhost:4000/api/download-proposal';//change the localhost:4000 to your backend database's URL
+};
+
+
+
 const Banner = () => {
   return (
     <Container sx={{marginBottom: '12rem',
@@ -103,7 +111,8 @@ const Banner = () => {
               background: '#1237BF',
               color: 'white',
             },
-          }}>
+          }}
+             onClick={ handleDownload}>
             Download Proposal
           </BannerButton>
           </LeftContainer>

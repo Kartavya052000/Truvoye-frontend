@@ -287,6 +287,13 @@ const handleTest = async () => {
 
 
 
+
+//This code is without converting it into a blob:-
+const handleDownload = () => {
+  console.log("Download button clicked");
+  window.location.href = 'http://localhost:4000/api/download-proposal';//change the localhost:4000 to your backend database's URL
+};
+
 const Proposal = () => {
   return (
     <Container sx={{ marginBottom: '2rem' ,
@@ -322,6 +329,7 @@ const Proposal = () => {
              color: 'white',
            },
            marginLeft: {xs : '1rem', md: '2rem'}, marginRight : {xs : '1rem', md: '2rem'}
+
          }}
            onClick={ handleDownload}>
            Download Proposal

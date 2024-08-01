@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
@@ -25,6 +25,27 @@ import SearchIcon from "@mui/icons-material/Search";
 import { debounce } from "lodash";
 import loadingGif from "../Assets/imagesG/TruckAnimationTruvoey.gif";
 import MobileTrackingCard from "../components/MobileTrackingCard";
+import ChoiceDialog from "../components/ChoiceDialog";
+
+const tableHeadCellStyle = {
+  paddingTop: "12px",
+  paddingBottom: "12px",
+  fontSize: "22px",
+  color: "#1237BF",
+  fontWeight: "500",
+};
+
+const tableBodyCell = { fontSize: "16px", pt: "12px", pb: "12px" };
+
+const linkStyle = {
+  color: "#939393",
+  fontFamily: "Outfit",
+  fontSize: "18px",
+  fontWeight: "400",
+  textDecorationLine: "underline",
+};
+
+const choiceOptions = ["Share Link", "Real-time Tracking"];
 
 const Tracking = () => {
   const [orders, setOrders] = useState([]);
@@ -36,7 +57,7 @@ const Tracking = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [totalOrders, setTotalOrders] = useState([]);
-  const [orderStatus, setOrderStatus] = useState(null);
+  const [orderStatus, setOrderStatus] = useState(2);
   const isMobile = useMediaQuery("(min-width:600px)");
 
   useEffect(() => {
@@ -136,21 +157,54 @@ const Tracking = () => {
     }
   };
 
+  function formatDateString(dateString) {
+    const date = new Date(dateString);
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based, so we add 1
+    const day = String(date.getDate()).padStart(2, "0");
+
+    let hours = date.getHours();
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+
+    return `${year}/${month}/${day} at ${hours}:${minutes} ${ampm}`;
+  }
+
+  const onOptionSelected = (option, orderId) => {
+    if (option === "Real-time Tracking") {
+      navigate(`/dashboard/order-tracking/${orderId}`);
+    } else if (option === "Share Link") {
+      alert("Stay Tune Coming soon ");
+    }
+  };
+
   return (
     <div>
-      <Box sx={{ display: "flex", alignItems: "center", mt: 1, mb: 3 }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          padding: "12px 24px",
+          width: { xs: "100%", sm: "100%", md: "60%", lg: "70%" },
+          backgroundColor:{sm:"white"},
+          borderTopRightRadius:{sm:"20px"},
+          borderTopLeftRadius:{sm:"20px"}
+        }}
+      >
         <Typography
           className="my-4 text-2xl font-bold "
           variant="h4"
           component="h1"
           sx={{
-            flexGrow: 1,
             color: "#1237BF",
-            paddingLeft: 1,
-            paddingRight: 1,
+            fontSize: "24px",
+            fontWeight: "700",
+            flexGrow: 1,
             textAlign: { xs: "center", sm: "left" },
             display: { xs: "none", sm: "block" },
-            fontWeight:"600"
           }}
         >
           Order Tracking
@@ -163,6 +217,7 @@ const Tracking = () => {
             alignItems: "center",
             border: "1px solid #1237BF",
             borderRadius: "100px",
+            backgroundColor:"white"
           }}
         >
           <InputBase
@@ -170,6 +225,7 @@ const Tracking = () => {
             sx={{
               ml: 2,
               flex: 1,
+              fontSize: "14px",
             }}
             placeholder="Search Order"
             inputProps={{ "aria-label": "search order" }}
@@ -186,6 +242,10 @@ const Tracking = () => {
             justifyContent: "center",
             alignItems: "center",
             height: "60vh", // Adjust this height as per your layout
+            width: { xs: "100%", sm: "100%", md: "60%", lg: "70%" },
+            backgroundColor:"white",
+            borderBottomRightRadius:{sm:"20px"},
+            borderBottomLeftRadius:{sm:"20px"}
           }}
         >
           <img
@@ -198,157 +258,141 @@ const Tracking = () => {
         </Box>
       ) : isMobile ? (
         <>
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="order table">
-              <TableHead
-                className="drivers-tablehead"
+          <Box sx={{ width: { xs: "100%", sm: "100%", md: "60%", lg: "70%" }, backgroundColor:"white", borderRadius:"20px"} }>
+            <TableContainer component={Paper}>
+              <Table
                 sx={{
-                  borderBottomColor: "#F9A33F",
-                  border: "1px solid #F9A33F",
+                  [`& .${tableCellClasses.root}`]: {
+                    borderBottom: "none",
+                  },
                 }}
+                aria-label="order table"
               >
-                <TableRow>
-                  <TableCell
-                    sx={{
-                      color: "#1237BF",
-                      borderBottomColor: "#F9A33F",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Order ID
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      color: "#1237BF",
-                      fontWeight: "bold",
-                      borderBottomColor: "#F9A33F",
-                    }}
-                    align="right"
-                  >
-                    Pickup Address
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      color: "#1237BF",
-                      fontWeight: "bold",
-                      borderBottomColor: "#F9A33F",
-                    }}
-                    align="right"
-                  >
-                    Receiver Address
-                  </TableCell>
-                  {/* <TableCell align="right">Weight</TableCell> */}
-                  <TableCell
-                    sx={{
-                      color: "#1237BF",
-                      fontWeight: "bold",
-                      borderBottomColor: "#F9A33F",
-                    }}
-                    align="right"
-                  >
-                    Pickup Date
-                  </TableCell>
-                  {/* <TableCell align="right">Status</TableCell> */}
-                  <TableCell
-                    sx={{
-                      color: "#1237BF",
-                      fontWeight: "bold",
-                      borderBottomColor: "#F9A33F",
-                    }}
-                    align="right"
-                  >
-                    Tracking Link
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {orders.map((order) => (
-                  <TableRow key={order._id}>
-                    <TableCell component="th" scope="row">
-                      {order._id.substring(0, 10).toUpperCase()}
+                <TableHead
+                  className="drivers-tablehead"
+                  sx={{
+                    borderTop: "1px solid #F9A33F",
+                    borderBottom: "1px solid #F9A33F",
+                    borderBottomColor: "#F9A33F",
+                  }}
+                >
+                  <TableRow>
+                    <TableCell
+                      sx={{ ...tableHeadCellStyle, pl: "24px" }}
+                      align="left"
+                    >
+                      Order ID
                     </TableCell>
-                    <TableCell align="right">
-                      {order.pickup_address?.address_name}
-                    </TableCell>
-                    <TableCell align="right">
-                      {order.receiver_address?.address_name}
-                    </TableCell>
-                    {/* <TableCell align="right">{order.weight}</TableCell> */}
-                    <TableCell align="right">
-                      {new Date(order.pickup_date).toLocaleDateString()}
-                    </TableCell>
-                    <TableCell align="right">
-                      {!order?.driver_id ? "Unassigned" : "Assigned"}
-                    </TableCell>
-                    <TableCell align="right" style={{ cursor: "pointer" }}>
-                      {order.order_status === 2 ? (
-                        <Link to={`/dashboard/order-tracking/${order._id}`}>
-                          <Avatar sx={{ bgcolor: blue[500] }}>&gt;</Avatar>
-                        </Link>
-                      ) : (
-                        <Avatar
-                          sx={{ bgcolor: blue[100] }}
-                          onClick={() =>
-                            setAlertMessage([
-                              "error",
-                              "Order is not picked up yet",
-                            ])
-                          }
-                        >
-                          &gt;
-                        </Avatar>
-                      )}
+                    <TableCell sx={tableHeadCellStyle}>Pickup Date</TableCell>
+                    <TableCell sx={tableHeadCellStyle}>Tracking Link</TableCell>
+                    <TableCell sx={tableHeadCellStyle} align="center">
+                      Option
                     </TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-            <AlertMessage alertMessage={alertMessage} />
-          </TableContainer>
+                </TableHead>
+                <TableBody>
+                  {orders.map((order) => (
+                    <TableRow key={order._id}>
+                      <TableCell sx={{ ...tableBodyCell, pl: "24px" }}>
+                        {order._id.substring(0, 10).toUpperCase()}
+                      </TableCell>
+                      <TableCell sx={tableBodyCell}>
+                        {formatDateString(order.pickup_date)}
+                      </TableCell>
+                      <TableCell sx={tableBodyCell}>
+                        <Link
+                          to={`/dashboard/order-tracking/${order._id}`}
+                          style={linkStyle}
+                        >
+                          trackinglink
+                        </Link>
+                      </TableCell>
+                      <TableCell
+                        sx={tableBodyCell}
+                        style={{ cursor: "pointer" }}
+                        align="center"
+                      >
+                        {
+                          <ChoiceDialog
+                            options={choiceOptions}
+                            onChange={(choice) => {
+                              onOptionSelected(choice, order._id);
+                            }}
+                          />
+                        }
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+              <AlertMessage alertMessage={alertMessage} />
+            </TableContainer>
 
-          <Box sx={{ display: "flex", borderTop: "solid 1px #F9A33F", pt: 2 }}>
-            <Button
-              variant="contained"
-              onClick={handlePrevious}
-              disabled={currentPage === 1}
-            >
-              Previous
-            </Button>
-            <Typography align="center" sx={{ flexGrow: "1" }}>
-              Page {currentPage} of {totalPages}
-            </Typography>
-
-            <TextField
-              type="number"
-              size="small"
-              defaultValue={limit}
-              inputProps={{
-                min: 1,
-                step: 10,
-                style: { maxWidth: "50px" },
-              }}
-              onChange={onLimitChange}
-              variant="outlined"
+            <Box
               sx={{
-                mr: 2,
+                display: "flex",
+                borderTop: "solid 1px #F9A33F",
+                padding: "12px 24px",
               }}
-            />
-            <Button
-              variant="contained"
-              onClick={handleNext}
-              disabled={currentPage === totalPages}
             >
-              Next
-            </Button>
+              <Button
+                sx={{
+                  padding: "0px 42px",
+                  textTransform: "none",
+                  fontWeight: "400",
+                }}
+                variant="contained"
+                onClick={handlePrevious}
+                disabled={currentPage === 1}
+              >
+                Previous
+              </Button>
+              <Typography
+                align="center"
+                sx={{
+                  flexGrow: "1",
+                  fontSize: "20px",
+                  color: "#1237BF",
+                  fontWeight: "700",
+                }}
+              >
+                Page {currentPage} of {totalPages}
+              </Typography>
+
+              <TextField
+                type="number"
+                size="small"
+                defaultValue={limit}
+                inputProps={{
+                  min: 1,
+                  step: 10,
+                  style: { maxWidth: "50px" },
+                }}
+                onChange={onLimitChange}
+                variant="outlined"
+                sx={{
+                  mr: 2,
+                }}
+              />
+              <Button
+                sx={{
+                  padding: "0px 42px",
+                  textTransform: "none",
+                  fontWeight: "400",
+                }}
+                variant="contained"
+                onClick={handleNext}
+                disabled={currentPage === totalPages}
+              >
+                Next
+              </Button>
+            </Box>
           </Box>
         </>
       ) : (
         <Box sx={{ mt: 1 }}>
           {orders.map((order) => (
-            <MobileTrackingCard
-              key={order._id}
-              data={order} 
-            />
+            <MobileTrackingCard key={order._id} data={order} />
           ))}
         </Box>
       )}

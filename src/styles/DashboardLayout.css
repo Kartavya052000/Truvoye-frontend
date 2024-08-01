@@ -95,10 +95,10 @@
 }
 
 .dashboard-content {
-  padding: 1rem;
-  margin-left: 0rem;
+
+
   margin-right: 3rem;
-  margin-top: 2rem;
+  margin-top: 1rem;
   margin-bottom: 2rem;
   background-color: white;
   height: calc(100vh - 18vh);
@@ -106,7 +106,7 @@
   overflow-x: hidden;
   border-radius: 20px;
   box-sizing: border-box;
-  padding-bottom: 4rem;
+
 }
 .remove-bg {
   background-color: transparent;
@@ -133,7 +133,7 @@
   position: fixed;
   height: 90vh;
   background-color: white;
-  width: 13rem;
+  width: 14rem;
   color: white;
   display: flex;
   /* border: 1px solid blue; */

@@ -9,7 +9,7 @@ import { throttle } from "lodash";
 
 const containerStyle = {
   width: "100%",
-  height: "78vh",
+  height: "calc(100vh - 18vh)",
 };
 
 const MapComponent = ({ start, end }) => {
