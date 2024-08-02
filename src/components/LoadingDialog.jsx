@@ -18,6 +18,7 @@ const LoadingDialog = ({ open, loadingText }) => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+
           minHeight: "100vh",
           backgroundColor: "transparent",
           boxShadow: "none",
@@ -34,6 +35,7 @@ const LoadingDialog = ({ open, loadingText }) => {
       >
         <Paper
           style={{
+            width:"300px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",

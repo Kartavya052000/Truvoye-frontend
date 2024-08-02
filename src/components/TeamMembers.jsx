@@ -34,14 +34,14 @@ const teamMembersData = [
   {
     name: "Navneet Cherukot",
     position: "UI/UX Designer + Lead Designer",
-    description: "A passionate and enthusiastic UI/UX designer who is keen on creating human-centric designs, Michael brings a wealth of creativity and innovative approach. He is a part-time cinephile and full-time creative head.",
+    description: "A passionate and enthusiastic UI/UX designer who is keen on creating human-centric design solutions with a sustainable and minimalistic approach. He’s a part-time cinephile and full-time creative head.",
     image: '/assets/teamHeadshots/navneet.jpg',
     linkedinUrl: 'https://www.linkedin.com/in/navneetcherukot/'
   },
   {
     name: "Danielle Fraga Carvalho",
     position: "UI/UX Designer",
-    description: "Dedicated UI/UX designer who is passionate about crafting seamless user experiences, Sarah brings a wealth of experience and creative mindset. UX/UI designing is her expertise, artistic soul truly valued.",
+    description: "Dedicated professional, passionate about UI/UX design, her goal is to have the most careful attention to detail to be able to create intuitive and visually engaging user experiences.",
     image: '/assets/teamHeadshots/danielle.jpg',
     linkedinUrl: 'https://www.linkedin.com/in/daniellefpcarvalho/'
   },

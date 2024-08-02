@@ -86,7 +86,16 @@ export default function BasicTabs() {
     post(`driver/getOrders?driverId=${driverId}&orderStatus=2`)
       .then((response) => {
         if (response.status === 201) {
-          setCurrentOrders(response.data.orders);
+
+          let orders = response.data.orders;
+          if(orders.length === 0){
+            setCurrentOrders(null);
+
+          }else{
+            setCurrentOrders(response.data.orders);
+
+          }
+
         }
       })
       .catch((error) => {
@@ -101,7 +110,15 @@ export default function BasicTabs() {
     post(`driver/getOrders?driverId=${driverId}&orderStatus=1`)
       .then((response) => {
         if (response.status === 201) {
-          setUpcomingOrders(response.data.orders);
+          let orders = response.data.orders;
+          // alert(orders.length)
+          if(orders.length === 0){
+            setUpcomingOrders(null);
+
+          }else{
+            setUpcomingOrders(response.data.orders);
+
+          }
         }
       })
       .catch((error) => {
@@ -116,7 +133,15 @@ export default function BasicTabs() {
     post(`driver/getOrders?driverId=${driverId}&orderStatus=3`)
       .then((response) => {
         if (response.status === 201) {
-          setCompletedOrders(response.data.orders);
+          let orders = response.data.orders;
+          if(orders.length === 0){
+            setCompletedOrders(null);
+
+          }else{
+            setCompletedOrders(response.data.orders);
+
+          }
+
         }
       })
       .catch((error) => {

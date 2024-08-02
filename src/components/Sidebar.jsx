@@ -51,9 +51,15 @@ const Sidebar = ({ show, navItems,triggerEvent }) => {
     console.log(show)
   }, [show])
 
-  const getNavLinkClass = (path) => {
-    return location.pathname === path ? 'active-link' : ''
-  }
+  const getNavLinkClass = (paths) => {
+    if (typeof paths === 'string') {
+      paths = [paths];
+    }
+    if (paths.includes('/dashboard/tracking') || paths.includes('/dashboard/order-tracking')) {
+      return location.pathname.includes('/dashboard/tracking') || location.pathname.includes('/dashboard/order-tracking') ? 'active-link' : '';
+    }
+    return paths.some(path => location.pathname.includes(path)) ? 'active-link' : '';
+  };
 
   const getIcon = (path, activeIcon, defaultIcon) => {
     return location.pathname === path ? activeIcon : defaultIcon;

@@ -464,8 +464,8 @@ const OrderDetails = () => {
                     flex: 1,
                     fontSize: "14px",
                   }}
-                  placeholder="Description"
-                  inputProps={{ "aria-label": "description" }}
+                  placeholder="Search Drivers"
+                  inputProps={{ "aria-label": "drivers" }}
                 />
                 <IconButton
                   type="button"
