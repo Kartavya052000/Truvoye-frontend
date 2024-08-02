@@ -170,7 +170,7 @@ const OrderDetails = () => {
         // window.location.reload();
 
         Swal.fire({
-          title: "Request Successfully sent to driver",
+          title: "Assigned Order Successfully",
           icon: "success",
           iconColor: "blue",
           showConfirmButton: false,

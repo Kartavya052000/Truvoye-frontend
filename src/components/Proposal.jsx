@@ -121,8 +121,10 @@ const handleTest = async () => {
 //This code is without converting it into a blob:-
 const handleDownload = () => {
   console.log("Download button clicked");
+  
+  window.location.href="https://firebasestorage.googleapis.com/v0/b/test-8e125.appspot.com/o/images%2FTruvoye-project-proposal%20(10).pdf?alt=media&token=6652a50e-119d-404a-8cad-5d7b1ab9671e"
 
-  window.location.href = `${config.BASE_SERVER_URL}/download-proposal`;//change the localhost:4000 to your backend database's URL
+  // window.location.href = `${config.BASE_SERVER_URL}/download-proposal`;//change the localhost:4000 to your backend database's URL
 };
 
 const Proposal = () => {

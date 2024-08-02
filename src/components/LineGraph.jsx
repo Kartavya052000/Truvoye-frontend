@@ -322,7 +322,7 @@ export default function AreaChartFillByValue() {
         grid={{ horizontal: true }}
       >
         <ColorPalette id="swich-color-id-2" />
-        {/* <rect x={0} y={0} width={5} height="100%" fill="url(#swich-color-id-2)" /> */}
+        {/* <rect x={0} y={0} width={5} height="100%" fill="url(#jswich-color-id-2)" /> */}
       </LineChart>
     </Stack>
   );

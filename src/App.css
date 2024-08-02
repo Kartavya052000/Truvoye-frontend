@@ -80,7 +80,11 @@ grid-template-columns: 1fr 1fr;
     display: none;
     }
 }
-
+@media (max-width: 600px) {
+  .wrap-graphs{
+  gap:1rem 0rem !important;
+  }
+}
 
 
 /* //sparkline box css */

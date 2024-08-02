@@ -211,7 +211,7 @@ export default function BarGraph() {
   }, []);
 
   return (
-    <div style={{ width: '100%', backgroundColor: 'white', borderRadius: '10px', gridColumn: "span 3" }}>
+    <div className="graph-container">
       <div className="graph_text">Total Shipment Delivered</div>
       <div className='line_under'></div>
       {/* <TickParamsSelector

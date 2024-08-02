@@ -14,7 +14,9 @@ import { post } from '../api/api'
 const Analytics = () => {
   const [orderStatusData, setOrderStatusData] = React.useState([]);
   const [driverStatusData, SetdriverStatusData] = React.useState([]);
-
+  const formatNumber = (number) => {
+    return new Intl.NumberFormat().format(number);
+  };
   React.useEffect(() => {
     post("/order/statusReport")
       .then(response => {
@@ -44,7 +46,7 @@ const Analytics = () => {
       />
       <AnalyticCard
           icon={<img src={coin} alt="Coin" />}
-          value={orderStatusData.totalRevenue}
+          value={formatNumber(orderStatusData.totalRevenue)}
         label="Total Revenue"
         percentage="4.35%"
         direction="up"
