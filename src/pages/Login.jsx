@@ -121,8 +121,8 @@ const Login = () => {
   // TODO : get the state of the check from here
   const formik = useFormik({
     initialValues: {
-      email: "kartavyabhayana1@gmail.com",
-      password: "12345678",
+      email: "",
+      password: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
