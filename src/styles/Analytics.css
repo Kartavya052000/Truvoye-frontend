@@ -103,3 +103,40 @@
 
     }
   }
+
+
+  /* ---bar graph */
+  .graph-container {
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    grid-column: span 3;
+  }
+  
+  @media (max-width: 600px) {
+    .graph-container {
+      /* width: 97%; */
+    }
+  }
+
+   /* ---pie graph */
+   .pie-container {
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    min-height: 358px;
+    /* padding-bottom: 0.5rem; */
+
+    /* grid-column: span 3; */
+  }
+  
+  @media (max-width: 600px) {
+    .pie-container {
+      /* width: 97%; */
+      /* min-width: 100% */
+    grid-column: span 3;
+    /* margin-right: 1rem; */
+    margin-bottom: 2rem;
+
+    }
+  }

@@ -24,7 +24,7 @@ export default function PieCharts() {
   }, []);
 
   return (
-    <div style={{ width: '100%', backgroundColor: 'white', minHeight: '358px', borderRadius: '10px' }}>
+    <Stack className='pie-container'>
       <div className="graph_text">Order Status</div>
       <div className='line_under'></div>
       <Stack direction="column" width="100%" spacing={1}>
@@ -40,7 +40,7 @@ export default function PieCharts() {
           sx={{ backgroundColor: 'white', marginLeft: "5rem" }}
         />
         {/* Legend */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginLeft: '20px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginLeft: '20px',marginTop:"0 !important",marginBottom:"1rem" }}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <div style={{ width: 10, height: 10, backgroundColor: '#1237BF', marginRight: 8 }}></div>
             <span className="spark_text">Unassigned</span>
@@ -59,6 +59,6 @@ export default function PieCharts() {
           </div>
         </div>
       </Stack>
-    </div>
+    </Stack>
   );
 }

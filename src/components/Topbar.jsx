@@ -71,12 +71,14 @@ const Topbar = () => {
   };
 
   const toggleMenuDriver = () => {
+    // alert("ww")
     setIsOpenDriver(!isOpenDriver);
   };
 
   const showHamburger = location.pathname.includes("driver");
   const dashboard = location.pathname.includes("dashboard");
   const driverpage = location.pathname.includes("dashboard/drivers");
+  const adddriverpage = location.pathname.includes("dashboard/add-driver");
   const handleLogout = () => {
     removeCookie("token", { path: "/" });
     navigate("/");
@@ -148,16 +150,18 @@ const Topbar = () => {
   };
 
   const triggerDriverMenuEvent = () => {
+    // alert("ww")
+
     setIsOpenDriver(!isOpen);
   };
 
   return (
     <>
       <div className="topbar_container">
-        {(!showHamburger || driverpage) && (
+        {((!showHamburger || driverpage ||adddriverpage) &&screenWidth > 600) && (
           <img src={logo} alt="Logo" className="logo-text" />
         )}
-        {screenWidth < 400 && dashboard && (
+        {screenWidth < 600 && dashboard && (
           <div className="hamburger-menu">
             <div
               className={`hamburger-icon ${isOpen ? "open" : ""}`}

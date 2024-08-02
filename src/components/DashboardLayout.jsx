@@ -78,7 +78,7 @@ const isOrderTracking = location.pathname === '/dashboard/tracking';
       
         <Topbar />
 
-     {screenWidth >400 && <Sidebar navItems={navItems} />} 
+     {screenWidth >600 && <Sidebar navItems={navItems} />} 
       <div className="dashboard-main-content">
         <div className={`dashboard-content ${isDashboardAnalytics || isOrderDetails || isOrderProposal || isOrderTracking ? 'remove-bg' : ''}`}>
           <Outlet /> {/* This will render the matched child route */}
