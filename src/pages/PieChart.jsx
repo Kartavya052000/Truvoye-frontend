@@ -36,7 +36,7 @@ export default function PieCharts() {
               colors: orderStatusData.map(item => item.color), // Use dynamic colors
             },
           ]}
-          height={250}
+          height={229}
           sx={{ backgroundColor: 'white', marginLeft: "5rem" }}
         />
         {/* Legend */}
