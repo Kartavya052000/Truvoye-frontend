@@ -94,14 +94,13 @@ const OrderProposal = () => {
   };
 
   return (
-    <Box m={2}>
+    <Box sx={{m:{sm:"16px"}}}>
       <Box
         sx={{
           width: "100%",
           display: "flex",
           alignItems: "center",
-          paddingBottom: "18px"
-
+          paddingBottom: "18px",
         }}
       >
         {isMobile ? (
@@ -163,43 +162,119 @@ const OrderProposal = () => {
       )} */}
 
       {/* TODO : for future [ > > ] */}
-      {/* <Box sx={{ margin:"16px", borderRadius: "20px", width: "100%", display:"flex" }}>
+      {/* <Box
+        sx={{
+          margin: "16px",
+          borderRadius: "20px",
+          width: "50%",
+          display: "flex",
+          border: "2px solid #F9A33F",
+          position: "relative",
+        }}
+      >
         <Box
           sx={{
-            height: "100px",
-            flexGrow:"1",
-            clipPath: "polygon(100% 50%, 75% 0%, 0% 0%, 0% 100%, 75% 100%, 100% 50%, 99% 50%, 75% 99%, 0.3% 99%, 0.3% 1%, 75% 1%, 99% 50%)",
-            // borderRadius: "20px",
-            backgroundColor:"#F9A33F"
+            backgroundColor: "#1237BF",
+            borderRadius: "20px",
+            position: "relative",
+            width: "100%",
+            display: "flex",
+            zIndex: 1,
           }}
         >
-          <Typography>
-            Proposal
+          <Typography
+            sx={{
+              flexGrow: 1,
+              textAlign: "center",
+              fontSize: "18px",
+              color: "#FFF",
+              fontWeight: "700",
+              padding: "10px 0", // Adjust padding as needed
+            }}
+          >
+            Proposal Details
+          </Typography>
+
+          <Typography
+            sx={{
+              flexGrow: 1,
+              textAlign: "center",
+              fontSize: "18px",
+              color: "#FFF",
+              fontWeight: "700",
+              padding: "10px 0", // Adjust padding as needed
+            }}
+          >
+            Proposal Details
+          </Typography>
+
+          <Typography
+            sx={{
+              flexGrow: 1,
+              textAlign: "center",
+              fontSize: "18px",
+              color: "#FFF",
+              fontWeight: "700",
+              padding: "10px 0", // Adjust padding as needed
+            }}
+          >
+            Proposal Details
           </Typography>
         </Box>
 
         <Box
           sx={{
-            backgroundColor: "white",
-            height: "100px",
-            flexGrow:"1",
-            clipPath: "polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%)",
+            display:"flex",
             borderRadius: "20px",
-            border: "1px solid #000",
+            backgroundColor: "white",
+            position: "absolute",
+            top: "0",
+            left: "0",
+            width: "100%",
+            height: "100%",
+            clipPath: "polygon(100% 0%, 100% 100%, 28% 100%, 37% 50%, 28% 0%);",
+            zIndex: 2,
           }}
-        ></Box>
+        >
+          <Typography
+            sx={{
+              flexGrow: 1,
+              textAlign: "center",
+              fontSize: "18px",
+              color: "#D1CDCD",
+              fontWeight: "700",
+              padding: "10px 0", // Adjust padding as needed
+            }}
+          >
+            Proposal Details
+          </Typography>
 
-        <Box
-          sx={{
-            backgroundColor: "white",
-            height: "50px",
-            flexGrow:"1",
-            background:"#1237BF",
-            clipPath: "polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%)",
-            borderRadius: "20px",
-            border: "2px solid #F9A33F",
-          }}
-        ></Box>
+          <Typography
+            sx={{
+              flexGrow: 1,
+              textAlign: "center",
+              fontSize: "18px",
+              color: "#D1CDCD",
+              fontWeight: "700",
+              padding: "10px 0", // Adjust padding as needed
+            }}
+          >
+            Proposal Details
+          </Typography>
+
+          <Typography
+            sx={{
+              flexGrow: 1,
+              textAlign: "center",
+              fontSize: "18px",
+              color: "#D1CDCD",
+              fontWeight: "700",
+              padding: "10px 0", // Adjust padding as needed
+            }}
+          >
+            Proposal Details
+          </Typography>
+        </Box>
       </Box> */}
     </Box>
   );
