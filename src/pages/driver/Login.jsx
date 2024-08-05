@@ -108,7 +108,7 @@ const Login = () => {
 
   // TODO : get the state of the check from here
   const formik = useFormik({
-    initialValues: {email : "kbhayana00@mylangara.ca", password: "12345678",},
+    initialValues: {email : "", password: "",},
     validationSchema: validationSchema,
     onSubmit: (values) => {
       post("driver/login", values)
